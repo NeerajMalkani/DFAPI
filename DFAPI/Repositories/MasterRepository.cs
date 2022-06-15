@@ -6,16 +6,9 @@ namespace DFAPI.Repositories
 {
     public class MasterRepository
     {
-        private readonly ActivityContext context;
-
-        public MasterRepository(ActivityContext context)
+        public List<ActivityRoles> GetActivityRoles(ActivityContext context)
         {
-            this.context = context;
-        }
-
-        public List<ActivityRoles> GetActivityRoles()
-        {
-            List<ActivityRoles> activityRoles = context.ActivityRoles.FromSqlRaw("exec sp_GetUsers").ToList();
+            List<ActivityRoles> activityRoles = context.ActivityRoles.FromSqlRaw("exec df_Get_ActivityRoles").ToList();
             return activityRoles;
         }
     }

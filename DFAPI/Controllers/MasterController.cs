@@ -1,7 +1,9 @@
 ﻿using DFAPI.Entities;
+using DFAPI.Helpers;
 using DFAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace DFAPI.Controllers
 {
@@ -9,29 +11,35 @@ namespace DFAPI.Controllers
     [ApiController]
     public class MasterController : ControllerBase
     {
-        private readonly MasterRepository _repository = new MasterRepository();
-        public MasterController(MasterRepository repository)
+        private readonly ActivityContext _db;
+
+        public MasterController(ActivityContext dbContext)
         {
-            _repository = repository;
+            _db = dbContext;
         }
-        [HttpPost]
-        [Route("activityroles")]
+
+        [HttpGet]
+        [Route("getactivityroles")]
         public Response GetActivityRoles()
         {
-            Response objRes = new Response();
-            List<ActivityRoles> activityRoles = _repository.GetActivityRoles();
-            if (activityRoles.Count > 0)
+            Response response = new Response();
+            try
             {
-                objRes.Status = "Success";
-                objRes.Message = "Success";
-                objRes.Data = activityRoles;
+                List<ActivityRoles> activityRoles = new MasterRepository().GetActivityRoles(_db);
+                if (activityRoles.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, activityRoles);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, activityRoles);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                objRes.Status = "No Data";
-                objRes.Message = "No Data";
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
             }
-            return objRes;
+            return response;
         }
     }
 }

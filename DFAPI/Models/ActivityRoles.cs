@@ -1,9 +1,12 @@
-﻿namespace DFAPI.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DFAPI.Entities
 {
     public class ActivityRoles
     {
-        public Int64 RoleID;
-        public string? ActivityRoleName;
-        public bool Display;
+        [Key]
+        public long RoleID { get; set; }
+        public string? ActivityRoleName { get; set; }
+        public bool Display { get; set; }
     }
 }

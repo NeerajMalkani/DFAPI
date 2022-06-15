@@ -9,6 +9,6 @@ namespace DFAPI.Helpers
              : base(options)
         {
         }
-        public DbSet<ActivityRoles> ActivityRoles { get; set; }
+        public DbSet<ActivityRoles> ActivityRoles => Set<ActivityRoles>();
     }
 }
