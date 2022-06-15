@@ -11,13 +11,14 @@ namespace DFAPI.Controllers
     [ApiController]
     public class MasterController : ControllerBase
     {
-        private readonly ActivityContext _db;
+        private readonly DataContext _db;
 
-        public MasterController(ActivityContext dbContext)
+        public MasterController(DataContext dbContext)
         {
             _db = dbContext;
         }
 
+        #region Activity Roles
         [HttpGet]
         [Route("getactivityroles")]
         public Response GetActivityRoles()
@@ -41,5 +42,32 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+        #endregion
+
+        #region Services
+        [HttpGet]
+        [Route("getservices")]
+        public Response GetServices()
+        {
+            Response response = new Response();
+            try
+            {
+                List<Services> services = new MasterRepository().GetServices(_db);
+                if (services.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, services);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, services);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
     }
 }

@@ -6,11 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddSqlServer<ActivityContext>(builder.Configuration.GetConnectionString("DiamondFramesDatabase"));
+builder.Services.AddSqlServer<DataContext>(builder.Configuration.GetConnectionString("DiamondFramesDatabase"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseMiddleware<ApiKeyMiddleware>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
