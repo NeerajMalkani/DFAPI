@@ -12,18 +12,37 @@ namespace DFAPI.Repositories
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public List<ActivityRoles> GetActivityRoles(DataContext context)
+        public List<ActivityMaster> GetActivityRoles(DataContext context)
         {
-            List<ActivityRoles> activityRoles = new List<ActivityRoles>();
+            List<ActivityMaster> activityMaster = new List<ActivityMaster>();
             try
             {
-                activityRoles = context.ActivityRoles.FromSqlRaw("exec df_Get_ActivityRoles").ToList();
+                activityMaster = context.ActivityMaster.FromSqlRaw("exec df_Get_ActivityRoles").ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return activityRoles;
+            return activityMaster;
+        }
+
+        public long InsertActivityRoles(DataContext context, ActivityMaster activityMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                if (activityMaster.ActivityRoleName != null)
+                {
+                    context.ActivityMaster.Add(activityMaster);
+                    context.SaveChanges();
+                    rowsAffected = activityMaster.RoleID;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
         }
         #endregion
 
@@ -33,18 +52,18 @@ namespace DFAPI.Repositories
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public List<Services> GetServices(DataContext context)
+        public List<ServiceMaster> GetServices(DataContext context)
         {
-            List<Services> services = new List<Services>();
+            List<ServiceMaster> serviceMaster = new List<ServiceMaster>();
             try
             {
-                services = context.Services.FromSqlRaw("exec df_Get_ActivityRoles").ToList();
+                serviceMaster = context.Services.FromSqlRaw("exec df_Get_Services").ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return services;
+            return serviceMaster;
         }
         #endregion
 
@@ -54,18 +73,18 @@ namespace DFAPI.Repositories
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public List<Services> GetUnitOfSales(DataContext context)
+        public List<UnitOfSalesMaster> GetUnitOfSales(DataContext context)
         {
-            List<Services> services = new List<Services>();
+            List<UnitOfSalesMaster> unitOfSalesMaster = new List<UnitOfSalesMaster>();
             try
             {
-                services = context.Services.FromSqlRaw("exec df_Get_UnitOfSales").ToList();
+                unitOfSalesMaster = context.UnitOfSales.FromSqlRaw("exec df_Get_UnitOfSales").ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return services;
+            return unitOfSalesMaster;
         }
         #endregion
     }

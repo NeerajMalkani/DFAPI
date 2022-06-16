@@ -1,7 +1,6 @@
 ﻿using DFAPI.Entities;
 using DFAPI.Helpers;
 using DFAPI.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -26,7 +25,7 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                List<ActivityRoles> activityRoles = new MasterRepository().GetActivityRoles(_db);
+                List<ActivityMaster> activityRoles = new MasterRepository().GetActivityRoles(_db);
                 if (activityRoles.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, activityRoles);
@@ -34,6 +33,30 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, activityRoles);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertactivityroles")]
+        public Response InsertActivityRoles(ActivityMaster activityMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertActivityRoles(_db, activityMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
                 }
             }
             catch (Exception ex)
@@ -52,7 +75,7 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                List<Services> services = new MasterRepository().GetServices(_db);
+                List<ServiceMaster> services = new MasterRepository().GetServices(_db);
                 if (services.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, services);
@@ -60,6 +83,32 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, services);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Unit Of Sales
+        [HttpGet]
+        [Route("getunitofsales")]
+        public Response GetUnitOfSales()
+        {
+            Response response = new Response();
+            try
+            {
+                List<UnitOfSalesMaster> unitOfSales = new MasterRepository().GetUnitOfSales(_db);
+                if (unitOfSales.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, unitOfSales);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, unitOfSales);
                 }
             }
             catch (Exception ex)

@@ -9,8 +9,8 @@ namespace DFAPI.Helpers
              : base(options)
         {
         }
-        public DbSet<ActivityRoles> ActivityRoles => Set<ActivityRoles>();
-        public DbSet<Services> Services => Set<Services>();
-        public DbSet<UnitOfSales> UnitOfSales => Set<UnitOfSales>();
+        public DbSet<ActivityMaster> ActivityMaster => Set<ActivityMaster>();
+        public DbSet<ServiceMaster> Services => Set<ServiceMaster>();
+        public DbSet<UnitOfSalesMaster> UnitOfSales => Set<UnitOfSalesMaster>();
     }
 }
