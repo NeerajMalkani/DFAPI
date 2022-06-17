@@ -7,17 +7,12 @@ namespace DFAPI.Repositories
     public class MasterRepository
     {
         #region Activity Roles
-        /// <summary>
-        /// Call the database to get Activity Roles
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public List<ActivityMaster> GetActivityRoles(DataContext context)
         {
             List<ActivityMaster> activityMaster = new List<ActivityMaster>();
             try
             {
-                activityMaster = context.ActivityMaster.FromSqlRaw("exec df_Get_ActivityRoles").ToList();
+                activityMaster = context.ActivityMaster.ToList();
             }
             catch (Exception)
             {
@@ -31,12 +26,41 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                if (activityMaster.ActivityRoleName != null)
-                {
-                    context.ActivityMaster.Add(activityMaster);
-                    context.SaveChanges();
-                    rowsAffected = activityMaster.RoleID;
-                }
+                context.ActivityMaster.Add(activityMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateActivityRoles(DataContext context, ActivityMaster activityMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.ActivityMaster.Update(activityMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long DeleteActivityRoles(DataContext context, ActivityMaster activityMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.ActivityMaster.Remove(activityMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
             }
             catch (Exception)
             {
@@ -47,17 +71,12 @@ namespace DFAPI.Repositories
         #endregion
 
         #region Services
-        /// <summary>
-        /// Call the database to get Services
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public List<ServiceMaster> GetServices(DataContext context)
         {
             List<ServiceMaster> serviceMaster = new List<ServiceMaster>();
             try
             {
-                serviceMaster = context.Services.FromSqlRaw("exec df_Get_Services").ToList();
+                serviceMaster = context.ServiceMaster.ToList();
             }
             catch (Exception)
             {
@@ -65,26 +84,181 @@ namespace DFAPI.Repositories
             }
             return serviceMaster;
         }
+
+        public long InsertServices(DataContext context, ServiceMaster serviceMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.ServiceMaster.Add(serviceMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateServices(DataContext context, ServiceMaster serviceMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.ServiceMaster.Update(serviceMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long DeleteServices(DataContext context, ServiceMaster serviceMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.ServiceMaster.Remove(serviceMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
         #endregion
 
         #region Unit Of Sales
-        /// <summary>
-        /// Call the database to get Unit Of Sales
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public List<UnitOfSalesMaster> GetUnitOfSales(DataContext context)
         {
             List<UnitOfSalesMaster> unitOfSalesMaster = new List<UnitOfSalesMaster>();
             try
             {
-                unitOfSalesMaster = context.UnitOfSales.FromSqlRaw("exec df_Get_UnitOfSales").ToList();
+                unitOfSalesMaster = context.UnitOfSalesMaster.ToList();
             }
             catch (Exception)
             {
                 throw;
             }
             return unitOfSalesMaster;
+        }
+
+        public long InsertUnitOfSales(DataContext context, UnitOfSalesMaster unitOfSalesMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.UnitOfSalesMaster.Add(unitOfSalesMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateUnitOfSales(DataContext context, UnitOfSalesMaster unitOfSalesMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.UnitOfSalesMaster.Update(unitOfSalesMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long DeleteUnitOfSales(DataContext context, UnitOfSalesMaster unitOfSalesMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.UnitOfSalesMaster.Remove(unitOfSalesMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
+        #region Category
+        public List<CategoryMaster> GetCategories(DataContext context)
+        {
+            List<CategoryMaster> categoryMasters = new List<CategoryMaster>();
+            try
+            {
+                categoryMasters = context.CategoryMaster.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return categoryMasters;
+        }
+
+        public long InsertCategory(DataContext context, CategoryMaster categoryMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.CategoryMaster.Add(categoryMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateCategory(DataContext context, CategoryMaster categoryMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.CategoryMaster.Update(categoryMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long DeleteCategory(DataContext context, CategoryMaster categoryMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.CategoryMaster.Remove(categoryMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
         }
         #endregion
     }

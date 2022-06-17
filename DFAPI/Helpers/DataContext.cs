@@ -10,7 +10,8 @@ namespace DFAPI.Helpers
         {
         }
         public DbSet<ActivityMaster> ActivityMaster => Set<ActivityMaster>();
-        public DbSet<ServiceMaster> Services => Set<ServiceMaster>();
-        public DbSet<UnitOfSalesMaster> UnitOfSales => Set<UnitOfSalesMaster>();
+        public DbSet<ServiceMaster> ServiceMaster => Set<ServiceMaster>();
+        public DbSet<UnitOfSalesMaster> UnitOfSalesMaster => Set<UnitOfSalesMaster>();
+        public DbSet<CategoryMaster> CategoryMaster => Set<CategoryMaster>();
     }
 }

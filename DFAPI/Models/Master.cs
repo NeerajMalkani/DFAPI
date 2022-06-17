@@ -6,7 +6,7 @@ namespace DFAPI.Entities
     public class ActivityMaster
     {
         [Key]
-        public long RoleID { get; set; }
+        public long ID { get; set; }
         public string? ActivityRoleName { get; set; }
         public bool Display { get; set; }
     }
@@ -14,7 +14,7 @@ namespace DFAPI.Entities
     public class ServiceMaster
     {
         [Key]
-        public long ServiceID { get; set; }
+        public long ID { get; set; }
         public string? ServiceName { get; set; }
         public bool Display { get; set; }
     }
@@ -22,8 +22,21 @@ namespace DFAPI.Entities
     public class UnitOfSalesMaster
     {
         [Key]
-        public long UnitOfSalesID { get; set; }
+        public long ID { get; set; }
         public string? UnitName { get; set; }
+        public bool Display { get; set; }
+    }
+
+    public class CategoryMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public long RoleID { get; set; }
+        public long ServiceID { get; set; }
+        public string? CategoryName { get; set; }
+        public string? HSNSACCode { get; set; }
+        public decimal GSTRate { get; set; }
+        public string? UnitOfSalesID { get; set; }
         public bool Display { get; set; }
     }
 }
