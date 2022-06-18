@@ -38,5 +38,6 @@ namespace DFAPI.Entities
         public decimal GSTRate { get; set; }
         public string? UnitOfSalesID { get; set; }
         public bool Display { get; set; }
+        public string? UnitID { get; set; }
     }
 }
