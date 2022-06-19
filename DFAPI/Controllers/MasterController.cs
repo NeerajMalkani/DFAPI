@@ -286,7 +286,7 @@ namespace DFAPI.Controllers
             return response;
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("deleteunitofsales")]
         public Response DeleteUnitOfSales(UnitOfSalesMaster unitOfSalesMaster)
         {
@@ -384,7 +384,7 @@ namespace DFAPI.Controllers
             return response;
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("deletecategory")]
         public Response DeleteCategory(CategoryMaster categoryMaster)
         {

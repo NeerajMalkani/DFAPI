@@ -2,6 +2,7 @@
 using DFAPI.Helpers;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace DFAPI.Repositories
 {
@@ -205,7 +206,7 @@ namespace DFAPI.Repositories
             List<CategoryMaster> categoryMasters = new List<CategoryMaster>();
             try
             {
-                categoryMasters = context.CategoryMaster.ToList();
+                categoryMasters = context.CategoryMaster.FromSqlRaw("exec df_Get_Categories").ToList();
             }
             catch (Exception)
             {
@@ -227,9 +228,10 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@HSNSACCode", Value = categoryMaster.HSNSACCode },
                     new SqlParameter { ParameterName = "@GSTRate", Value = categoryMaster.GSTRate },
                     new SqlParameter { ParameterName = "@Display", Value = categoryMaster.Display },
-                    new SqlParameter { ParameterName = "@UnitID", Value = categoryMaster.UnitID }
+                    new SqlParameter { ParameterName = "@UnitID", Value = categoryMaster.UnitID },
+                    new SqlParameter { ParameterName = "@ID", Direction = ParameterDirection.Output, SqlDbType = SqlDbType.BigInt }
                 };
-                context.CategoryMaster.FromSqlRaw("exec df_Insert_Category @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
+                context.Database.ExecuteSqlRaw("exec df_Insert_Category @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)
@@ -255,7 +257,7 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@Display", Value = categoryMaster.Display },
                     new SqlParameter { ParameterName = "@UnitID", Value = categoryMaster.UnitID }
                 };
-                context.CategoryMaster.FromSqlRaw("exec df_Update_Category @ID, @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
+                context.Database.ExecuteSqlRaw("exec df_Update_Category @ID, @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)
