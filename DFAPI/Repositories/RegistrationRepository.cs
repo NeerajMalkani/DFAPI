@@ -6,20 +6,20 @@ namespace DFAPI.Repositories
     public class RegistrationRepository
     {
         #region Insert User
-        public long InsertUser(DataContext context, Users user)
+        public List<Users> InsertUser(DataContext context, Users user)
         {
-            long rowsAffected = 0;
+            List<Users> users = new List<Users>();
             try
             {
                 context.Users.Add(user);
                 context.SaveChanges();
-                rowsAffected = 1;
+                users.Add(user);
             }
             catch (Exception)
             {
                 throw;
             }
-            return rowsAffected;
+            return users;
         }
         #endregion
 

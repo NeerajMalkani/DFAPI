@@ -25,10 +25,10 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                long rowsAffected = new RegistrationRepository().InsertUser(_db, user);
-                if (rowsAffected > 0)
+                List<Users> users = new RegistrationRepository().InsertUser(_db, user);
+                if (users != null)
                 {
-                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, users);
                 }
                 else
                 {
@@ -46,7 +46,7 @@ namespace DFAPI.Controllers
         #region Login User
         [HttpGet]
         [Route("login")]
-        public Response LoginUser(Users users)
+        public Response LoginUser([FromQuery]Users users)
         {
             Response response = new Response();
             try
