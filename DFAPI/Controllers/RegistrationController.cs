@@ -94,5 +94,31 @@ namespace DFAPI.Controllers
             return response;
         }
         #endregion
+
+        #region Update User Password
+        [HttpPost]
+        [Route("updateuserpassword")]
+        public Response UpdateUserPassword(Users user)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new RegistrationRepository().UpdateUserPassword(_db, user);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
     }
 }

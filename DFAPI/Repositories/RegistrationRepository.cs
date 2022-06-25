@@ -26,10 +26,18 @@ namespace DFAPI.Repositories
         #region Login User
         public List<Users> LoginUser(DataContext context, Users users)
         {
-            List <Users> objUsers=new List<Users> ();
+            List<Users> objUsers = new List<Users>();
             try
             {
-                objUsers = context.Users.Where(u => (u.RoleID == 1 ? (u.Username == users.Username) : (u.PhoneNumber == users.PhoneNumber)) && u.Password == users.Password).ToList();
+                if (users.RoleID == 1)
+                {
+                    objUsers = context.Users.Where(u => (u.Username == users.Username && u.Password == users.Password)).ToList();
+                }
+                else
+                {
+                    objUsers = context.Users.Where(u => (u.PhoneNumber == users.PhoneNumber && u.Password == users.Password)).ToList();
+                }
+
             }
             catch (Exception)
             {
@@ -46,6 +54,26 @@ namespace DFAPI.Repositories
             try
             {
                 context.Users.Update(user);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
+        #region Update User Password
+        public long UpdateUserPassword(DataContext context, Users user)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                Users userToUpdate = context.Users.Where(u => u.PhoneNumber == user.PhoneNumber).First();
+                userToUpdate.Password = user.Password;
+                userToUpdate.OTP = user.OTP;
                 context.SaveChanges();
                 rowsAffected = 1;
             }
