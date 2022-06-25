@@ -14,6 +14,7 @@ namespace DFAPI.Entities
         public byte RoleID { get; set; }
         public int OTP { get; set; }
         public bool IsVerified { get; set; }
+        [Key]
         public long PhoneNumber { get; set; }
         public string? AddressLine { get; set; }
         public int StateID { get; set; }

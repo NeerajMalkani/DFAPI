@@ -29,8 +29,9 @@ namespace DFAPI.Repositories
             List <Users> objUsers=new List<Users> ();
             try
             {
-                objUsers = context.Users.Where(u => u.PhoneNumber == users.PhoneNumber && u.Password == users.Password).ToList();
-            }catch (Exception)
+                objUsers = context.Users.Where(u => (u.RoleID == 1 ? (u.Username == users.Username) : (u.PhoneNumber == users.PhoneNumber)) && u.Password == users.Password).ToList();
+            }
+            catch (Exception)
             {
                 throw;
             }
