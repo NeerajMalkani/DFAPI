@@ -17,6 +17,32 @@ namespace DFAPI.Controllers
             _db = dbContext;
         }
 
+        #region Get Users
+        [HttpGet]
+        [Route("getusers")]
+        public Response GetUsers()
+        {
+            Response response = new Response();
+            try
+            {
+                List<UserCount> objUsers = new RegistrationRepository().GetUsers(_db);
+                if (objUsers.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, objUsers);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
         #region Insert User
         [HttpPost]
         [Route("insertuser")]

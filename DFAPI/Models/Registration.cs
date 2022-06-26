@@ -22,6 +22,15 @@ namespace DFAPI.Entities
         public string? GSTNumber { get; set; }
         public string? PAN { get; set; }
         public byte Status { get; set; }
+        public bool IsActive { get; set; }
+    }
 
+    [Keyless]
+    public class UserCount
+    {
+        public int? GeneralUsers { get; set; }
+        public int? Dealers { get; set; }
+        public int? Contractors { get; set; }
+        public int? Architects { get; set; }
     }
 }

@@ -1,10 +1,27 @@
 ﻿using DFAPI.Entities;
 using DFAPI.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace DFAPI.Repositories
 {
     public class RegistrationRepository
     {
+        #region Get Users
+        public List<UserCount> GetUsers(DataContext context)
+        {
+            List<UserCount> objUsers = new List<UserCount>();
+            try
+            {
+                objUsers = context.UserCount.FromSqlRaw("exec df_Get_UsersCount").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return objUsers;
+        }
+        #endregion
+
         #region Insert User
         public List<Users> InsertUser(DataContext context, Users user)
         {
