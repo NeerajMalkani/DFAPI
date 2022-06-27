@@ -1,5 +1,6 @@
 ﻿using DFAPI.Entities;
 using DFAPI.Helpers;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace DFAPI.Repositories
@@ -40,19 +41,48 @@ namespace DFAPI.Repositories
         }
         #endregion
 
-        #region Login User
-        public List<Users> LoginUser(DataContext context, Users users)
+        #region Update User Role
+        public long UpdateUserRole(DataContext context, Users user)
         {
-            List<Users> objUsers = new List<Users>();
+            long rowsAffected = 0;
+            try
+            {
+                Users userToUpdate = context.Users.Where(u => u.UserID == user.UserID).First();
+                userToUpdate.RoleID = user.RoleID;
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
+        #region Login User
+        public List<LoginUser> LoginUser(DataContext context, Users users)
+        {
+            List<LoginUser> objUsers = new List<LoginUser>();
             try
             {
                 if (users.RoleID == 1)
                 {
-                    objUsers = context.Users.Where(u => (u.Username == users.Username && u.Password == users.Password)).ToList();
+                    List<SqlParameter> parms = new List<SqlParameter>
+                        {
+                            new SqlParameter { ParameterName = "@Username", Value = users.Username },
+                            new SqlParameter { ParameterName = "@Password", Value = users.Password },
+                        };
+                    objUsers = context.LoginUser.FromSqlRaw("exec df_Get_LoginAdminUser @Username, @Password", parms.ToArray()).ToList();
                 }
                 else
                 {
-                    objUsers = context.Users.Where(u => (u.PhoneNumber == users.PhoneNumber && u.Password == users.Password)).ToList();
+                    List<SqlParameter> parms = new List<SqlParameter>
+                        {
+                            new SqlParameter { ParameterName = "@PhoneNumber", Value = users.PhoneNumber },
+                            new SqlParameter { ParameterName = "@Password", Value = users.Password },
+                        };
+                    objUsers = context.LoginUser.FromSqlRaw("exec df_Get_LoginUser @PhoneNumber, @Password", parms.ToArray()).ToList();
                 }
 
             }

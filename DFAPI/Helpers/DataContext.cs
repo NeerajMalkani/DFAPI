@@ -10,6 +10,7 @@ namespace DFAPI.Helpers
         {
         }
         public DbSet<Users> Users => Set<Users>();
+        public DbSet<LoginUser> LoginUser => Set<LoginUser>();
         public DbSet<UserCount> UserCount => Set<UserCount>();
         public DbSet<ActivityMaster> ActivityMaster => Set<ActivityMaster>();
         public DbSet<ServiceMaster> ServiceMaster => Set<ServiceMaster>();

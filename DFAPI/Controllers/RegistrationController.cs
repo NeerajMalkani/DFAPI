@@ -77,7 +77,7 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                List<Users> objUsers = new RegistrationRepository().LoginUser(_db, users);
+                List<LoginUser> objUsers = new RegistrationRepository().LoginUser(_db, users);
                 if (objUsers.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, objUsers);
@@ -104,6 +104,32 @@ namespace DFAPI.Controllers
             try
             {
                 long rowsAffected = new RegistrationRepository().UpdateUser(_db, user);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Update User Role
+        [HttpPost]
+        [Route("updateuserrole")]
+        public Response UpdateUserRole(Users user)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new RegistrationRepository().UpdateUserRole(_db, user);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);

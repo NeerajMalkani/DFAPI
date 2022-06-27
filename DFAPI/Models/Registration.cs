@@ -25,12 +25,20 @@ namespace DFAPI.Entities
         public bool IsActive { get; set; }
     }
 
+    public class LoginUser
+    {
+        [Key]
+        public long UserID { get; set; }
+        public byte RoleID { get; set; }
+        public string? RoleName { get; set; }
+        public string? FullName { get; set; }
+    }
+
     [Keyless]
     public class UserCount
     {
-        public int? GeneralUsers { get; set; }
-        public int? Dealers { get; set; }
-        public int? Contractors { get; set; }
-        public int? Architects { get; set; }
+        public int RoleID { get; set; }
+        public string? RoleName { get; set; }
+        public int? RoleCount { get; set; }
     }
 }
