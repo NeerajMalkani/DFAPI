@@ -221,7 +221,7 @@ namespace DFAPI.Repositories
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
-                { 
+                {
                     new SqlParameter { ParameterName = "@CategoryName", Value = categoryMaster.CategoryName },
                     new SqlParameter { ParameterName = "@RoleID", Value = categoryMaster.RoleID },
                     new SqlParameter { ParameterName = "@ServiceID", Value = categoryMaster.ServiceID },
@@ -281,6 +281,90 @@ namespace DFAPI.Repositories
                 throw;
             }
             return rowsAffected;
+        }
+        #endregion
+
+        #region Product
+        public List<ProductMaster> GetProducts(DataContext context)
+        {
+            List<ProductMaster> productMasters = new List<ProductMaster>();
+            try
+            {
+                productMasters = context.ProductMaster.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return productMasters;
+        }
+
+        public List<ActivityMaster> GetMainActivities(DataContext context)
+        {
+            List<ActivityMaster> mainActivities = new List<ActivityMaster>();
+            try
+            {
+                mainActivities = context.ActivityMaster.FromSqlRaw("exec df_Get_MainActivities").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return mainActivities;
+        }
+
+        public List<ServiceMaster> GetServicesByRoleID(DataContext context, ActivityMaster activityMaster)
+        {
+            List<ServiceMaster> servicesByRoleID = new List<ServiceMaster>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ActivityRoleID", Value = activityMaster.ID }
+                };
+                servicesByRoleID = context.ServiceMaster.FromSqlRaw("exec df_Get_ServicesByRoleID @ActivityRoleID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return servicesByRoleID;
+        }
+
+        public List<CategoryByService> GetCategoriesByServiceID(DataContext context, ServiceMaster serviceMaster)
+        {
+            List<CategoryByService> categoriesByServiceID = new List<CategoryByService>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ServiceID", Value = serviceMaster.ID }
+                };
+                categoriesByServiceID = context.CategoryByService.FromSqlRaw("exec df_Get_CategoriesByServiceID @ServiceID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return categoriesByServiceID;
+        }
+
+        public List<UnitOfSalesMaster> GetUnitByCategoryID(DataContext context, CategoryMaster categoryMaster)
+        {
+            List<UnitOfSalesMaster> unitByCategoryID = new List<UnitOfSalesMaster>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@CategoryID", Value = categoryMaster.ID }
+                };
+                unitByCategoryID = context.UnitOfSalesMaster.FromSqlRaw("exec df_Get_UnitByCategoryID @CategoryID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return unitByCategoryID;
         }
         #endregion
     }

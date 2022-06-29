@@ -408,6 +408,127 @@ namespace DFAPI.Controllers
             return response;
         }
         #endregion
-    
+
+        #region Products
+        [HttpGet]
+        [Route("getproducts")]
+        public Response GetProducts()
+        {
+            Response response = new Response();
+            try
+            {
+                List<ProductMaster> productMaster = new MasterRepository().GetProducts(_db);
+                if (productMaster.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, productMaster);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, productMaster);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getmainactivities")]
+        public Response GetActivitiesForProduct()
+        {
+            Response response = new Response();
+            try
+            {
+                List<ActivityMaster> mainActivities = new MasterRepository().GetMainActivities(_db);
+                if (mainActivities.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, mainActivities);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, mainActivities);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getservicesbyroleid")]
+        public Response GetServicesByRoleID([FromQuery] ActivityMaster activityMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ServiceMaster> servicesByRoleID = new MasterRepository().GetServicesByRoleID(_db, activityMaster);
+                if (servicesByRoleID.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, servicesByRoleID);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, servicesByRoleID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getcategoriesbyserviceid")]
+        public Response GetCategoriesByServiceID([FromQuery] ServiceMaster serviceMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<CategoryByService> categoriesByServiceID = new MasterRepository().GetCategoriesByServiceID(_db, serviceMaster);
+                if (categoriesByServiceID.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, categoriesByServiceID);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, categoriesByServiceID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getunitbycategoryid")]
+        public Response GetUnitByCategoryID([FromQuery] CategoryMaster categoryMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<UnitOfSalesMaster> unitByCategoryID = new MasterRepository().GetUnitByCategoryID(_db, categoryMaster);
+                if (unitByCategoryID.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, unitByCategoryID);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, unitByCategoryID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
     }
 }
