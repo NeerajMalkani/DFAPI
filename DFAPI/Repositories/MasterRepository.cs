@@ -285,18 +285,18 @@ namespace DFAPI.Repositories
         #endregion
 
         #region Product
-        public List<ProductMaster> GetProducts(DataContext context)
+        public List<Products> GetProducts(DataContext context)
         {
-            List<ProductMaster> productMasters = new List<ProductMaster>();
+            List<Products> products = new List<Products>();
             try
             {
-                productMasters = context.ProductMaster.ToList();
+                products = context.Products.FromSqlRaw("exec df_Get_Products").ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return productMasters;
+            return products;
         }
 
         public List<ActivityMaster> GetMainActivities(DataContext context)
@@ -365,6 +365,48 @@ namespace DFAPI.Repositories
                 throw;
             }
             return unitByCategoryID;
+        }
+
+        public long InsertProduct(DataContext context, ProductMaster productMaster) {
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ProductName", Value = productMaster.ProductName },
+                    new SqlParameter { ParameterName = "@ActivityID", Value = productMaster.ActivityID },
+                    new SqlParameter { ParameterName = "@ServiceID", Value = productMaster.ServiceID },
+                    new SqlParameter { ParameterName = "@CategoryID", Value = productMaster.CategoryID },
+                    new SqlParameter { ParameterName = "@UnitOfSalesID", Value = productMaster.UnitOfSalesID },
+                    new SqlParameter { ParameterName = "@Display", Value = productMaster.Display },
+                    new SqlParameter { ParameterName = "@ID", Direction = ParameterDirection.Output, SqlDbType = SqlDbType.BigInt }
+                };
+                context.Database.ExecuteSqlRaw("exec df_Insert_Product @ProductName, @ActivityID, @ServiceID, @CategoryID, @UnitOfSalesID, @Display", parms.ToArray());
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateProducts(DataContext context, ProductMaster productMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                productMaster.IsActive = true;
+                productMaster.CreationTStamp = DateTime.Now;
+                context.ProductMaster.Update(productMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
         }
         #endregion
     }

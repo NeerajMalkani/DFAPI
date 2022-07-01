@@ -68,6 +68,24 @@ namespace DFAPI.Entities
         public bool? IsActive { get; set; }
     }
 
+    public class Products
+    {
+        [Key]
+        public long ProductID { get; set; }
+        public string? ProductName { get; set; }
+        public string? ActivityRoleName { get; set; }
+        public string? ServiceName { get; set; }
+        public string? CategoryName { get; set; }
+        public long? ActivityID { get; set; }
+        public long? ServiceID { get; set; }
+        public long? UnitOfSalesID { get; set; }
+        public long? CategoryID { get; set; }
+        public string? HSNSACCode { get; set; }
+        public decimal? GSTRate { get; set; }
+        public string? UnitName { get; set; }
+        public bool? Display { get; set; }
+    }
+
     [Keyless]
     public class RowsAffectedResponse
     {

@@ -18,6 +18,7 @@ namespace DFAPI.Helpers
         public DbSet<CategoryMaster> CategoryMaster => Set<CategoryMaster>();
         public DbSet<CategoryByService> CategoryByService => Set<CategoryByService>();
         public DbSet<ProductMaster> ProductMaster => Set<ProductMaster>();
+        public DbSet<Products> Products => Set<Products>();
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
     }
 }
