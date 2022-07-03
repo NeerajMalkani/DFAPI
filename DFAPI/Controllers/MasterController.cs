@@ -238,6 +238,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getunitofsalesbyid")]
+        public Response GetUnitOfSalesByID([FromQuery] UnitOfSalesMaster unitOfSalesMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<UnitOfSalesMaster> unitOfSales = new MasterRepository().GetUnitOfSalesByID(_db, unitOfSalesMaster);
+                if (unitOfSales.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, unitOfSales);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, unitOfSales);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertunitofsales")]
         public Response InsertUnitOfSales(UnitOfSalesMaster unitOfSalesMaster)
@@ -435,6 +459,30 @@ namespace DFAPI.Controllers
         }
 
         [HttpGet]
+        [Route("getserviceproducts")]
+        public Response GetServiceProducts()
+        {
+            Response response = new Response();
+            try
+            {
+                List<Products> productMaster = new MasterRepository().GetServiceProducts(_db);
+                if (productMaster.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, productMaster);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, productMaster);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
         [Route("getmainactivities")]
         public Response GetActivitiesForProduct()
         {
@@ -484,12 +532,12 @@ namespace DFAPI.Controllers
 
         [HttpGet]
         [Route("getcategoriesbyserviceid")]
-        public Response GetCategoriesByServiceID([FromQuery] ServiceMaster serviceMaster)
+        public Response GetCategoriesByServiceID([FromQuery] Products products)
         {
             Response response = new Response();
             try
             {
-                List<CategoryByService> categoriesByServiceID = new MasterRepository().GetCategoriesByServiceID(_db, serviceMaster);
+                List<CategoryByService> categoriesByServiceID = new MasterRepository().GetCategoriesByServiceID(_db, products);
                 if (categoriesByServiceID.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, categoriesByServiceID);
@@ -521,6 +569,54 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, unitByCategoryID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getproductsbycategoryid")]
+        public Response GetProductsByCategoryID([FromQuery] Products products)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ProductsByCategory> productsByCategoryID = new MasterRepository().GetProductsByCategoryID(_db, products);
+                if (productsByCategoryID.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, productsByCategoryID);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, productsByCategoryID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getunitbyproductid")]
+        public Response GetUnitByCategoryID([FromQuery] ProductMaster productMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<UnitOfSalesMaster> unitByProductID = new MasterRepository().GetUnitByProductID(_db, productMaster);
+                if (unitByProductID.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, unitByProductID);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, unitByProductID);
                 }
             }
             catch (Exception ex)

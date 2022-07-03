@@ -151,6 +151,20 @@ namespace DFAPI.Repositories
             return unitOfSalesMaster;
         }
 
+        public List<UnitOfSalesMaster> GetUnitOfSalesByID(DataContext context, UnitOfSalesMaster unitOfSales)
+        {
+            List<UnitOfSalesMaster> unitOfSalesMaster = new List<UnitOfSalesMaster>();
+            try
+            {
+                unitOfSalesMaster = context.UnitOfSalesMaster.Where((el) => el.ID == unitOfSales.ID).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return unitOfSalesMaster;
+        }
+
         public long InsertUnitOfSales(DataContext context, UnitOfSalesMaster unitOfSalesMaster)
         {
             long rowsAffected = 0;
@@ -299,6 +313,20 @@ namespace DFAPI.Repositories
             return products;
         }
 
+        public List<Products> GetServiceProducts(DataContext context)
+        {
+            List<Products> products = new List<Products>();
+            try
+            {
+                products = context.Products.FromSqlRaw("exec df_Get_ServiceProducts").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return products;
+        }
+
         public List<ActivityMaster> GetMainActivities(DataContext context)
         {
             List<ActivityMaster> mainActivities = new List<ActivityMaster>();
@@ -331,16 +359,17 @@ namespace DFAPI.Repositories
             return servicesByRoleID;
         }
 
-        public List<CategoryByService> GetCategoriesByServiceID(DataContext context, ServiceMaster serviceMaster)
+        public List<CategoryByService> GetCategoriesByServiceID(DataContext context, Products products)
         {
             List<CategoryByService> categoriesByServiceID = new List<CategoryByService>();
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                new SqlParameter { ParameterName = "@ServiceID", Value = serviceMaster.ID }
+                new SqlParameter { ParameterName = "@ActivityID", Value = products.ActivityID },
+                new SqlParameter { ParameterName = "@ServiceID", Value = products.ServiceID }
                 };
-                categoriesByServiceID = context.CategoryByService.FromSqlRaw("exec df_Get_CategoriesByServiceID @ServiceID", parms.ToArray()).ToList();
+                categoriesByServiceID = context.CategoryByService.FromSqlRaw("exec df_Get_CategoriesByServiceID @ActivityID, @ServiceID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
@@ -367,7 +396,46 @@ namespace DFAPI.Repositories
             return unitByCategoryID;
         }
 
-        public long InsertProduct(DataContext context, ProductMaster productMaster) {
+        public List<ProductsByCategory> GetProductsByCategoryID(DataContext context, Products products)
+        {
+            List<ProductsByCategory> productByCategoryID = new List<ProductsByCategory>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ActivityID", Value = products.ActivityID },
+                new SqlParameter { ParameterName = "@ServiceID", Value = products.ServiceID },
+                new SqlParameter { ParameterName = "@CategoryID", Value = products.CategoryID }
+                };
+                productByCategoryID = context.ProductsByCategory.FromSqlRaw("exec df_Get_ProductsByCategoryID @ActivityID, @ServiceID, @CategoryID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return productByCategoryID;
+        }
+
+        public List<UnitOfSalesMaster> GetUnitByProductID(DataContext context, ProductMaster productMaster)
+        {
+            List<UnitOfSalesMaster> unitByProductID = new List<UnitOfSalesMaster>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ProductID", Value = productMaster.ProductID }
+                };
+                unitByProductID = context.UnitOfSalesMaster.FromSqlRaw("exec df_Get_UnitByProductID @ProductID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return unitByProductID;
+        }
+
+        public long InsertProduct(DataContext context, ProductMaster productMaster)
+        {
             long rowsAffected = 0;
             try
             {
@@ -396,11 +464,69 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                productMaster.IsActive = true;
-                productMaster.CreationTStamp = DateTime.Now;
-                context.ProductMaster.Update(productMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                ProductMaster currProduct = context.ProductMaster.Where(x => x.ProductID == productMaster.ProductID).First();
+                if (currProduct != null)
+                {
+                    if (productMaster.ActivityID != null)
+                    {
+                        currProduct.ActivityID = productMaster.ActivityID;
+                    }
+                    if (productMaster.ServiceID != null)
+                    {
+                        currProduct.ServiceID = productMaster.ServiceID;
+                    }
+                    if (productMaster.UnitOfSalesID != null)
+                    {
+                        currProduct.UnitOfSalesID = productMaster.UnitOfSalesID;
+                    }
+                    if (productMaster.CategoryID != null)
+                    {
+                        currProduct.CategoryID = productMaster.CategoryID;
+                    }
+                    if (productMaster.ProductName != null)
+                    {
+                        currProduct.ProductName = productMaster.ProductName;
+                    }
+                    if (productMaster.Display != null)
+                    {
+                        currProduct.Display = productMaster.Display;
+                    }
+                    if (productMaster.RateWithMaterials != null)
+                    {
+                        currProduct.RateWithMaterials = productMaster.RateWithMaterials;
+                    }
+                    if (productMaster.RateWithoutMaterials != null)
+                    {
+                        currProduct.RateWithoutMaterials = productMaster.RateWithoutMaterials;
+                    }
+                    if (productMaster.AlternateUnitOfSales != null)
+                    {
+                        currProduct.AlternateUnitOfSales = productMaster.AlternateUnitOfSales;
+                    }
+                    if (productMaster.ShortSpecification != null)
+                    {
+                        currProduct.ShortSpecification = productMaster.ShortSpecification;
+                    }
+                    if (productMaster.Specification != null)
+                    {
+                        currProduct.Specification = productMaster.Specification;
+                    }
+                    if (productMaster.ServiceDisplay != null)
+                    {
+                        currProduct.ServiceDisplay = productMaster.ServiceDisplay;
+                    }
+                    if (productMaster.IsActive != null)
+                    {
+                        currProduct.IsActive = productMaster.IsActive;
+                    }
+                    if (productMaster.CreationTStamp != null)
+                    {
+                        currProduct.CreationTStamp = productMaster.CreationTStamp;
+                    }
+                    context.ProductMaster.Update(currProduct);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
             }
             catch (Exception)
             {

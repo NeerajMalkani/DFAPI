@@ -64,6 +64,12 @@ namespace DFAPI.Entities
         public long? CategoryID { get; set; }
         public string? ProductName { get; set; }
         public bool? Display { get; set; }
+        public bool? ServiceDisplay { get; set; }
+        public decimal? RateWithMaterials { get; set; }
+        public decimal? RateWithoutMaterials { get; set; }
+        public decimal? AlternateUnitOfSales { get; set; }
+        public string? ShortSpecification { get; set; }
+        public string? Specification { get; set; }
         public DateTime? CreationTStamp { get; set; }
         public bool? IsActive { get; set; }
     }
@@ -83,6 +89,20 @@ namespace DFAPI.Entities
         public string? HSNSACCode { get; set; }
         public decimal? GSTRate { get; set; }
         public string? UnitName { get; set; }
+        public bool? Display { get; set; }
+        public bool? ServiceDisplay { get; set; }
+        public decimal? RateWithMaterials { get; set; }
+        public decimal? RateWithoutMaterials { get; set; }
+        public decimal? AlternateUnitOfSales { get; set; }
+        public string? ShortSpecification { get; set; }
+        public string? Specification { get; set; }
+    }
+
+    public class ProductsByCategory
+    {
+        [Key]
+        public long ProductID { get; set; }
+        public string? ProductName { get; set; }
         public bool? Display { get; set; }
     }
 
