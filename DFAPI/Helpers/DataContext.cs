@@ -20,6 +20,8 @@ namespace DFAPI.Helpers
         public DbSet<ProductMaster> ProductMaster => Set<ProductMaster>();
         public DbSet<Products> Products => Set<Products>();
         public DbSet<ProductsByCategory> ProductsByCategory => Set<ProductsByCategory>();
+        public DbSet<DepartmentMaster> DepartmentMaster => Set<DepartmentMaster>();
+        public DbSet<DesignationMaster> DesignationMaster => Set<DesignationMaster>();
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
     }
 }

@@ -535,5 +535,134 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
         #endregion
+
+        #region Department
+        public List<DepartmentMaster> GetDepartments(DataContext context)
+        {
+            List<DepartmentMaster> departmentMaster = new List<DepartmentMaster>();
+            try
+            {
+                departmentMaster = context.DepartmentMaster.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return departmentMaster;
+        }
+
+        public long InsertDepartment(DataContext context, DepartmentMaster departmentMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.DepartmentMaster.Add(departmentMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateDepartment(DataContext context, DepartmentMaster departmentMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.DepartmentMaster.Update(departmentMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long DeleteDepartment(DataContext context, DepartmentMaster departmentMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.DepartmentMaster.Remove(departmentMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
+        #region Designation
+        public List<DesignationMaster> GetDesignations(DataContext context)
+        {
+            List<DesignationMaster> designationMaster = new List<DesignationMaster>();
+            try
+            {
+                designationMaster = context.DesignationMaster.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return designationMaster;
+        }
+
+        public long InsertDesignation(DataContext context, DesignationMaster designationMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.DesignationMaster.Add(designationMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateDesignation(DataContext context, DesignationMaster designationMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.DesignationMaster.Update(designationMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long DeleteDesignation(DataContext context, DesignationMaster designationMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.DesignationMaster.Remove(designationMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
     }
 }

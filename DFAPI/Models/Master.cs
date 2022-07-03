@@ -106,6 +106,22 @@ namespace DFAPI.Entities
         public bool? Display { get; set; }
     }
 
+    public class DepartmentMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? DepartmentName { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class DesignationMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? DesignationName { get; set; }
+        public bool? Display { get; set; }
+    }
+
     [Keyless]
     public class RowsAffectedResponse
     {
