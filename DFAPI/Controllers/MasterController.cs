@@ -870,5 +870,155 @@ namespace DFAPI.Controllers
             return response;
         }
         #endregion
+
+        #region E Way Bill
+        [HttpGet]
+        [Route("getewaybills")]
+        public Response GetEWayBills()
+        {
+            Response response = new Response();
+            try
+            {
+                List<EWayBills> eWayBillMaster = new MasterRepository().GetEWayBills(_db);
+                if (eWayBillMaster.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, eWayBillMaster);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, eWayBillMaster);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertewaybill")]
+        public Response InsertEWayBill(EWayBillMaster eWayBillMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertEWayBill(_db, eWayBillMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updateewaybill")]
+        public Response UpdateEWayBill(EWayBillMaster eWayBillMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().UpdateEWayBill(_db, eWayBillMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpDelete]
+        [Route("deleteewaybill")]
+        public Response DeleteEWayBill(EWayBillMaster eWayBillMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().DeleteEWayBill(_db, eWayBillMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
+        #region States
+        [HttpGet]
+        [Route("getstates")]
+        public Response GetStates()
+        {
+            Response response = new Response();
+            try
+            {
+                List<StateMaster> states = new MasterRepository().GetStates(_db);
+                if (states.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, states);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, states);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Cities
+        [HttpGet]
+        [Route("getcities")]
+        public Response GetCities()
+        {
+            Response response = new Response();
+            try
+            {
+                List<CityMaster> cities = new MasterRepository().GetCities(_db);
+                if (cities.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, cities);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, cities);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
     }
 }

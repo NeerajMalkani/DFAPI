@@ -664,5 +664,100 @@ namespace DFAPI.Repositories
         }
         #endregion
 
+        #region E Way Bill
+        public List<EWayBills> GetEWayBills(DataContext context)
+        {
+            List<EWayBills> eWayBills = new List<EWayBills>();
+            try
+            {
+                eWayBills = context.EWayBills.FromSqlRaw("exec df_Get_EWayBills").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return eWayBills;
+        }
+
+        public long InsertEWayBill(DataContext context, EWayBillMaster eWayBillMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.EWayBillMaster.Add(eWayBillMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateEWayBill(DataContext context, EWayBillMaster eWayBillMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.EWayBillMaster.Update(eWayBillMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long DeleteEWayBill(DataContext context, EWayBillMaster eWayBillMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.EWayBillMaster.Remove(eWayBillMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
+        #region States
+        public List<StateMaster> GetStates(DataContext context)
+        {
+            List<StateMaster> stateMaster = new List<StateMaster>();
+            try
+            {
+                stateMaster = context.StateMaster.Where((el) => el.IsActive == true).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return stateMaster;
+        }
+        #endregion
+
+        #region Cities
+        public List<CityMaster> GetCities(DataContext context)
+        {
+            List<CityMaster> cityMaster = new List<CityMaster>();
+            try
+            {
+                cityMaster = context.CityMaster.Where((el) => el.IsActive == true).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return cityMaster;
+        }
+        #endregion
     }
 }

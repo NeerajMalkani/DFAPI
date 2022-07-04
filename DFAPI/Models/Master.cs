@@ -122,6 +122,45 @@ namespace DFAPI.Entities
         public bool? Display { get; set; }
     }
 
+    public class EWayBillMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public int? StateID { get; set; }
+        public decimal? InStateLimit { get; set; }
+        public decimal? InterStateLimit { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class EWayBills
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? StateName { get; set; }
+        public decimal? InStateLimit { get; set; }
+        public decimal? InterStateLimit { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class StateMaster
+    {
+        [Key]
+        public int ID { get; set; }
+        public string? StateName { get; set; }
+        public bool? IsUT { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    public class CityMaster
+    {
+        [Key]
+        public int ID { get; set; }
+        public string? CityName { get; set; }
+        public int? StateID { get; set; }
+        public bool? IsActive { get; set; }
+
+    }
+
     [Keyless]
     public class RowsAffectedResponse
     {
