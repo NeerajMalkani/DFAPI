@@ -66,25 +66,12 @@ namespace DFAPI.Repositories
             List<LoginUser> objUsers = new List<LoginUser>();
             try
             {
-                if (users.RoleID == 1)
+                List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    List<SqlParameter> parms = new List<SqlParameter>
-                        {
-                            new SqlParameter { ParameterName = "@Username", Value = users.Username },
-                            new SqlParameter { ParameterName = "@Password", Value = users.Password },
-                        };
-                    objUsers = context.LoginUser.FromSqlRaw("exec df_Get_LoginAdminUser @Username, @Password", parms.ToArray()).ToList();
-                }
-                else
-                {
-                    List<SqlParameter> parms = new List<SqlParameter>
-                        {
-                            new SqlParameter { ParameterName = "@PhoneNumber", Value = users.PhoneNumber },
-                            new SqlParameter { ParameterName = "@Password", Value = users.Password },
-                        };
-                    objUsers = context.LoginUser.FromSqlRaw("exec df_Get_LoginUser @PhoneNumber, @Password", parms.ToArray()).ToList();
-                }
-
+                    new SqlParameter { ParameterName = "@Username", Value = users.Username },
+                    new SqlParameter { ParameterName = "@Password", Value = users.Password },
+                };
+                objUsers = context.LoginUser.FromSqlRaw("exec df_Get_LoginAdminUser @Username, @Password", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
