@@ -269,10 +269,14 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                long rowsAffected = new MasterRepository().InsertUnitOfSales(_db, unitOfSalesMaster);
+                long rowsAffected = new MasterRepository().InsertUpdateUnitOfSales(_db, unitOfSalesMaster);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Data already exists", out response);
                 }
                 else
                 {
@@ -293,7 +297,7 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                long rowsAffected = new MasterRepository().UpdateUnitOfSales(_db, unitOfSalesMaster);
+                long rowsAffected = new MasterRepository().InsertUpdateUnitOfSales(_db, unitOfSalesMaster);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);

@@ -23,9 +23,13 @@ namespace DFAPI.Entities
     public class UnitOfSalesMaster
     {
         [Key]
-        public long ID { get; set; }
-        public string? UnitName { get; set; }
+        public int ID { get; set; }
+        public Int32 Unit1ID { get; set; }
+        public string? Unit1Name { get; set; }
+        public Int32 Unit2ID { get; set; }
+        public string? Unit2Name { get; set; }
         public bool Display { get; set; }
+        public string? DisplayUnit { get; set; }
     }
 
     public class CategoryMaster
@@ -61,6 +65,7 @@ namespace DFAPI.Entities
         public long? ActivityID { get; set; }
         public long? ServiceID { get; set; }
         public long? UnitOfSalesID { get; set; }
+        public long? SelectedUnitID { get; set; }
         public long? CategoryID { get; set; }
         public string? ProductName { get; set; }
         public bool? Display { get; set; }
