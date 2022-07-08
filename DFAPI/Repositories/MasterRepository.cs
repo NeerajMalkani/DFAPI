@@ -171,10 +171,6 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                //context.UnitOfSalesMaster.Add(unitOfSalesMaster);
-                //context.SaveChanges();
-                //rowsAffected = 1;
-
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@Unit1Name", Value = unitOfSalesMaster.Unit1Name },
@@ -191,22 +187,6 @@ namespace DFAPI.Repositories
             }
             return rowsAffected;
         }
-
-        //public long UpdateUnitOfSales(DataContext context, UnitOfSalesMaster unitOfSalesMaster)
-        //{
-        //    long rowsAffected = 0;
-        //    try
-        //    {
-        //        context.UnitOfSalesMaster.Update(unitOfSalesMaster);
-        //        context.SaveChanges();
-        //        rowsAffected = 1;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //    return rowsAffected;
-        //}
 
         public long DeleteUnitOfSales(DataContext context, UnitOfSalesMaster unitOfSalesMaster)
         {
@@ -256,7 +236,7 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@UnitID", Value = categoryMaster.UnitID },
                     new SqlParameter { ParameterName = "@ID", Direction = ParameterDirection.Output, SqlDbType = SqlDbType.BigInt }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_Category @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID, @ID out", parms.ToArray());
+                context.Database.ExecuteSqlRaw("exec df_Insert_Category @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)
@@ -514,10 +494,6 @@ namespace DFAPI.Repositories
                     {
                         currProduct.SelectedUnitID = productMaster.SelectedUnitID;
                     }
-                    //if (productMaster.AlternateUnitOfSales != null)
-                    //{
-                    //    currProduct.AlternateUnitOfSales = productMaster.AlternateUnitOfSales;
-                    //}
                     if (productMaster.ShortSpecification != null)
                     {
                         currProduct.ShortSpecification = productMaster.ShortSpecification;
@@ -541,15 +517,16 @@ namespace DFAPI.Repositories
                     context.ProductMaster.Update(currProduct);
                     context.SaveChanges();
 
-
-                    List<SqlParameter> parms = new List<SqlParameter>
-                {
-                    new SqlParameter { ParameterName = "@ProductID", Value = productMaster.ProductID },
-                    new SqlParameter { ParameterName = "@SelectedUnitID", Value = productMaster.SelectedUnitID },
-                    new SqlParameter { ParameterName = "@ConversionRate", Value = productMaster.AlternateUnitOfSales },
-                };
-                    context.Database.ExecuteSqlRaw("exec df_update_UnitConversionRate @ProductID, @SelectedUnitID, @ConversionRate", parms.ToArray());
-                    
+                    if (productMaster.SelectedUnitID != null)
+                    {
+                        List<SqlParameter> parms = new List<SqlParameter>
+                        {
+                            new SqlParameter { ParameterName = "@ProductID", Value = productMaster.ProductID },
+                            new SqlParameter { ParameterName = "@SelectedUnitID", Value = productMaster.SelectedUnitID },
+                            new SqlParameter { ParameterName = "@ConversionRate", Value = productMaster.AlternateUnitOfSales },
+                        };
+                        context.Database.ExecuteSqlRaw("exec df_update_UnitConversionRate @ProductID, @SelectedUnitID, @ConversionRate", parms.ToArray());
+                    }
                     rowsAffected = 1;
                 }
             }

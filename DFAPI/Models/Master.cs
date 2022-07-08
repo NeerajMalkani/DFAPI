@@ -43,9 +43,9 @@ namespace DFAPI.Entities
         public string? CategoryName { get; set; }
         public string? HSNSACCode { get; set; }
         public decimal? GSTRate { get; set; }
-        public string? UnitOfSalesID { get; set; }
         public bool? Display { get; set; }
         public string? UnitID { get; set; }
+        public string? UnitName { get; set; }
     }
 
     public class CategoryByService
