@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DFAPI.Entities
 {
-
     public class ActivityMaster
     {
         [Key]
@@ -83,22 +82,28 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ProductID { get; set; }
+        public long? SelectedUnitID { get; set; }
         public string? ProductName { get; set; }
-        public string? ActivityRoleName { get; set; }
-        public string? ServiceName { get; set; }
-        public string? CategoryName { get; set; }
         public long? ActivityID { get; set; }
+        public string? ActivityRoleName { get; set; }
         public long? ServiceID { get; set; }
-        public long? UnitOfSalesID { get; set; }
+        public string? ServiceName { get; set; }
         public long? CategoryID { get; set; }
+        public string? CategoryName { get; set; }           
         public string? HSNSACCode { get; set; }
         public decimal? GSTRate { get; set; }
+        public long? UnitOfSalesID { get; set; }
         public string? UnitName { get; set; }
-        public bool? Display { get; set; }
-        public bool? ServiceDisplay { get; set; }
+        public string? Unit1Name { get; set; }
+        public string? Unit2Name { get; set; }
+        public Int32? Unit1ID { get; set; }
+        public Int32? Unit2ID { get; set; }
+        public decimal? ConversionRate { get; set; }
+        public bool? Display { get; set; }      
         public decimal? RateWithMaterials { get; set; }
         public decimal? RateWithoutMaterials { get; set; }
         public decimal? AlternateUnitOfSales { get; set; }
+        public bool? ServiceDisplay { get; set; }
         public string? ShortSpecification { get; set; }
         public string? Specification { get; set; }
     }
@@ -116,6 +121,34 @@ namespace DFAPI.Entities
         [Key]
         public long ID { get; set; }
         public string? DepartmentName { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class LocationTypeMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? BranchType { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class LocationTypeMasterMapped
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? BranchType { get; set; }
+        public bool? Display { get; set; }
+        public string? ActivityName { get; set; }
+        public string? ServiceName { get; set; }
+    }
+
+    public class LocationType
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? BranchType { get; set; }
+        public string? ActivityID { get; set; }
+        public string? ServiceID { get; set; }
         public bool? Display { get; set; }
     }
 

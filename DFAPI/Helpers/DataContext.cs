@@ -21,6 +21,9 @@ namespace DFAPI.Helpers
         public DbSet<Products> Products => Set<Products>();
         public DbSet<ProductsByCategory> ProductsByCategory => Set<ProductsByCategory>();
         public DbSet<DepartmentMaster> DepartmentMaster => Set<DepartmentMaster>();
+        public DbSet<LocationTypeMaster> LocationTypeMaster => Set<LocationTypeMaster>();
+        public DbSet<LocationTypeMasterMapped> LocationTypeMasterMapped => Set<LocationTypeMasterMapped>();
+        public DbSet<LocationType> LocationType => Set<LocationType>();
         public DbSet<DesignationMaster> DesignationMaster => Set<DesignationMaster>();
         public DbSet<EWayBillMaster> EWayBillMaster => Set<EWayBillMaster>();
         public DbSet<EWayBills> EWayBills => Set<EWayBills>(); 

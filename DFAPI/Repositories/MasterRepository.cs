@@ -289,7 +289,7 @@ namespace DFAPI.Repositories
         }
         #endregion
 
-        #region Product
+        #region Product / Service Product
         public List<Products> GetProducts(DataContext context)
         {
             List<Products> products = new List<Products>();
@@ -592,6 +592,67 @@ namespace DFAPI.Repositories
             {
                 context.DepartmentMaster.Remove(departmentMaster);
                 context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
+        #region Location Type
+        public List<LocationTypeMasterMapped> GetLocationTypes(DataContext context)
+        {
+            List<LocationTypeMasterMapped> list = new List<LocationTypeMasterMapped>();
+            try
+            {
+                list = context.LocationTypeMasterMapped.FromSqlRaw("exec df_Get_LocationTypes").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return list;
+        }
+
+        public long InsertLocationType(DataContext context, LocationType locationType)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@BranchType", Value = locationType.BranchType },
+                    new SqlParameter { ParameterName = "@ActivityID", Value = locationType.ActivityID },
+                    new SqlParameter { ParameterName = "@ServiceID", Value = locationType.ServiceID },
+                    new SqlParameter { ParameterName = "@Display", Value = locationType.Display }
+                };
+                context.Database.ExecuteSqlRaw("exec df_Insert_LocationType @BranchType, @ActivityID, @ServiceID, @Display", parms.ToArray());
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateLocationType(DataContext context, LocationType locationType)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ID", Value = locationType.ID },
+                    new SqlParameter { ParameterName = "@BranchType", Value = locationType.BranchType },
+                    new SqlParameter { ParameterName = "@ActivityID", Value = locationType.ActivityID },
+                    new SqlParameter { ParameterName = "@ServiceID", Value = locationType.ServiceID },
+                    new SqlParameter { ParameterName = "@Display", Value = locationType.Display }
+                };
+                context.Database.ExecuteSqlRaw("exec df_Update_LocationType @ID, @BranchType, @ActivityID, @ServiceID, @Display", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)

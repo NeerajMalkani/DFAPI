@@ -437,7 +437,7 @@ namespace DFAPI.Controllers
         }
         #endregion
 
-        #region Products
+        #region Products /Service Products
         [HttpGet]
         [Route("getproducts")]
         public Response GetProducts()
@@ -760,6 +760,80 @@ namespace DFAPI.Controllers
             try
             {
                 long rowsAffected = new MasterRepository().DeleteDepartment(_db, departmentMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Location Type
+        [HttpGet]
+        [Route("getlocationtypes")]
+        public Response GetLocationTypes()
+        {
+            Response response = new Response();
+            try
+            {
+                List<LocationTypeMasterMapped> locationTypeMasterMapped = new MasterRepository().GetLocationTypes(_db);
+                if (locationTypeMasterMapped.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, locationTypeMasterMapped);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, locationTypeMasterMapped);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertlocationtype")]
+        public Response InsertLocationType(LocationType locationType)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertLocationType(_db, locationType);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updatelocationtype")]
+        public Response UpdateLocationType(LocationType locationType)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().UpdateLocationType(_db, locationType);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
