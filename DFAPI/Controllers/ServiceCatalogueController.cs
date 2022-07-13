@@ -213,5 +213,79 @@ namespace DFAPI.Controllers
             return response;
         }
         #endregion
+
+        #region Design Type
+        [HttpGet]
+        [Route("getdesigntypes")]
+        public Response GetDesignTypes()
+        {
+            Response response = new Response();
+            try
+            {
+                List<DesignType> designTypes = new ServiceCatalogueRepository().GetDesignTypes(_db);
+                if (designTypes.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, designTypes);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, designTypes);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertdesigntype")]
+        public Response InsertDesignType(DesignTypeMaster designTypeMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new ServiceCatalogueRepository().InsertDesignType(_db, designTypeMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updatedesigntype")]
+        public Response UpdateDesignType(DesignTypeMaster designTypeMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new ServiceCatalogueRepository().UpdateDesignType(_db, designTypeMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
     }
 }

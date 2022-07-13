@@ -136,5 +136,67 @@ namespace DFAPI.Repositories
         }
         #endregion
 
+        #region DesignType
+        public List<DesignType> GetDesignTypes(DataContext context)
+        {
+            List<DesignType> designTypes = new List<DesignType>();
+            try
+            {
+                designTypes = context.DesignType.FromSqlRaw("exec df_Get_DesignTypes").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return designTypes;
+        }
+
+        public long InsertDesignType(DataContext context, DesignTypeMaster designTypeMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@DesignTypeName", Value = designTypeMaster.DesignTypeName },
+                    new SqlParameter { ParameterName = "@ServiceID", Value = designTypeMaster.ServiceID },
+                    new SqlParameter { ParameterName = "@CategoryID", Value = designTypeMaster.CategoryID },
+                    new SqlParameter { ParameterName = "@ProductID", Value = designTypeMaster.ProductID },
+                    new SqlParameter { ParameterName = "@Display", Value = designTypeMaster.Display },
+                };
+                context.Database.ExecuteSqlRaw("exec df_Insert_DesignType @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateDesignType(DataContext context, DesignTypeMaster designTypeMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ID", Value = designTypeMaster.ID },
+                    new SqlParameter { ParameterName = "@DesignTypeName", Value = designTypeMaster.DesignTypeName },
+                    new SqlParameter { ParameterName = "@ServiceID", Value = designTypeMaster.ServiceID },
+                    new SqlParameter { ParameterName = "@CategoryID", Value = designTypeMaster.CategoryID },
+                    new SqlParameter { ParameterName = "@ProductID", Value = designTypeMaster.ProductID },
+                    new SqlParameter { ParameterName = "@Display", Value = designTypeMaster.Display },
+                };
+                context.Database.ExecuteSqlRaw("exec df_Update_DesignType @ID, @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
     }
 }

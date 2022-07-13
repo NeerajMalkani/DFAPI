@@ -18,4 +18,29 @@ namespace DFAPI.Entities
         public string? WorkLocationName { get; set; }
         public bool? Display { get; set; }
     }
+
+    public class DesignTypeMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? DesignTypeName { get; set; }
+        public long? ServiceID { get; set; }
+        public long? CategoryID { get; set; }
+        public long? ProductID { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class DesignType
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? DesignTypeName { get; set; }
+        public long? ServiceID { get; set; }
+        public string? ServiceName { get; set; }
+        public long? CategoryID { get; set; }
+        public string? CategoryName { get; set; }
+        public long? ProductID { get; set; }
+        public string? ProductName { get; set; }
+        public bool? Display { get; set; }
+    }
 }

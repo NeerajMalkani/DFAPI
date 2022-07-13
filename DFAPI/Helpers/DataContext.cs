@@ -32,6 +32,8 @@ namespace DFAPI.Helpers
 
         public DbSet<WorkFloorMaster> WorkFloorMaster => Set<WorkFloorMaster>();
         public DbSet<WorkLocationMaster> WorkLocationMaster => Set<WorkLocationMaster>();
+        public DbSet<DesignTypeMaster> DesignTypeMaster => Set<DesignTypeMaster>();
+        public DbSet<DesignType> DesignType => Set<DesignType>();
 
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
     }
