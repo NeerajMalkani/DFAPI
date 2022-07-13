@@ -29,6 +29,10 @@ namespace DFAPI.Helpers
         public DbSet<EWayBills> EWayBills => Set<EWayBills>(); 
         public DbSet<StateMaster> StateMaster => Set<StateMaster>();
         public DbSet<CityMaster> CityMaster => Set<CityMaster>();
+
+        public DbSet<WorkFloorMaster> WorkFloorMaster => Set<WorkFloorMaster>();
+        public DbSet<WorkLocationMaster> WorkLocationMaster => Set<WorkLocationMaster>();
+
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
     }
 }
