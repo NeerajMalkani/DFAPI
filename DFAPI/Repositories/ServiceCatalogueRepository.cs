@@ -151,6 +151,26 @@ namespace DFAPI.Repositories
             return designTypes;
         }
 
+        public List<DesignTypeByProductID> GetDesignTypeByProductID(DataContext context, DesignTypeMaster designTypeMaster)
+        {
+            List<DesignTypeByProductID> designTypeMasters = new List<DesignTypeByProductID>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ServiceID", Value = designTypeMaster.ServiceID },
+                new SqlParameter { ParameterName = "@CategoryID", Value = designTypeMaster.CategoryID },
+                new SqlParameter { ParameterName = "@ProductID", Value = designTypeMaster.ProductID }
+                };
+                designTypeMasters = context.DesignTypeByProductID.FromSqlRaw("exec df_Get_DesignTypsByProductID @ServiceID, @CategoryID, @ProductID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return designTypeMasters;
+        }
+
         public long InsertDesignType(DataContext context, DesignTypeMaster designTypeMaster)
         {
             long rowsAffected = 0;
@@ -198,5 +218,75 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
         #endregion
+
+        #region Post New Design
+        public List<PostNewDesign> GetPostNewDesigns(DataContext context)
+        {
+            List<PostNewDesign> postNewDesigns = new List<PostNewDesign>();
+            try
+            {
+                postNewDesigns = context.PostNewDesign.FromSqlRaw("exec df_Get_PostNewDesigns").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return postNewDesigns;
+        }
+
+        public long InsertPostNewDesign(DataContext context, PostNewDesignMaster postNewDesignMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@LabourCost", Value = postNewDesignMaster.LabourCost },
+                    new SqlParameter { ParameterName = "@CategoryID", Value = postNewDesignMaster.CategoryID },
+                    new SqlParameter { ParameterName = "@ProductID", Value = postNewDesignMaster.ProductID },
+                    new SqlParameter { ParameterName = "@DesignTypeID", Value = postNewDesignMaster.DesignTypeID },
+                    new SqlParameter { ParameterName = "@WorkLocationID", Value = postNewDesignMaster.WorkLocationID },
+                    new SqlParameter { ParameterName = "@DesignNumber", Value = postNewDesignMaster.DesignNumber },
+                    new SqlParameter { ParameterName = "@DesignImage", Value = postNewDesignMaster.DesignImage },
+                    new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
+                };
+                context.Database.ExecuteSqlRaw("exec df_Insert_PostNewDesign @LabourCost, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdatePostNewDesign(DataContext context, PostNewDesignMaster postNewDesignMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ID", Value = postNewDesignMaster.ID },
+                    new SqlParameter { ParameterName = "@LabourCost", Value = postNewDesignMaster.LabourCost },
+                    new SqlParameter { ParameterName = "@CategoryID", Value = postNewDesignMaster.CategoryID },
+                    new SqlParameter { ParameterName = "@ProductID", Value = postNewDesignMaster.ProductID },
+                    new SqlParameter { ParameterName = "@DesignTypeID", Value = postNewDesignMaster.DesignTypeID },
+                    new SqlParameter { ParameterName = "@WorkLocationID", Value = postNewDesignMaster.WorkLocationID },
+                    new SqlParameter { ParameterName = "@DesignNumber", Value = postNewDesignMaster.DesignNumber },
+                    new SqlParameter { ParameterName = "@DesignImage", Value = postNewDesignMaster.DesignImage },
+                    new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
+                };
+                context.Database.ExecuteSqlRaw("exec df_Update_PostNewDesign @ID, @LabourCost, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
     }
 }

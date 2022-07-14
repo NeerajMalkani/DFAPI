@@ -239,6 +239,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getdesigntypebyproductid")]
+        public Response GetDesignTypeByProductID([FromQuery] DesignTypeMaster designTypeMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<DesignTypeByProductID> designTypes = new ServiceCatalogueRepository().GetDesignTypeByProductID(_db, designTypeMaster);
+                if (designTypes.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, designTypes);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, designTypes);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertdesigntype")]
         public Response InsertDesignType(DesignTypeMaster designTypeMaster)
@@ -271,6 +295,80 @@ namespace DFAPI.Controllers
             try
             {
                 long rowsAffected = new ServiceCatalogueRepository().UpdateDesignType(_db, designTypeMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Post New Design
+        [HttpGet]
+        [Route("getpostnewdesigntypes")]
+        public Response GetPostNewDesignTypes()
+        {
+            Response response = new Response();
+            try
+            {
+                List<PostNewDesign> postNewDesigns = new ServiceCatalogueRepository().GetPostNewDesigns(_db);
+                if (postNewDesigns.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, postNewDesigns);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, postNewDesigns);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertpostnewdesigntype")]
+        public Response InsertPostNewDesignType(PostNewDesignMaster postNewDesignMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new ServiceCatalogueRepository().InsertPostNewDesign(_db, postNewDesignMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updatepostnewdesigntype")]
+        public Response UpdatePostNewDesignType(PostNewDesignMaster postNewDesignMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new ServiceCatalogueRepository().UpdatePostNewDesign(_db, postNewDesignMaster);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
