@@ -25,12 +25,21 @@ namespace DFAPI.Repositories
 
         public long InsertWorkFloor(DataContext context, WorkFloorMaster workFloorMaster)
         {
+            List<WorkFloorMaster> objWorkFloor = new List<WorkFloorMaster>();
             long rowsAffected = 0;
             try
             {
-                context.WorkFloorMaster.Add(workFloorMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                objWorkFloor = context.WorkFloorMaster.Where(b => b.WorkFloorName == workFloorMaster.WorkFloorName).ToList();
+                if (!objWorkFloor.Any())
+                {
+                    context.WorkFloorMaster.Add(workFloorMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -41,12 +50,21 @@ namespace DFAPI.Repositories
 
         public long UpdateWorkFloor(DataContext context, WorkFloorMaster workFloorMaster)
         {
+            List<WorkFloorMaster> objWorkFloor = new List<WorkFloorMaster>();
             long rowsAffected = 0;
             try
             {
-                context.WorkFloorMaster.Update(workFloorMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                objWorkFloor = context.WorkFloorMaster.Where(b => (b.WorkFloorName == workFloorMaster.WorkFloorName && b.ID != workFloorMaster.ID)).ToList();
+                if (!objWorkFloor.Any())
+                {
+                    context.WorkFloorMaster.Update(workFloorMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected &= -2;
+                }
             }
             catch (Exception)
             {
@@ -89,12 +107,21 @@ namespace DFAPI.Repositories
 
         public long InsertWorkLocation(DataContext context, WorkLocationMaster workLocationMaster)
         {
+            List<WorkLocationMaster> objWorkLocation = new List<WorkLocationMaster>();
             long rowsAffected = 0;
             try
             {
-                context.WorkLocationMaster.Add(workLocationMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                objWorkLocation = context.WorkLocationMaster.Where(b => b.WorkLocationName == workLocationMaster.WorkLocationName).ToList();
+                if (!objWorkLocation.Any())
+                {
+                    context.WorkLocationMaster.Add(workLocationMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -105,12 +132,21 @@ namespace DFAPI.Repositories
 
         public long UpdateWorkLocation(DataContext context, WorkLocationMaster workLocationMaster)
         {
+            List<WorkLocationMaster> objWorkLocation = new List<WorkLocationMaster>();
             long rowsAffected = 0;
             try
             {
-                context.WorkLocationMaster.Update(workLocationMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                objWorkLocation = context.WorkLocationMaster.Where(b => (b.WorkLocationName == workLocationMaster.WorkLocationName && b.ID != workLocationMaster.ID)).ToList();
+                if (!objWorkLocation.Any())
+                {
+                    context.WorkLocationMaster.Update(workLocationMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -173,10 +209,14 @@ namespace DFAPI.Repositories
 
         public long InsertDesignType(DataContext context, DesignTypeMaster designTypeMaster)
         {
+            List<DesignTypeMaster> objDesignType = new List<DesignTypeMaster>();
             long rowsAffected = 0;
             try
             {
-                List<SqlParameter> parms = new List<SqlParameter>
+                objDesignType = context.DesignTypeMaster.Where(b => b.DesignTypeName == designTypeMaster.DesignTypeName).ToList();
+                if (!objDesignType.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@DesignTypeName", Value = designTypeMaster.DesignTypeName },
                     new SqlParameter { ParameterName = "@ServiceID", Value = designTypeMaster.ServiceID },
@@ -184,8 +224,13 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@ProductID", Value = designTypeMaster.ProductID },
                     new SqlParameter { ParameterName = "@Display", Value = designTypeMaster.Display },
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_DesignType @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
-                rowsAffected = 1;
+                    context.Database.ExecuteSqlRaw("exec df_Insert_DesignType @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -196,10 +241,14 @@ namespace DFAPI.Repositories
 
         public long UpdateDesignType(DataContext context, DesignTypeMaster designTypeMaster)
         {
+            List<DesignTypeMaster> objDesignType = new List<DesignTypeMaster>();
             long rowsAffected = 0;
             try
             {
-                List<SqlParameter> parms = new List<SqlParameter>
+                objDesignType = context.DesignTypeMaster.Where(b => (b.DesignTypeName == designTypeMaster.DesignTypeName && b.ID != designTypeMaster.ID)).ToList();
+                if (!objDesignType.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@ID", Value = designTypeMaster.ID },
                     new SqlParameter { ParameterName = "@DesignTypeName", Value = designTypeMaster.DesignTypeName },
@@ -208,8 +257,13 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@ProductID", Value = designTypeMaster.ProductID },
                     new SqlParameter { ParameterName = "@Display", Value = designTypeMaster.Display },
                 };
-                context.Database.ExecuteSqlRaw("exec df_Update_DesignType @ID, @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
-                rowsAffected = 1;
+                    context.Database.ExecuteSqlRaw("exec df_Update_DesignType @ID, @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {

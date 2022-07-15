@@ -57,7 +57,6 @@ namespace DFAPI.Controllers
                 else if (rowsAffected == -2)
                 {
                     Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
-
                 }
                 else
                 {
@@ -86,7 +85,6 @@ namespace DFAPI.Controllers
                 else if (rowsAffected == -2)
                 {
                     Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
-
                 }
                 else
                 {
@@ -162,6 +160,10 @@ namespace DFAPI.Controllers
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
@@ -185,6 +187,10 @@ namespace DFAPI.Controllers
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {
@@ -386,6 +392,10 @@ namespace DFAPI.Controllers
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
@@ -409,6 +419,10 @@ namespace DFAPI.Controllers
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {
@@ -652,6 +666,10 @@ namespace DFAPI.Controllers
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
@@ -675,6 +693,10 @@ namespace DFAPI.Controllers
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {
@@ -726,6 +748,10 @@ namespace DFAPI.Controllers
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
@@ -749,6 +775,10 @@ namespace DFAPI.Controllers
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {
@@ -824,6 +854,10 @@ namespace DFAPI.Controllers
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
@@ -847,6 +881,10 @@ namespace DFAPI.Controllers
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {
@@ -898,6 +936,10 @@ namespace DFAPI.Controllers
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
@@ -921,6 +963,10 @@ namespace DFAPI.Controllers
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {
@@ -996,6 +1042,10 @@ namespace DFAPI.Controllers
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
@@ -1019,6 +1069,10 @@ namespace DFAPI.Controllers
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {

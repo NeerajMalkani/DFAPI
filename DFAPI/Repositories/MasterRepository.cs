@@ -107,12 +107,21 @@ namespace DFAPI.Repositories
 
         public long InsertServices(DataContext context, ServiceMaster serviceMaster)
         {
+            List<ServiceMaster> serviceMasterMain = new List<ServiceMaster>();
             long rowsAffected = 0;
             try
             {
-                context.ServiceMaster.Add(serviceMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                serviceMasterMain = context.ServiceMaster.Where(b => b.ServiceName == serviceMaster.ServiceName).ToList();
+                if (!serviceMasterMain.Any())
+                {
+                    context.ServiceMaster.Add(serviceMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -123,12 +132,21 @@ namespace DFAPI.Repositories
 
         public long UpdateServices(DataContext context, ServiceMaster serviceMaster)
         {
+            List<ServiceMaster> serviceMasterMain = new List<ServiceMaster>();
             long rowsAffected = 0;
             try
             {
-                context.ServiceMaster.Update(serviceMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                serviceMasterMain = context.ServiceMaster.Where(b => (b.ServiceName == serviceMaster.ServiceName && b.ID != serviceMaster.ID)).ToList();
+                if (!serviceMasterMain.Any())
+                {
+                    context.ServiceMaster.Update(serviceMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -240,10 +258,14 @@ namespace DFAPI.Repositories
 
         public long InsertCategory(DataContext context, CategoryMaster categoryMaster)
         {
+            List<CategoryMaster> categoryMastersMain = new List<CategoryMaster>();
             long rowsAffected = 0;
             try
             {
-                List<SqlParameter> parms = new List<SqlParameter>
+                categoryMastersMain = context.CategoryMaster.Where(b => b.CategoryName == categoryMaster.CategoryName).ToList();
+                if (!categoryMastersMain.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@CategoryName", Value = categoryMaster.CategoryName },
                     new SqlParameter { ParameterName = "@RoleID", Value = categoryMaster.RoleID },
@@ -254,8 +276,13 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@UnitID", Value = categoryMaster.UnitID },
                     new SqlParameter { ParameterName = "@ID", Direction = ParameterDirection.Output, SqlDbType = SqlDbType.BigInt }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_Category @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
-                rowsAffected = 1;
+                    context.Database.ExecuteSqlRaw("exec df_Insert_Category @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -266,10 +293,14 @@ namespace DFAPI.Repositories
 
         public long UpdateCategory(DataContext context, CategoryMaster categoryMaster)
         {
+            List<CategoryMaster> categoryMastersMain = new List<CategoryMaster>();
             long rowsAffected = 0;
             try
             {
-                List<SqlParameter> parms = new List<SqlParameter>
+                categoryMastersMain = context.CategoryMaster.Where(b => (b.CategoryName == categoryMaster.CategoryName && b.ID != categoryMaster.ID)).ToList();
+                if (!categoryMastersMain.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@ID", Value = categoryMaster.ID },
                     new SqlParameter { ParameterName = "@CategoryName", Value = categoryMaster.CategoryName },
@@ -280,8 +311,13 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@Display", Value = categoryMaster.Display },
                     new SqlParameter { ParameterName = "@UnitID", Value = categoryMaster.UnitID }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Update_Category @ID, @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
-                rowsAffected = 1;
+                    context.Database.ExecuteSqlRaw("exec df_Update_Category @ID, @CategoryName, @RoleID, @ServiceID, @HSNSACCode, @GSTRate, @Display, @UnitID", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -445,10 +481,14 @@ namespace DFAPI.Repositories
 
         public long InsertProduct(DataContext context, ProductMaster productMaster)
         {
+            List<ProductMaster> productMasterList = new List<ProductMaster>();
             long rowsAffected = 0;
             try
             {
-                List<SqlParameter> parms = new List<SqlParameter>
+                productMasterList = context.ProductMaster.Where(b => b.ProductName == productMaster.ProductName).ToList();
+                if (!productMasterList.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@ProductName", Value = productMaster.ProductName },
                     new SqlParameter { ParameterName = "@ActivityID", Value = productMaster.ActivityID },
@@ -458,8 +498,13 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@Display", Value = productMaster.Display },
                     new SqlParameter { ParameterName = "@ID", Direction = ParameterDirection.Output, SqlDbType = SqlDbType.BigInt }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_Product @ProductName, @ActivityID, @ServiceID, @CategoryID, @UnitOfSalesID, @Display", parms.ToArray());
-                rowsAffected = 1;
+                    context.Database.ExecuteSqlRaw("exec df_Insert_Product @ProductName, @ActivityID, @ServiceID, @CategoryID, @UnitOfSalesID, @Display", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -470,82 +515,91 @@ namespace DFAPI.Repositories
 
         public long UpdateProducts(DataContext context, ProductMaster productMaster)
         {
+            List<ProductMaster> productMasterList = new List<ProductMaster>();
             long rowsAffected = 0;
             try
             {
-                ProductMaster currProduct = context.ProductMaster.Where(x => x.ProductID == productMaster.ProductID).First();
-                if (currProduct != null)
+                productMasterList = context.ProductMaster.Where(b => (b.ProductName == productMaster.ProductName && b.ProductID != productMaster.ProductID)).ToList();
+                if (!productMasterList.Any())
                 {
-                    if (productMaster.ActivityID != null)
+                    ProductMaster currProduct = context.ProductMaster.Where(x => x.ProductID == productMaster.ProductID).First();
+                    if (currProduct != null)
                     {
-                        currProduct.ActivityID = productMaster.ActivityID;
-                    }
-                    if (productMaster.ServiceID != null)
-                    {
-                        currProduct.ServiceID = productMaster.ServiceID;
-                    }
-                    if (productMaster.UnitOfSalesID != null)
-                    {
-                        currProduct.UnitOfSalesID = productMaster.UnitOfSalesID;
-                    }
-                    if (productMaster.CategoryID != null)
-                    {
-                        currProduct.CategoryID = productMaster.CategoryID;
-                    }
-                    if (productMaster.ProductName != null)
-                    {
-                        currProduct.ProductName = productMaster.ProductName;
-                    }
-                    if (productMaster.Display != null)
-                    {
-                        currProduct.Display = productMaster.Display;
-                    }
-                    if (productMaster.RateWithMaterials != null)
-                    {
-                        currProduct.RateWithMaterials = productMaster.RateWithMaterials;
-                    }
-                    if (productMaster.RateWithoutMaterials != null)
-                    {
-                        currProduct.RateWithoutMaterials = productMaster.RateWithoutMaterials;
-                    }
-                    if (productMaster.SelectedUnitID != null)
-                    {
-                        currProduct.SelectedUnitID = productMaster.SelectedUnitID;
-                    }
-                    if (productMaster.ShortSpecification != null)
-                    {
-                        currProduct.ShortSpecification = productMaster.ShortSpecification;
-                    }
-                    if (productMaster.Specification != null)
-                    {
-                        currProduct.Specification = productMaster.Specification;
-                    }
-                    if (productMaster.ServiceDisplay != null)
-                    {
-                        currProduct.ServiceDisplay = productMaster.ServiceDisplay;
-                    }
-                    if (productMaster.IsActive != null)
-                    {
-                        currProduct.IsActive = productMaster.IsActive;
-                    }
-                    if (productMaster.CreationTStamp != null)
-                    {
-                        currProduct.CreationTStamp = productMaster.CreationTStamp;
-                    }
-                    context.ProductMaster.Update(currProduct);
-                    context.SaveChanges();
+                        if (productMaster.ActivityID != null)
+                        {
+                            currProduct.ActivityID = productMaster.ActivityID;
+                        }
+                        if (productMaster.ServiceID != null)
+                        {
+                            currProduct.ServiceID = productMaster.ServiceID;
+                        }
+                        if (productMaster.UnitOfSalesID != null)
+                        {
+                            currProduct.UnitOfSalesID = productMaster.UnitOfSalesID;
+                        }
+                        if (productMaster.CategoryID != null)
+                        {
+                            currProduct.CategoryID = productMaster.CategoryID;
+                        }
+                        if (productMaster.ProductName != null)
+                        {
+                            currProduct.ProductName = productMaster.ProductName;
+                        }
+                        if (productMaster.Display != null)
+                        {
+                            currProduct.Display = productMaster.Display;
+                        }
+                        if (productMaster.RateWithMaterials != null)
+                        {
+                            currProduct.RateWithMaterials = productMaster.RateWithMaterials;
+                        }
+                        if (productMaster.RateWithoutMaterials != null)
+                        {
+                            currProduct.RateWithoutMaterials = productMaster.RateWithoutMaterials;
+                        }
+                        if (productMaster.SelectedUnitID != null)
+                        {
+                            currProduct.SelectedUnitID = productMaster.SelectedUnitID;
+                        }
+                        if (productMaster.ShortSpecification != null)
+                        {
+                            currProduct.ShortSpecification = productMaster.ShortSpecification;
+                        }
+                        if (productMaster.Specification != null)
+                        {
+                            currProduct.Specification = productMaster.Specification;
+                        }
+                        if (productMaster.ServiceDisplay != null)
+                        {
+                            currProduct.ServiceDisplay = productMaster.ServiceDisplay;
+                        }
+                        if (productMaster.IsActive != null)
+                        {
+                            currProduct.IsActive = productMaster.IsActive;
+                        }
+                        if (productMaster.CreationTStamp != null)
+                        {
+                            currProduct.CreationTStamp = productMaster.CreationTStamp;
+                        }
+                        context.ProductMaster.Update(currProduct);
+                        context.SaveChanges();
 
-                    if (productMaster.SelectedUnitID != null)
-                    {
-                        List<SqlParameter> parms = new List<SqlParameter>
+                        if (productMaster.SelectedUnitID != null)
+                        {
+                            List<SqlParameter> parms = new List<SqlParameter>
                         {
                             new SqlParameter { ParameterName = "@ProductID", Value = productMaster.ProductID },
                             new SqlParameter { ParameterName = "@SelectedUnitID", Value = productMaster.SelectedUnitID },
                             new SqlParameter { ParameterName = "@ConversionRate", Value = productMaster.AlternateUnitOfSales },
                         };
-                        context.Database.ExecuteSqlRaw("exec df_update_UnitConversionRate @ProductID, @SelectedUnitID, @ConversionRate", parms.ToArray());
+                            context.Database.ExecuteSqlRaw("exec df_update_UnitConversionRate @ProductID, @SelectedUnitID, @ConversionRate", parms.ToArray());
+                        }
+                        rowsAffected = 1;
                     }
-                    rowsAffected = 1;
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
                 }
             }
             catch (Exception)
@@ -573,12 +627,21 @@ namespace DFAPI.Repositories
 
         public long InsertDepartment(DataContext context, DepartmentMaster departmentMaster)
         {
+            List<DepartmentMaster> departmentMasterMain = new List<DepartmentMaster>();
             long rowsAffected = 0;
             try
             {
-                context.DepartmentMaster.Add(departmentMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                departmentMasterMain = context.DepartmentMaster.Where(b => b.DepartmentName == departmentMaster.DepartmentName).ToList();
+                if (!departmentMasterMain.Any())
+                {
+                    context.DepartmentMaster.Add(departmentMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -589,12 +652,21 @@ namespace DFAPI.Repositories
 
         public long UpdateDepartment(DataContext context, DepartmentMaster departmentMaster)
         {
+            List<DepartmentMaster> departmentMasterMain = new List<DepartmentMaster>();
             long rowsAffected = 0;
             try
             {
-                context.DepartmentMaster.Update(departmentMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                departmentMasterMain = context.DepartmentMaster.Where(b => (b.DepartmentName == departmentMaster.DepartmentName && b.ID != departmentMaster.ID)).ToList();
+                if (!departmentMasterMain.Any())
+                {
+                    context.DepartmentMaster.Update(departmentMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -637,18 +709,27 @@ namespace DFAPI.Repositories
 
         public long InsertLocationType(DataContext context, LocationType locationType)
         {
+            List<LocationTypeMaster> locationTypeMain = new List<LocationTypeMaster>();
             long rowsAffected = 0;
             try
             {
-                List<SqlParameter> parms = new List<SqlParameter>
+                locationTypeMain = context.LocationTypeMaster.Where(b => b.BranchType == locationType.BranchType).ToList();
+                if (!locationTypeMain.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@BranchType", Value = locationType.BranchType },
                     new SqlParameter { ParameterName = "@ActivityID", Value = locationType.ActivityID },
                     new SqlParameter { ParameterName = "@ServiceID", Value = locationType.ServiceID },
                     new SqlParameter { ParameterName = "@Display", Value = locationType.Display }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_LocationType @BranchType, @ActivityID, @ServiceID, @Display", parms.ToArray());
-                rowsAffected = 1;
+                    context.Database.ExecuteSqlRaw("exec df_Insert_LocationType @BranchType, @ActivityID, @ServiceID, @Display", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -659,10 +740,14 @@ namespace DFAPI.Repositories
 
         public long UpdateLocationType(DataContext context, LocationType locationType)
         {
+            List<LocationTypeMaster> locationTypeMain = new List<LocationTypeMaster>();
             long rowsAffected = 0;
             try
             {
-                List<SqlParameter> parms = new List<SqlParameter>
+                locationTypeMain = context.LocationTypeMaster.Where(b => (b.BranchType == locationType.BranchType && b.ID != locationType.ID)).ToList();
+                if (!locationTypeMain.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@ID", Value = locationType.ID },
                     new SqlParameter { ParameterName = "@BranchType", Value = locationType.BranchType },
@@ -670,8 +755,13 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@ServiceID", Value = locationType.ServiceID },
                     new SqlParameter { ParameterName = "@Display", Value = locationType.Display }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Update_LocationType @ID, @BranchType, @ActivityID, @ServiceID, @Display", parms.ToArray());
-                rowsAffected = 1;
+                    context.Database.ExecuteSqlRaw("exec df_Update_LocationType @ID, @BranchType, @ActivityID, @ServiceID, @Display", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected= -2;
+                }
             }
             catch (Exception)
             {
@@ -698,12 +788,21 @@ namespace DFAPI.Repositories
 
         public long InsertDesignation(DataContext context, DesignationMaster designationMaster)
         {
+            List<DesignationMaster> designationMasterMain = new List<DesignationMaster>();
             long rowsAffected = 0;
             try
             {
-                context.DesignationMaster.Add(designationMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                designationMasterMain = context.DesignationMaster.Where(b => b.DesignationName == designationMaster.DesignationName).ToList();
+                if (!designationMasterMain.Any())
+                {
+                    context.DesignationMaster.Add(designationMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -714,12 +813,21 @@ namespace DFAPI.Repositories
 
         public long UpdateDesignation(DataContext context, DesignationMaster designationMaster)
         {
+            List<DesignationMaster> designationMasterMain = new List<DesignationMaster>();
             long rowsAffected = 0;
             try
             {
-                context.DesignationMaster.Update(designationMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                designationMasterMain = context.DesignationMaster.Where(b => (b.DesignationName == designationMaster.DesignationName && b.ID != designationMaster.ID)).ToList();
+                if (!designationMasterMain.Any())
+                {
+                    context.DesignationMaster.Update(designationMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -762,12 +870,21 @@ namespace DFAPI.Repositories
 
         public long InsertEWayBill(DataContext context, EWayBillMaster eWayBillMaster)
         {
+            List<EWayBillMaster> eWayBillMasterMain = new List<EWayBillMaster>();
             long rowsAffected = 0;
             try
             {
-                context.EWayBillMaster.Add(eWayBillMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                eWayBillMasterMain = context.EWayBillMaster.Where(b => b.StateID == eWayBillMaster.StateID).ToList();
+                if (!eWayBillMasterMain.Any())
+                {
+                    context.EWayBillMaster.Add(eWayBillMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -778,12 +895,21 @@ namespace DFAPI.Repositories
 
         public long UpdateEWayBill(DataContext context, EWayBillMaster eWayBillMaster)
         {
+            List<EWayBillMaster> eWayBillMasterMain = new List<EWayBillMaster>();
             long rowsAffected = 0;
             try
             {
-                context.EWayBillMaster.Update(eWayBillMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                eWayBillMasterMain = context.EWayBillMaster.Where(b => (b.StateID == eWayBillMaster.StateID && b.ID != eWayBillMaster.ID)).ToList();
+                if (!eWayBillMasterMain.Any())
+                {
+                    context.EWayBillMaster.Update(eWayBillMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
