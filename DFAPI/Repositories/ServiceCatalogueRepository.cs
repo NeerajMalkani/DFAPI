@@ -242,6 +242,7 @@ namespace DFAPI.Repositories
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@LabourCost", Value = postNewDesignMaster.LabourCost },
+                    new SqlParameter { ParameterName = "@ServiceID", Value = postNewDesignMaster.ServiceID },
                     new SqlParameter { ParameterName = "@CategoryID", Value = postNewDesignMaster.CategoryID },
                     new SqlParameter { ParameterName = "@ProductID", Value = postNewDesignMaster.ProductID },
                     new SqlParameter { ParameterName = "@DesignTypeID", Value = postNewDesignMaster.DesignTypeID },
@@ -250,7 +251,7 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@DesignImage", Value = postNewDesignMaster.DesignImage },
                     new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_PostNewDesign @LabourCost, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
+                context.Database.ExecuteSqlRaw("exec df_Insert_PostNewDesign @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)
@@ -269,6 +270,7 @@ namespace DFAPI.Repositories
                 {
                     new SqlParameter { ParameterName = "@ID", Value = postNewDesignMaster.ID },
                     new SqlParameter { ParameterName = "@LabourCost", Value = postNewDesignMaster.LabourCost },
+                    new SqlParameter { ParameterName = "@ServiceID", Value = postNewDesignMaster.ServiceID },
                     new SqlParameter { ParameterName = "@CategoryID", Value = postNewDesignMaster.CategoryID },
                     new SqlParameter { ParameterName = "@ProductID", Value = postNewDesignMaster.ProductID },
                     new SqlParameter { ParameterName = "@DesignTypeID", Value = postNewDesignMaster.DesignTypeID },
@@ -277,7 +279,7 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@DesignImage", Value = postNewDesignMaster.DesignImage },
                     new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
                 };
-                context.Database.ExecuteSqlRaw("exec df_Update_PostNewDesign @ID, @LabourCost, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
+                context.Database.ExecuteSqlRaw("exec df_Update_PostNewDesign @ID, @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)
