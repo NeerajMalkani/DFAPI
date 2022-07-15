@@ -1,4 +1,8 @@
-﻿using DFAPI.Entities;
+﻿using Amazon;
+using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.S3.Model;
+using DFAPI.Entities;
 using DFAPI.Helpers;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -320,6 +324,8 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
+                PostNewDesignMaster postNewDesignMasterCurrent = context.PostNewDesignMaster.Where(el => el.ID == postNewDesignMaster.ID).ToList().First();
+
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@ID", Value = postNewDesignMaster.ID },
@@ -335,6 +341,10 @@ namespace DFAPI.Repositories
                 };
                 context.Database.ExecuteSqlRaw("exec df_Update_PostNewDesign @ID, @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
                 rowsAffected = 1;
+                //if (postNewDesignMasterCurrent.DesignImage != null && postNewDesignMaster.DesignImage != postNewDesignMasterCurrent.DesignImage)
+                //{
+                //    _ = new AWSHelper(new BasicAWSCredentials("AKIAZGRJKC5EP34PJHE7", "4pxNounxWTG7ua6knQ9A7YRzmvelmLuwju0PLc0k")).DeleteFileAsync(postNewDesignMasterCurrent.DesignImage);
+                //}
             }
             catch (Exception)
             {
@@ -342,7 +352,32 @@ namespace DFAPI.Repositories
             }
             return rowsAffected;
         }
+
+        private static async Task DeleteObjectNonVersionedBucketAsync(string bucketName, string keyName)
+        {
+            try
+            {
+                var deleteObjectRequest = new DeleteObjectRequest
+                {
+                    BucketName = bucketName,
+                    Key = keyName
+                };
+
+                var client = new AmazonS3Client("AKIAZGRJKC5EP34PJHE7", "4pxNounxWTG7ua6knQ9A7YRzmvelmLuwju0PLc0k", RegionEndpoint.APSouth1);
+                await client.DeleteObjectAsync(deleteObjectRequest);
+            }
+            catch (AmazonS3Exception e)
+            {
+                Console.WriteLine("Error encountered on server. Message:'{0}' when deleting an object", e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Unknown encountered on server. Message:'{0}' when deleting an object", e.Message);
+            }
+        }
+
         #endregion
+
 
     }
 }
