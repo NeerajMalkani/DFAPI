@@ -25,12 +25,21 @@ namespace DFAPI.Repositories
 
         public long InsertActivityRoles(DataContext context, ActivityMaster activityMaster)
         {
+            List<ActivityMaster> activityMasterMain = new List<ActivityMaster>();
             long rowsAffected = 0;
             try
             {
-                context.ActivityMaster.Add(activityMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                activityMasterMain = context.ActivityMaster.Where(b => b.ActivityRoleName == activityMaster.ActivityRoleName).ToList();
+                if (!activityMasterMain.Any())
+                {
+                    context.ActivityMaster.Add(activityMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
@@ -41,12 +50,21 @@ namespace DFAPI.Repositories
 
         public long UpdateActivityRoles(DataContext context, ActivityMaster activityMaster)
         {
+            List<ActivityMaster> activityMasterMain = new List<ActivityMaster>();
             long rowsAffected = 0;
             try
             {
-                context.ActivityMaster.Update(activityMaster);
-                context.SaveChanges();
-                rowsAffected = 1;
+                activityMasterMain = context.ActivityMaster.Where(b => (b.ActivityRoleName == activityMaster.ActivityRoleName && b.ID != activityMaster.ID)).ToList();
+                if (!activityMasterMain.Any())
+                {
+                    context.ActivityMaster.Update(activityMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
