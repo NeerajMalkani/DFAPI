@@ -38,6 +38,10 @@ namespace DFAPI.Helpers
         public DbSet<PostNewDesignMaster> PostNewDesignMaster => Set<PostNewDesignMaster>();
         public DbSet<PostNewDesign> PostNewDesign => Set<PostNewDesign>();
 
+        public DbSet<DealerServiceMapping> DealerServiceMapping => Set<DealerServiceMapping>();
+        public DbSet<DealerServiceList> DealerServiceList => Set<DealerServiceList>();
+        public DbSet<BuyerCategoryMaster> BuyerCategoryMaster => Set<BuyerCategoryMaster>();
+
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
     }
 }
