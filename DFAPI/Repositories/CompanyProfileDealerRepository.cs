@@ -57,7 +57,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                dealerServiceMappingMain = context.DealerServiceMapping.Where(b => b.DealerID == dealerServiceMapping.DealerID && b.ServiceID == dealerServiceMapping.ServiceID).ToList();
+                dealerServiceMappingMain = context.DealerServiceMapping.Where(b => b.DealerID == dealerServiceMapping.DealerID && b.ServiceID == dealerServiceMapping.ServiceID && b.ID != dealerServiceMapping.ID).ToList();
                 if (!dealerServiceMappingMain.Any())
                 {
                     context.DealerServiceMapping.Update(dealerServiceMapping);

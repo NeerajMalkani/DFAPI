@@ -51,10 +51,16 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                List<Users> users = new RegistrationRepository().InsertUser(_db, user);
-                if (users != null)
+                int rowsAffected = new RegistrationRepository().InsertUser(_db, user);
+                if (rowsAffected > 0)
                 {
+                    List<Users> users = new List<Users>();
+                    users.Add(user);
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, users);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {

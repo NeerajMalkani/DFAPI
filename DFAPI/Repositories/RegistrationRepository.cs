@@ -24,20 +24,29 @@ namespace DFAPI.Repositories
         #endregion
 
         #region Insert User
-        public List<Users> InsertUser(DataContext context, Users user)
+        public int InsertUser(DataContext context, Users user)
         {
             List<Users> users = new List<Users>();
+            int rowsAffected = 0;
             try
             {
-                context.Users.Add(user);
-                context.SaveChanges();
-                users.Add(user);
+                List<Users> duplicateUsers = context.Users.Where(b => (b.Username == user.Username)).ToList();
+                if (!duplicateUsers.Any())
+                {
+                    context.Users.Add(user);
+                    context.SaveChanges();
+                    users.Add(user);
+                    rowsAffected = 1;
+                }
+                else {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
                 throw;
             }
-            return users;
+            return rowsAffected;
         }
         #endregion
 
@@ -105,7 +114,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                Users userToUpdate = context.Users.Where(u => u.PhoneNumber == user.PhoneNumber).First();
+                Users userToUpdate = context.Users.Where(u => u.Username == user.Username).First();
                 userToUpdate.Password = user.Password;
                 userToUpdate.OTP = user.OTP;
                 context.SaveChanges();
