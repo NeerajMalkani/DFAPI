@@ -24,6 +24,7 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
+        public long DealerID { get; set; }
         public string? BuyerCategoryName { get; set; }
         public bool? Display { get; set; }
     }

@@ -102,12 +102,12 @@ namespace DFAPI.Controllers
         #region Buyer Category
         [HttpGet]
         [Route("getbuyercategory")]
-        public Response GetBuyerCategory()
+        public Response GetBuyerCategory([FromQuery] BuyerCategoryMaster buyerCategoryMasterParam)
         {
             Response response = new Response();
             try
             {
-                List<BuyerCategoryMaster> buyerCategoryMaster = new CompanyProfileDealerRepository().GetBuyerCategory(_db);
+                List<BuyerCategoryMaster> buyerCategoryMaster = new CompanyProfileDealerRepository().GetBuyerCategory(_db, buyerCategoryMasterParam);
                 if (buyerCategoryMaster.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, buyerCategoryMaster);

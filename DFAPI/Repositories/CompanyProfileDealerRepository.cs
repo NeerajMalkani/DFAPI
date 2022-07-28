@@ -78,12 +78,12 @@ namespace DFAPI.Repositories
         #endregion
 
         #region Buyer Category
-        public List<BuyerCategoryMaster> GetBuyerCategory(DataContext context)
+        public List<BuyerCategoryMaster> GetBuyerCategory(DataContext context, BuyerCategoryMaster buyerCategoryMasterParam)
         {
             List<BuyerCategoryMaster> buyerCategoryMaster = new List<BuyerCategoryMaster>();
             try
             {
-                buyerCategoryMaster = context.BuyerCategoryMaster.ToList();
+                buyerCategoryMaster = context.BuyerCategoryMaster.Where(el => el.DealerID == buyerCategoryMasterParam.DealerID).ToList();
             }
             catch (Exception)
             {
