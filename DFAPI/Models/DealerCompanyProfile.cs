@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DFAPI.Entities
 {
@@ -18,14 +17,5 @@ namespace DFAPI.Entities
         public long ID { get; set; }
         public string? ServiceName { get; set; }
         public bool Display { get; set; }
-    }
-
-    public class BuyerCategoryMaster
-    {
-        [Key]
-        public long ID { get; set; }
-        public long DealerID { get; set; }
-        public string? BuyerCategoryName { get; set; }
-        public bool? Display { get; set; }
     }
 }

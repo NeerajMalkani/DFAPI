@@ -5,37 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DFAPI.Repositories
 {
-    public class CompanyProfileDealerRepository
-    {
-        #region Company Profile Dealers
-        public List<DealerServiceList> GetDealerMyService(DataContext context, DealerServiceMapping dealerServiceMapping)
+    public class DealerBrandRepository
+    { 
+        #region Brand Master
+        public List<BrandMaster> GetBrand(DataContext context, BrandMaster brandMasterParam)
         {
-            List<DealerServiceList> dealerServiceLists = new List<DealerServiceList>();
+            List<BrandMaster> brandMaster = new List<BrandMaster>();
             try
             {
-                List<SqlParameter> parms = new List<SqlParameter>
-                {
-                    new SqlParameter { ParameterName = "@DealerID", Value = dealerServiceMapping.DealerID },
-                };
-                dealerServiceLists = context.DealerServiceList.FromSqlRaw("exec df_Get_DealerServices @DealerID", parms.ToArray()).ToList();
+                brandMaster = context.BrandMaster.Where(el => el.DealerID == brandMasterParam.DealerID).ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return dealerServiceLists;
+            return brandMaster;
         }
 
-        public long InsertDealerMyService(DataContext context, DealerServiceMapping dealerServiceMapping)
+        public long InsertBrand(DataContext context, BrandMaster brandMaster)
         {
-            List<DealerServiceMapping> dealerServiceMappingMain = new List<DealerServiceMapping>();
+            List<BrandMaster> brandMasterMain = new List<BrandMaster>();
             long rowsAffected = 0;
             try
             {
-                dealerServiceMappingMain = context.DealerServiceMapping.Where(b => b.DealerID == dealerServiceMapping.DealerID && b.ServiceID == dealerServiceMapping.ServiceID).ToList();
-                if (!dealerServiceMappingMain.Any())
+                brandMasterMain = context.BrandMaster.Where(b => b.BrandName == brandMaster.BrandName).ToList();
+                if (!brandMasterMain.Any())
                 {
-                    context.DealerServiceMapping.Add(dealerServiceMapping);
+                    context.BrandMaster.Add(brandMaster);
                     context.SaveChanges();
                     rowsAffected = 1;
                 }
@@ -51,16 +47,102 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
-        public long UpdateDealerMyService(DataContext context, DealerServiceMapping dealerServiceMapping)
+        public long UpdateBrand(DataContext context, BrandMaster brandMaster)
         {
-            List<DealerServiceMapping> dealerServiceMappingMain = new List<DealerServiceMapping>();
+            List<BrandMaster> brandMasterMain = new List<BrandMaster>();
             long rowsAffected = 0;
             try
             {
-                dealerServiceMappingMain = context.DealerServiceMapping.Where(b => b.DealerID == dealerServiceMapping.DealerID && b.ServiceID == dealerServiceMapping.ServiceID && b.ID != dealerServiceMapping.ID).ToList();
-                if (!dealerServiceMappingMain.Any())
+                brandMasterMain = context.BrandMaster.Where(b => (b.BrandName == brandMaster.BrandName && b.ID != brandMaster.ID)).ToList();
+                if (!brandMasterMain.Any())
                 {
-                    context.DealerServiceMapping.Update(dealerServiceMapping);
+                    context.BrandMaster.Update(brandMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long DeleteBrand(DataContext context, BrandMaster brandMaster)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                context.BrandMaster.Remove(brandMaster);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
+
+        #region Brand Setup
+        public List<DealerBrandResponse> GetBrandSetup(DataContext context, DealerBrands dealerBrands)
+        {
+            List<DealerBrandResponse> dealerBrandResponse = new List<DealerBrandResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@DealerID", Value = dealerBrands.DealerID }
+                };
+                dealerBrandResponse = context.DealerBrandResponse.FromSqlRaw("exec df_Get_DealerBrands @DealerID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dealerBrandResponse;
+        }
+
+        public long InsertBrandSetup(DataContext context, DealerBrands dealerBrandsParam)
+        {
+            List<DealerBrands> dealerBrands = new List<DealerBrands>();
+            long rowsAffected = 0;
+            try
+            {
+                dealerBrands = context.DealerBrands.Where(b => b.BrandID == dealerBrandsParam.BrandID).ToList();
+                if (!dealerBrands.Any())
+                {
+                    context.DealerBrands.Add(dealerBrandsParam);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateBrandSetup(DataContext context, DealerBrands dealerBrandsParam)
+        {
+            List<DealerBrands> dealerBrands = new List<DealerBrands>();
+            long rowsAffected = 0;
+            try
+            {
+                dealerBrands = context.DealerBrands.Where(b => b.BrandID == dealerBrandsParam.BrandID && b.ID != dealerBrandsParam.ID).ToList();
+                if (!dealerBrands.Any())
+                {
+                    context.DealerBrands.Update(dealerBrandsParam);
                     context.SaveChanges();
                     rowsAffected = 1;
                 }

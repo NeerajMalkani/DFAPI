@@ -9,9 +9,13 @@ namespace DFAPI.Helpers
              : base(options)
         {
         }
+        #region Registration
         public DbSet<Users> Users => Set<Users>();
         public DbSet<LoginUser> LoginUser => Set<LoginUser>();
         public DbSet<UserCount> UserCount => Set<UserCount>();
+        #endregion
+
+        #region Admin
         public DbSet<ActivityMaster> ActivityMaster => Set<ActivityMaster>();
         public DbSet<ServiceMaster> ServiceMaster => Set<ServiceMaster>();
         public DbSet<UnitOfSalesMaster> UnitOfSalesMaster => Set<UnitOfSalesMaster>();
@@ -37,10 +41,21 @@ namespace DFAPI.Helpers
         public DbSet<DesignType> DesignType => Set<DesignType>();
         public DbSet<PostNewDesignMaster> PostNewDesignMaster => Set<PostNewDesignMaster>();
         public DbSet<PostNewDesign> PostNewDesign => Set<PostNewDesign>();
+        #endregion
 
+        #region Dealers
         public DbSet<DealerServiceMapping> DealerServiceMapping => Set<DealerServiceMapping>();
         public DbSet<DealerServiceList> DealerServiceList => Set<DealerServiceList>();
+        
         public DbSet<BuyerCategoryMaster> BuyerCategoryMaster => Set<BuyerCategoryMaster>();
+        public DbSet<BrandMaster> BrandMaster => Set<BrandMaster>();
+        public DbSet<DealerBrands> DealerBrands => Set<DealerBrands>();
+        public DbSet<DealerBrandResponse> DealerBrandResponse => Set<DealerBrandResponse>();
+
+        public DbSet<DealerProductMapping> DealerProductMapping => Set<DealerProductMapping>();
+        public DbSet<DealerProduct> DealerProduct => Set<DealerProduct>();
+        
+        #endregion
 
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
     }
