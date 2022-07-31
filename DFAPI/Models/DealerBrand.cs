@@ -9,6 +9,7 @@ namespace DFAPI.Entities
         public long DealerID { get; set; }
         public string? BrandName { get; set; }
         public bool? Display { get; set; }
+        public bool? ShowBrand { get; set; }
     }
 
     public class DealerBrands
@@ -55,5 +56,6 @@ namespace DFAPI.Entities
         public long DealerID { get; set; }
         public string? BuyerCategoryName { get; set; }
         public bool? Display { get; set; }
+        public bool? ShowBrand { get; set; }
     }
 }

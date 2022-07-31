@@ -6,14 +6,18 @@ using Microsoft.EntityFrameworkCore;
 namespace DFAPI.Repositories
 {
     public class DealerBrandRepository
-    { 
+    {
         #region Brand Master
         public List<BrandMaster> GetBrand(DataContext context, BrandMaster brandMasterParam)
         {
             List<BrandMaster> brandMaster = new List<BrandMaster>();
             try
             {
-                brandMaster = context.BrandMaster.Where(el => el.DealerID == brandMasterParam.DealerID).ToList();
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@DealerID", Value = brandMasterParam.DealerID }
+                };
+                brandMaster = context.BrandMaster.FromSqlRaw("exec df_Get_DealerBrandMaster @DealerID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
@@ -165,7 +169,11 @@ namespace DFAPI.Repositories
             List<BuyerCategoryMaster> buyerCategoryMaster = new List<BuyerCategoryMaster>();
             try
             {
-                buyerCategoryMaster = context.BuyerCategoryMaster.Where(el => el.DealerID == buyerCategoryMasterParam.DealerID).ToList();
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@DealerID", Value = buyerCategoryMasterParam.DealerID }
+                };
+                buyerCategoryMaster = context.BuyerCategoryMaster.FromSqlRaw("exec df_Get_DealerBuyerCategoryMaster @DealerID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
