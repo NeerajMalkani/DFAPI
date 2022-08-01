@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace DFAPI.Entities
 {
@@ -9,7 +10,6 @@ namespace DFAPI.Entities
         public long DealerID { get; set; }
         public string? BrandName { get; set; }
         public bool? Display { get; set; }
-        public bool? ShowBrand { get; set; }
     }
 
     public class DealerBrands
@@ -56,6 +56,11 @@ namespace DFAPI.Entities
         public long DealerID { get; set; }
         public string? BuyerCategoryName { get; set; }
         public bool? Display { get; set; }
+    }
+
+    [Keyless]
+    public class ShowBrandResponse
+    {
         public bool? ShowBrand { get; set; }
     }
 }

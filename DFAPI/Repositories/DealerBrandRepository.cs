@@ -248,5 +248,25 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
         #endregion
+
+        #region Show Brands
+        public List<ShowBrandResponse> GetShowBrand(DataContext context, BrandMaster brandMasterParam)
+        {
+            List<ShowBrandResponse> showBrandResponse = new List<ShowBrandResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@DealerID", Value = brandMasterParam.DealerID }
+                };
+                showBrandResponse = context.ShowBrandResponse.FromSqlRaw("exec df_Get_ShowBrand @DealerID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return showBrandResponse;
+        }
+        #endregion
     }
 }

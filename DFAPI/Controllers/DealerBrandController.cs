@@ -310,5 +310,31 @@ namespace DFAPI.Controllers
             return response;
         }
         #endregion
+
+        #region Show Brand
+        [HttpGet]
+        [Route("getshowbrand")]
+        public Response GetShowBrand([FromQuery] BrandMaster brandMasterParam)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ShowBrandResponse> showBrandResponse = new DealerBrandRepository().GetShowBrand(_db, brandMasterParam);
+                if (showBrandResponse.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, showBrandResponse);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, showBrandResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
     }
 }
