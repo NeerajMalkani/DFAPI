@@ -49,6 +49,16 @@ namespace DFAPI.Entities
         public bool? Display { get; set; }
     }
 
+    public class DealerBuyerCategoryDiscountMapping
+    {
+        [Key]
+        public long ID { get; set; }
+        public long DealerID { get; set; }
+        public long DealerBrandID { get; set; }
+        public long BuyerCategoryID { get; set; }
+        public decimal BuyerCategoryDiscount { get; set; }
+    }
+
     public class BuyerCategoryMaster
     {
         [Key]

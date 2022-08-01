@@ -177,6 +177,30 @@ namespace DFAPI.Controllers
         }
 
         [HttpPost]
+        [Route("insertbrandbuyermapping")]
+        public Response InsertBrandBuyerMapping(List<DealerBuyerCategoryDiscountMapping> dealerBuyerCategoryDiscountMappings)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new DealerBrandRepository().InsertBrandBuyerMapping(_db, dealerBuyerCategoryDiscountMappings);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
         [Route("updatebrandsetup")]
         public Response UpdateBrandSetup(DealerBrands dealerBrands)
         {
@@ -191,6 +215,30 @@ namespace DFAPI.Controllers
                 else if (rowsAffected == -2)
                 {
                     Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updatebrandbuyermapping")]
+        public Response UpdateBrandBuyerMapping(List<DealerBuyerCategoryDiscountMapping> dealerBuyerCategoryDiscountMappings)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new DealerBrandRepository().UpdateBrandBuyerMapping(_db, dealerBuyerCategoryDiscountMappings);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
                 else
                 {

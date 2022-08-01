@@ -137,6 +137,25 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
+        public long InsertBrandBuyerMapping(DataContext context, List<DealerBuyerCategoryDiscountMapping> dealerBuyerCategoryDiscountMapping)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                foreach (DealerBuyerCategoryDiscountMapping dbcdm in dealerBuyerCategoryDiscountMapping)
+                {
+                    context.DealerBuyerCategoryDiscountMapping.Add(dbcdm);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
         public long UpdateBrandSetup(DataContext context, DealerBrands dealerBrandsParam)
         {
             List<DealerBrands> dealerBrands = new List<DealerBrands>();
@@ -153,6 +172,27 @@ namespace DFAPI.Repositories
                 else
                 {
                     rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateBrandBuyerMapping(DataContext context, List<DealerBuyerCategoryDiscountMapping> dealerBuyerCategoryDiscountMapping)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                List<DealerBuyerCategoryDiscountMapping> dealerBuyerCategoryDiscountMappings = context.DealerBuyerCategoryDiscountMapping.Where(el => el.DealerID == dealerBuyerCategoryDiscountMapping[0].DealerID).ToList();
+                context.DealerBuyerCategoryDiscountMapping.RemoveRange(dealerBuyerCategoryDiscountMappings);
+                foreach (DealerBuyerCategoryDiscountMapping dbcdm in dealerBuyerCategoryDiscountMapping)
+                {
+                    context.DealerBuyerCategoryDiscountMapping.Add(dbcdm);
+                    context.SaveChanges();
+                    rowsAffected = 1;
                 }
             }
             catch (Exception)

@@ -15,6 +15,7 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
+        public long? ServiceID { get; set; }
         public string? ServiceName { get; set; }
         public bool Display { get; set; }
     }
