@@ -1161,6 +1161,56 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
+        [HttpGet]
+        [Route("getcitiesbyid")]
+        public Response GetCitiesByState([FromQuery] StateMaster stateMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<CityMaster> cityMasters = new MasterRepository().GetCitiesByID(_db, stateMaster);
+                if (cityMasters.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, cityMasters);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, cityMasters);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Users
+        [HttpGet]
+        [Route("getuserbyid")]
+        public Response GetUserbyID([FromQuery] Users users)
+        {
+            Response response = new Response();
+            try
+            {
+                List<Users> user = new MasterRepository().GetUserByID(_db, users);
+                if (user.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, user);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, user);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
         #endregion
     }
 }

@@ -965,6 +965,35 @@ namespace DFAPI.Repositories
             }
             return cityMaster;
         }
+        public List<CityMaster> GetCitiesByID(DataContext context, StateMaster stateMaster)
+        {
+            List<CityMaster> cityMasters = new List<CityMaster>();
+            try
+            {
+                cityMasters = context.CityMaster.Where((el) => el.StateID == stateMaster.ID).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return cityMasters;
+        }
+        #endregion
+
+        #region Users
+        public List<Users> GetUserByID(DataContext context, Users user)
+        {
+            List<Users> users = new List<Users>();
+            try
+            {
+                users = context.Users.Where((el) => el.UserID == user.UserID).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return users;
+        }
         #endregion
     }
 }

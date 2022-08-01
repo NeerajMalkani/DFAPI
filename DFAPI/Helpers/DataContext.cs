@@ -51,7 +51,8 @@ namespace DFAPI.Helpers
         public DbSet<BrandMaster> BrandMaster => Set<BrandMaster>();
         public DbSet<DealerBrands> DealerBrands => Set<DealerBrands>();
         public DbSet<DealerBrandResponse> DealerBrandResponse => Set<DealerBrandResponse>();
-        public DbSet<DealerBuyerCategoryDiscountMapping> DealerBuyerCategoryDiscountMapping => Set<DealerBuyerCategoryDiscountMapping>(); 
+        public DbSet<DealerBuyerCategoryDiscountMapping> DealerBuyerCategoryDiscountMapping => Set<DealerBuyerCategoryDiscountMapping>();
+        public DbSet<DealerBuyerCategoryDiscountMappingGet> DealerBuyerCategoryDiscountMappingGet => Set<DealerBuyerCategoryDiscountMappingGet>(); 
         public DbSet<ShowBrandResponse> ShowBrandResponse => Set<ShowBrandResponse>(); 
 
         public DbSet<DealerProductMapping> DealerProductMapping => Set<DealerProductMapping>();

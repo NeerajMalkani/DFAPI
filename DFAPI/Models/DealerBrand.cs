@@ -59,6 +59,14 @@ namespace DFAPI.Entities
         public decimal BuyerCategoryDiscount { get; set; }
     }
 
+    [Keyless]
+    public class DealerBuyerCategoryDiscountMappingGet
+    {
+        public long BuyerCategoryID { get; set; }
+        public string? BuyerCategoryName { get; set; }
+        public decimal BuyerCategoryDiscount { get; set; }
+    }
+
     public class BuyerCategoryMaster
     {
         [Key]
