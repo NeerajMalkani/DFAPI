@@ -1243,7 +1243,7 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                long rowsAffected = new MasterRepository().InsertActivityRoles(_db, activityMaster);
+                long rowsAffected = new MasterRepository().InsertUserProfile(_db, userProfile);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
