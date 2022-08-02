@@ -1025,16 +1025,27 @@ namespace DFAPI.Repositories
                 {
                     new SqlParameter { ParameterName = "@UserID", Value = userProfile.UserID },
                     new SqlParameter { ParameterName = "@CompanyName", Value = userProfile.CompanyName },
+                    new SqlParameter { ParameterName = "@CompanyLogo", Value = userProfile.CompanyLogo },
                     new SqlParameter { ParameterName = "@ContactPersonName", Value = userProfile.ContactPersonName },
                     new SqlParameter { ParameterName = "@ContactPersonNumber", Value = userProfile.ContactPersonNumber },
+                    new SqlParameter { ParameterName = "@LocationName", Value = userProfile.LocationName },
                     new SqlParameter { ParameterName = "@AddressLine", Value = userProfile.AddressLine },
                     new SqlParameter { ParameterName = "@StateID", Value = userProfile.StateID },
                     new SqlParameter { ParameterName = "@CityID", Value = userProfile.CityID },
                     new SqlParameter { ParameterName = "@Pincode", Value = userProfile.Pincode },
                     new SqlParameter { ParameterName = "@GSTNumber", Value = userProfile.GSTNumber },
-                    new SqlParameter { ParameterName = "@PAN", Value = userProfile.PAN }
+                    new SqlParameter { ParameterName = "@PAN", Value = userProfile.PAN },
+                    new SqlParameter { ParameterName = "@AccountNumber", Value = userProfile.AccountNumber },
+                    new SqlParameter { ParameterName = "@BankName", Value = userProfile.BankName },
+                    new SqlParameter { ParameterName = "@BranchName", Value = userProfile.BranchName },
+                    new SqlParameter { ParameterName = "@IFSCCode", Value = userProfile.IFSCCode },
+                    new SqlParameter { ParameterName = "@CompanyNamePrefix", Value = userProfile.CompanyNamePrefix },
+                    new SqlParameter { ParameterName = "@EmployeeCodePrefix", Value = userProfile.EmployeeCodePrefix },
+                    new SqlParameter { ParameterName = "@PurchaseOrderPrefix", Value = userProfile.PurchaseOrderPrefix },
+                    new SqlParameter { ParameterName = "@SalesOrderPrefix", Value = userProfile.SalesOrderPrefix },
+                    new SqlParameter { ParameterName = "@ShowBrand", Value = userProfile.ShowBrand }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_UserProfile @UserID, @CompanyName, @ContactPersonName, @ContactPersonNumber, @AddressLine, @StateID, @CityID, @Pincode, @GSTNumber, @PAN", parms.ToArray());
+                context.Database.ExecuteSqlRaw("exec df_Insert_UserProfile @UserID, @CompanyName, @CompanyLogo, @ContactPersonName, @ContactPersonNumber, @LocationName, @AddressLine, @StateID, @CityID, @Pincode, @GSTNumber, @PAN, @AccountNumber, @BankName, @BranchName, @IFSCCode, @CompanyNamePrefix, @EmployeeCodePrefix, @PurchaseOrderPrefix, @SalesOrderPrefix, @ShowBrand", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)

@@ -30,9 +30,11 @@ namespace DFAPI.Entities
         [Key]
         public long UserID { get; set; }
         public string? CompanyName { get; set; }
+        public string? CompanyLogo { get; set; }
         public string? ContactPersonName { get; set; }
         public string? ContactPersonNumber { get; set; }
         public string? AddressLine { get; set; }
+        public string? LocationName { get; set; }
         public string? StateName { get; set; }
         public string? CityName { get; set; }
         public int? StateID { get; set; }
@@ -40,6 +42,15 @@ namespace DFAPI.Entities
         public int? Pincode { get; set; }
         public string? GSTNumber { get; set; }
         public string? PAN { get; set; }
+        public long? AccountNumber { get; set; }
+        public string? BankName { get; set; }
+        public string? BranchName { get; set; }
+        public string? IFSCCode { get; set; }
+        public string? CompanyNamePrefix { get; set; }
+        public string? EmployeeCodePrefix { get; set; }
+        public string? PurchaseOrderPrefix { get; set; }
+        public string? SalesOrderPrefix { get; set; }
+        public bool? ShowBrand { get; set; }
     }
 
     public class LoginUser
