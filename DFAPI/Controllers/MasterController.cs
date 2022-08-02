@@ -1164,7 +1164,7 @@ namespace DFAPI.Controllers
 
         [HttpGet]
         [Route("getcitiesbyid")]
-        public Response GetCitiesByState(StateMaster stateMaster)
+        public Response GetCitiesByState([FromQuery] StateMaster stateMaster)
         {
             Response response = new Response();
             try
@@ -1190,7 +1190,7 @@ namespace DFAPI.Controllers
         #region Users
         [HttpGet]
         [Route("getuserbyid")]
-        public Response GetUserbyID(Users users)
+        public Response GetUserbyID([FromQuery] Users users)
         {
             Response response = new Response();
             try
