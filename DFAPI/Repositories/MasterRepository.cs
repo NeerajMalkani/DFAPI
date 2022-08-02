@@ -1034,7 +1034,7 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@GSTNumber", Value = userProfile.GSTNumber },
                     new SqlParameter { ParameterName = "@PAN", Value = userProfile.PAN }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_UserProfile @UserID, @CompanyName, @ContactPersonName, @ContactPersonNumber @AddressLine, @StateID, @CityID, @Pincode, @GSTNumber, @PAN", parms.ToArray());
+                context.Database.ExecuteSqlRaw("exec df_Insert_UserProfile @UserID, @CompanyName, @ContactPersonName, @ContactPersonNumber, @AddressLine, @StateID, @CityID, @Pincode, @GSTNumber, @PAN", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)
