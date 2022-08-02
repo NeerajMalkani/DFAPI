@@ -1164,7 +1164,7 @@ namespace DFAPI.Controllers
 
         [HttpGet]
         [Route("getcitiesbyid")]
-        public Response GetCitiesByState([FromQuery] StateMaster stateMaster)
+        public Response GetCitiesByState(StateMaster stateMaster)
         {
             Response response = new Response();
             try
@@ -1190,7 +1190,7 @@ namespace DFAPI.Controllers
         #region Users
         [HttpGet]
         [Route("getuserbyid")]
-        public Response GetUserbyID([FromQuery] Users users)
+        public Response GetUserbyID(Users users)
         {
             Response response = new Response();
             try
@@ -1203,6 +1203,30 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, user);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getuserprofile")]
+        public Response GetUserProfile([FromQuery] Users users)
+        {
+            Response response = new Response();
+            try
+            {
+                List<UserProfile> userProfile = new MasterRepository().GetUserProfile(_db, users);
+                if (userProfile.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userProfile);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, userProfile);
                 }
             }
             catch (Exception ex)

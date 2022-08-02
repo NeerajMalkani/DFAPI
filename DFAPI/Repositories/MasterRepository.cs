@@ -760,7 +760,7 @@ namespace DFAPI.Repositories
                 }
                 else
                 {
-                    rowsAffected= -2;
+                    rowsAffected = -2;
                 }
             }
             catch (Exception)
@@ -965,6 +965,7 @@ namespace DFAPI.Repositories
             }
             return cityMaster;
         }
+
         public List<CityMaster> GetCitiesByID(DataContext context, StateMaster stateMaster)
         {
             List<CityMaster> cityMasters = new List<CityMaster>();
@@ -978,6 +979,7 @@ namespace DFAPI.Repositories
             }
             return cityMasters;
         }
+
         #endregion
 
         #region Users
@@ -994,6 +996,25 @@ namespace DFAPI.Repositories
             }
             return users;
         }
+
+        public List<UserProfile> GetUserProfile(DataContext context, Users user)
+        {
+            List<UserProfile> userProfiles = new List<UserProfile>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserID", Value = user.UserID },
+                };
+                userProfiles = context.UserProfile.FromSqlRaw("exec df_Get_UserProfile @UserID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userProfiles;
+        }
+
         #endregion
     }
 }

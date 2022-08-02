@@ -24,6 +24,22 @@ namespace DFAPI.Entities
         public bool IsActive { get; set; }
     }
 
+    public class UserProfile
+    {
+        [Required]
+        [Key]
+        public long UserID { get; set; }
+        public string? CompanyName { get; set; }
+        public string? ContactPersonName { get; set; }
+        public string? ContactPersonNumber { get; set; }
+        public string? AddressLine { get; set; }
+        public int? StateID { get; set; }
+        public int? CityID { get; set; }
+        public int? Pincode { get; set; }
+        public string? GSTNumber { get; set; }
+        public string? PAN { get; set; }
+    }
+
     public class LoginUser
     {
         [Key]
