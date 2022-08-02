@@ -33,6 +33,8 @@ namespace DFAPI.Entities
         public string? ContactPersonName { get; set; }
         public string? ContactPersonNumber { get; set; }
         public string? AddressLine { get; set; }
+        public string? StateName { get; set; }
+        public string? CityName { get; set; }
         public int? StateID { get; set; }
         public int? CityID { get; set; }
         public int? Pincode { get; set; }
