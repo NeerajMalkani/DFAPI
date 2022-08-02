@@ -1015,6 +1015,35 @@ namespace DFAPI.Repositories
             return userProfiles;
         }
 
+        public long InsertUserProfile(DataContext context, UserProfile userProfile)
+        {
+            List<UserProfile> locationTypeMain = new List<UserProfile>();
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserID", Value = userProfile.UserID },
+                    new SqlParameter { ParameterName = "@CompanyName", Value = userProfile.CompanyName },
+                    new SqlParameter { ParameterName = "@ContactPersonName", Value = userProfile.ContactPersonName },
+                    new SqlParameter { ParameterName = "@ContactPersonNumber", Value = userProfile.ContactPersonNumber },
+                    new SqlParameter { ParameterName = "@AddressLine", Value = userProfile.AddressLine },
+                    new SqlParameter { ParameterName = "@StateID", Value = userProfile.StateID },
+                    new SqlParameter { ParameterName = "@CityID", Value = userProfile.CityID },
+                    new SqlParameter { ParameterName = "@Pincode", Value = userProfile.Pincode },
+                    new SqlParameter { ParameterName = "@GSTNumber", Value = userProfile.GSTNumber },
+                    new SqlParameter { ParameterName = "@PAN", Value = userProfile.PAN }
+                };
+                context.Database.ExecuteSqlRaw("exec df_Insert_UserProfile @UserID, @CompanyName, @ContactPersonName, @ContactPersonNumber @AddressLine, @StateID, @CityID, @Pincode, @GSTNumber, @PAN", parms.ToArray());
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
         #endregion
     }
 }

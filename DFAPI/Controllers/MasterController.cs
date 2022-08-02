@@ -1235,6 +1235,36 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
+        [HttpPost]
+        [Route("insertuserprofile")]
+        public Response InsertUserProfile(UserProfile userProfile)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertActivityRoles(_db, activityMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+
         #endregion
     }
 }
