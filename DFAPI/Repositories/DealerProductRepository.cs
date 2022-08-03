@@ -32,7 +32,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                dealerProductMapping = context.DealerProductMapping.Where(b => b.ProductID == dealerProductMappingParams.ProductID).ToList();
+                dealerProductMapping = context.DealerProductMapping.Where(b => b.ProductID == dealerProductMappingParams.ProductID && b.DealerID == dealerProductMappingParams.DealerID).ToList();
                 if (!dealerProductMapping.Any())
                 {
                     context.DealerProductMapping.Add(dealerProductMappingParams);
@@ -57,7 +57,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                dealerProductMapping = context.DealerProductMapping.Where(b => b.BrandID == dealerProductMappingParams.ProductID && b.ID != dealerProductMappingParams.ID).ToList();
+                dealerProductMapping = context.DealerProductMapping.Where(b => b.BrandID == dealerProductMappingParams.ProductID && b.DealerID == dealerProductMappingParams.DealerID && b.ID != dealerProductMappingParams.ID).ToList();
                 if (!dealerProductMapping.Any())
                 {
                     context.DealerProductMapping.Update(dealerProductMappingParams);

@@ -247,7 +247,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                buyerCategoryMasterMain = context.BuyerCategoryMaster.Where(b => b.BuyerCategoryName == buyerCategoryMaster.BuyerCategoryName).ToList();
+                buyerCategoryMasterMain = context.BuyerCategoryMaster.Where(b => b.BuyerCategoryName == buyerCategoryMaster.BuyerCategoryName && b.DealerID == buyerCategoryMaster.DealerID).ToList();
                 if (!buyerCategoryMasterMain.Any())
                 {
                     context.BuyerCategoryMaster.Add(buyerCategoryMaster);
@@ -272,7 +272,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                buyerCategoryMasterMain = context.BuyerCategoryMaster.Where(b => (b.BuyerCategoryName == buyerCategoryMaster.BuyerCategoryName && b.ID != buyerCategoryMaster.ID)).ToList();
+                buyerCategoryMasterMain = context.BuyerCategoryMaster.Where(b => (b.BuyerCategoryName == buyerCategoryMaster.BuyerCategoryName && b.DealerID == buyerCategoryMaster.DealerID && b.ID != buyerCategoryMaster.ID)).ToList();
                 if (!buyerCategoryMasterMain.Any())
                 {
                     context.BuyerCategoryMaster.Update(buyerCategoryMaster);
