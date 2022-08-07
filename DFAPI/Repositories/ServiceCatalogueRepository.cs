@@ -277,6 +277,63 @@ namespace DFAPI.Repositories
         }
         #endregion
 
+        #region Material Setup
+        public List<ProductsByProductID> GetProductsByProductID(DataContext context, ProductsRequest productsRequest)
+        {
+            List<ProductsByProductID> productsByProducts = new List<ProductsByProductID>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ProductIDs", Value = productsRequest.ProductID }
+                };
+                productsByProducts = context.ProductsByProductID.FromSqlRaw("exec df_Get_ProductsByProductID @ProductIDs", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return productsByProducts;
+        }
+
+        public List<ProductsByProductID> GetProductsByBrandProductID(DataContext context, ProductBarndRequest productBarndRequest)
+        {
+            List<ProductsByProductID> productsByProducts = new List<ProductsByProductID>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ProductID", Value = productBarndRequest.ProductID },
+                new SqlParameter { ParameterName = "@BrandID", Value = productBarndRequest.BrandID }
+                };
+                productsByProducts = context.ProductsByProductID.FromSqlRaw("exec df_Get_ProductsByProductID @ProductID, @BrandID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return productsByProducts;
+        }
+
+        public List<BrandsByProductID> GetBrandsByProductID(DataContext context, ProductsRequest productsRequest)
+        {
+            List<BrandsByProductID> brandsByProductID = new List<BrandsByProductID>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ProductIDs", Value = productsRequest.ProductID }
+                };
+                brandsByProductID = context.BrandsByProductID.FromSqlRaw("exec df_Get_BrandsByProductID @ProductIDs", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return brandsByProductID;
+        }
+        #endregion
+
         #region Post New Design
         public List<PostNewDesign> GetPostNewDesigns(DataContext context)
         {

@@ -42,6 +42,8 @@ namespace DFAPI.Helpers
         public DbSet<DesignTypeByProductID> DesignTypeByProductID => Set<DesignTypeByProductID>(); 
         public DbSet<DesignType> DesignType => Set<DesignType>();
         public DbSet<PostNewDesignMaster> PostNewDesignMaster => Set<PostNewDesignMaster>();
+        public DbSet<ProductsByProductID> ProductsByProductID => Set<ProductsByProductID>();
+        public DbSet<BrandsByProductID> BrandsByProductID => Set<BrandsByProductID>();
         public DbSet<PostNewDesign> PostNewDesign => Set<PostNewDesign>();
         #endregion
 

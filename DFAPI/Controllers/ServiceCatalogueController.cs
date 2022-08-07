@@ -336,6 +336,80 @@ namespace DFAPI.Controllers
         }
         #endregion
 
+        #region Material Setup
+        [HttpGet]
+        [Route("getproductsbyproductids")]
+        public Response GetProductsByProductID([FromQuery] ProductsRequest productsRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ProductsByProductID> productsByProductIDs = new ServiceCatalogueRepository().GetProductsByProductID(_db, productsRequest);
+                if (productsByProductIDs.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, productsByProductIDs);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, productsByProductIDs);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getproductsbybrandproductids")]
+        public Response GetProductsByBrandProductID([FromQuery] ProductBarndRequest productBarndRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ProductsByProductID> productsByProductIDs = new ServiceCatalogueRepository().GetProductsByBrandProductID(_db, productBarndRequest);
+                if (productsByProductIDs.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, productsByProductIDs);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, productsByProductIDs);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getbrandsbyproductids")]
+        public Response GetBrandsByProductID([FromQuery] ProductsRequest productsRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<BrandsByProductID> brandsByProductIDs = new ServiceCatalogueRepository().GetBrandsByProductID(_db, productsRequest);
+                if (brandsByProductIDs.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, brandsByProductIDs);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, brandsByProductIDs);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
+
         #region Post New Design
         [HttpGet]
         [Route("getpostnewdesigntypes")]

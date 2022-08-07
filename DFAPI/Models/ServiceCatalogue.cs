@@ -86,4 +86,32 @@ namespace DFAPI.Entities
         public string? DesignImage { get; set; }
         public bool? Display { get; set; }
     }
+
+    [Keyless]
+    public class ProductsRequest
+    {
+        public string? ProductID { get; set; }
+    }
+
+    [Keyless]
+    public class ProductBarndRequest
+    {
+        public long ProductID { get; set; }
+        public long BrandID { get; set; }
+    }
+
+    public class ProductsByProductID
+    {
+        [Key]
+        public long ProductID { get; set; }
+        public string? ProductName { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    public class BrandsByProductID
+    {
+        [Key]
+        public long BrandID { get; set; }
+        public string? BrandName { get; set; }
+    }
 }
