@@ -363,7 +363,7 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                List<CategoryMaster> categoryMasters = new MasterRepository().GetCategories(_db);
+                List<CategoryMasterResponse> categoryMasters = new MasterRepository().GetCategories(_db);
                 if (categoryMasters.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, categoryMasters);
@@ -382,7 +382,7 @@ namespace DFAPI.Controllers
 
         [HttpPost]
         [Route("insertcategory")]
-        public Response InsertCategory(CategoryMaster categoryMaster)
+        public Response InsertCategory(CategoryMasterResponse categoryMaster)
         {
             Response response = new Response();
             try
@@ -410,7 +410,7 @@ namespace DFAPI.Controllers
 
         [HttpPost]
         [Route("updatecategory")]
-        public Response UpdateCategory(CategoryMaster categoryMaster)
+        public Response UpdateCategory(CategoryMasterResponse categoryMaster)
         {
             Response response = new Response();
             try

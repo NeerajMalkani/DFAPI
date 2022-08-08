@@ -31,7 +31,7 @@ namespace DFAPI.Entities
         public string? DisplayUnit { get; set; }
     }
 
-    public class CategoryMaster
+    public class CategoryMasterResponse
     {
         [Key]
         public long ID { get; set; }
@@ -46,6 +46,16 @@ namespace DFAPI.Entities
         public string? UnitID { get; set; }
         public string? UnitName { get; set; }
     }
+
+
+    public class CategoryMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? CategoryName { get; set; }
+        public bool? Display { get; set; }
+    }
+
 
     public class CategoryByService
     {

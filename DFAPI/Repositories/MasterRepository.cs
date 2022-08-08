@@ -242,12 +242,12 @@ namespace DFAPI.Repositories
         #endregion
 
         #region Category
-        public List<CategoryMaster> GetCategories(DataContext context)
+        public List<CategoryMasterResponse> GetCategories(DataContext context)
         {
-            List<CategoryMaster> categoryMasters = new List<CategoryMaster>();
+            List<CategoryMasterResponse> categoryMasters = new List<CategoryMasterResponse>();
             try
             {
-                categoryMasters = context.CategoryMaster.FromSqlRaw("exec df_Get_Categories").ToList();
+                categoryMasters = context.CategoryMasterResponse.FromSqlRaw("exec df_Get_Categories").ToList();
             }
             catch (Exception)
             {
@@ -256,7 +256,7 @@ namespace DFAPI.Repositories
             return categoryMasters;
         }
 
-        public long InsertCategory(DataContext context, CategoryMaster categoryMaster)
+        public long InsertCategory(DataContext context, CategoryMasterResponse categoryMaster)
         {
             List<CategoryMaster> categoryMastersMain = new List<CategoryMaster>();
             long rowsAffected = 0;
@@ -291,7 +291,7 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
-        public long UpdateCategory(DataContext context, CategoryMaster categoryMaster)
+        public long UpdateCategory(DataContext context, CategoryMasterResponse categoryMaster)
         {
             List<CategoryMaster> categoryMastersMain = new List<CategoryMaster>();
             long rowsAffected = 0;

@@ -107,11 +107,15 @@ namespace DFAPI.Entities
         public string? ProductName { get; set; }
         public decimal Price { get; set; }
     }
-
+        
+    [Keyless]
     public class BrandsByProductID
     {
-        [Key]
         public long BrandID { get; set; }
         public string? BrandName { get; set; }
+        public long ProductID { get; set; }
+        public decimal Price { get; set; }
+        public decimal UnitValue { get; set; }
+        public string? CategoryName { get; set; }
     }
 }
