@@ -107,7 +107,7 @@ namespace DFAPI.Entities
         public string? ProductName { get; set; }
         public decimal Price { get; set; }
     }
-        
+
     [Keyless]
     public class BrandsByProductID
     {
@@ -117,5 +117,66 @@ namespace DFAPI.Entities
         public decimal Price { get; set; }
         public decimal UnitValue { get; set; }
         public string? CategoryName { get; set; }
+    }
+
+    public class MaterialSetupRequest
+    {   
+        public MaterialSetupMaster? MaterialSetupMaster { get; set; }
+        public List<MaterialProductMapping>? MaterialProductMappings { get; set; }
+    }
+
+    public class MaterialSetupMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public long DesignTypeID { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public bool Display { get; set; }
+    }
+
+    public class MaterialProductMapping
+    {
+        [Key]
+        public long ID { get; set; }
+        public long MaterialSetupID { get; set; }
+        public long ProductID { get; set; }
+        public long BrandID { get; set; }
+        public decimal Rate { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Formula { get; set; }
+    }
+
+    public class MaterialSetupMasterGet
+    {
+        [Key]
+        public long ID { get; set; }
+        public long ServiceID { get; set; }
+        public string? ServiceName { get; set; }
+        public long CategoryID { get; set; }
+        public string? CategoryName { get; set; }
+        public long ProductID { get; set; }
+        public string? ProductName { get; set; }
+        public long DesignTypeID { get; set; }
+        public string? DesignTypeName { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public bool Display { get; set; }
+    }
+
+    public class MaterialProductMappingGet
+    {
+        [Key]
+        public long ID { get; set; }
+        public long MaterialSetupID { get; set; }
+        public long ProductID { get; set; }
+        public string? ProductName { get; set; }
+        public long BrandID { get; set; }
+        public string? BrandName { get; set; }
+        public decimal Rate { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Formula { get; set; }
     }
 }

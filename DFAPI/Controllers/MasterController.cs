@@ -631,6 +631,30 @@ namespace DFAPI.Controllers
         }
 
         [HttpGet]
+        [Route("getproductsbycategoryidforbrands")]
+        public Response GetProductsByCategoryIDForBrands([FromQuery] Products products)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ProductsByCategory> productsByCategoryID = new MasterRepository().GetProductsByCategoryIDForBrands(_db, products);
+                if (productsByCategoryID.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, productsByCategoryID);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, productsByCategoryID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
         [Route("getunitbyproductid")]
         public Response GetUnitByCategoryID([FromQuery] ProductMaster productMaster)
         {

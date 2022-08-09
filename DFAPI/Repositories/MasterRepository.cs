@@ -461,6 +461,26 @@ namespace DFAPI.Repositories
             return productByCategoryID;
         }
 
+        public List<ProductsByCategory> GetProductsByCategoryIDForBrands(DataContext context, Products products)
+        {
+            List<ProductsByCategory> productByCategoryID = new List<ProductsByCategory>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ActivityID", Value = products.ActivityID },
+                new SqlParameter { ParameterName = "@ServiceID", Value = products.ServiceID },
+                new SqlParameter { ParameterName = "@CategoryID", Value = products.CategoryID }
+                };
+                productByCategoryID = context.ProductsByCategory.FromSqlRaw("exec df_Get_ProductsByCategoryIDForBrands @ActivityID, @ServiceID, @CategoryID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return productByCategoryID;
+        }
+
         public List<UnitOfSalesMaster> GetUnitByProductID(DataContext context, ProductMaster productMaster)
         {
             List<UnitOfSalesMaster> unitByProductID = new List<UnitOfSalesMaster>();

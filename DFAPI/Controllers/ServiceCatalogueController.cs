@@ -279,6 +279,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getdesigntypebyproductidformaterialsetup")]
+        public Response GetDesignTypeByProductIDForMaterialSetup([FromQuery] DesignTypeMaster designTypeMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<DesignTypeByProductID> designTypes = new ServiceCatalogueRepository().GetDesignTypeByProductIDForMaterialSetup(_db, designTypeMaster);
+                if (designTypes.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, designTypes);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, designTypes);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertdesigntype")]
         public Response InsertDesignType(DesignTypeMaster designTypeMaster)
@@ -400,6 +424,102 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, brandsByProductIDs);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getmaterialsetup")]
+        public Response GetMaterialSetup()
+        {
+            Response response = new Response();
+            try
+            {
+                List<MaterialSetupMasterGet> materialSetupMasterGet = new ServiceCatalogueRepository().GetMaterialSetup(_db);
+                if (materialSetupMasterGet.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, materialSetupMasterGet);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, materialSetupMasterGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getmaterialsetupmapping")]
+        public Response GetMaterialSetupMapping([FromQuery] MaterialProductMapping materialProductMapping)
+        {
+            Response response = new Response();
+            try
+            {
+                List<MaterialProductMappingGet> materialProductMappingGet = new ServiceCatalogueRepository().GetMaterialProductMapping(_db, materialProductMapping);
+                if (materialProductMappingGet.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, materialProductMappingGet);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, materialProductMappingGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertmaterialsetup")]
+        public Response InsertMaterialSetup(MaterialSetupRequest materialSetupRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new ServiceCatalogueRepository().InsertMaterialSetup(_db, materialSetupRequest);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updatematerialsetup")]
+        public Response UpdateMaterialSetup(MaterialSetupRequest materialSetupRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new ServiceCatalogueRepository().UpdateMaterialSetup(_db, materialSetupRequest);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
                 }
             }
             catch (Exception ex)

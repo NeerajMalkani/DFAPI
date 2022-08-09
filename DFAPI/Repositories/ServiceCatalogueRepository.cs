@@ -211,6 +211,26 @@ namespace DFAPI.Repositories
             return designTypeMasters;
         }
 
+        public List<DesignTypeByProductID> GetDesignTypeByProductIDForMaterialSetup(DataContext context, DesignTypeMaster designTypeMaster)
+        {
+            List<DesignTypeByProductID> designTypeMasters = new List<DesignTypeByProductID>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ServiceID", Value = designTypeMaster.ServiceID },
+                new SqlParameter { ParameterName = "@CategoryID", Value = designTypeMaster.CategoryID },
+                new SqlParameter { ParameterName = "@ProductID", Value = designTypeMaster.ProductID }
+                };
+                designTypeMasters = context.DesignTypeByProductID.FromSqlRaw("exec df_Get_DesignTypeByProductIDForMaterialSetup @ServiceID, @CategoryID, @ProductID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return designTypeMasters;
+        }
+
         public long InsertDesignType(DataContext context, DesignTypeMaster designTypeMaster)
         {
             List<DesignTypeMaster> objDesignType = new List<DesignTypeMaster>();
@@ -331,6 +351,96 @@ namespace DFAPI.Repositories
                 throw;
             }
             return brandsByProductID;
+        }
+
+        public List<MaterialSetupMasterGet> GetMaterialSetup(DataContext context)
+        {
+            List<MaterialSetupMasterGet> materialSetupMasterGet = new List<MaterialSetupMasterGet>();
+            try
+            {
+                materialSetupMasterGet = context.MaterialSetupMasterGet.FromSqlRaw("exec df_Get_MaterialSetup").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return materialSetupMasterGet;
+        }
+
+        public List<MaterialProductMappingGet> GetMaterialProductMapping(DataContext context, MaterialProductMapping materialProductMapping)
+        {
+            List<MaterialProductMappingGet> materialProductMappingGet = new List<MaterialProductMappingGet>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@MaterialSetupID", Value = materialProductMapping.MaterialSetupID }
+                };
+                materialProductMappingGet = context.MaterialProductMappingGet.FromSqlRaw("exec df_Get_MaterialSetupMapping @MaterialSetupID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return materialProductMappingGet;
+        }
+
+        public long InsertMaterialSetup(DataContext context, MaterialSetupRequest materialSetupRequest)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                if (materialSetupRequest.MaterialSetupMaster != null)
+                {
+                    context.MaterialSetupMaster.Add(materialSetupRequest.MaterialSetupMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
+                {
+                    foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                    {
+                        mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
+                        context.MaterialProductMapping.Add(mpm);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateMaterialSetup(DataContext context, MaterialSetupRequest materialSetupRequest)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                if (materialSetupRequest.MaterialSetupMaster != null)
+                {
+                    context.MaterialSetupMaster.Update(materialSetupRequest.MaterialSetupMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
+                {
+                    List<MaterialProductMapping> materialProductMappings = context.MaterialProductMapping.Where(el => el.MaterialSetupID == materialSetupRequest.MaterialSetupMaster.ID).ToList();
+                    context.MaterialProductMapping.RemoveRange(materialProductMappings);
+                    foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                    {
+                        mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
+                        context.MaterialProductMapping.Add(mpm);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
         }
         #endregion
 
