@@ -132,6 +132,7 @@ namespace DFAPI.Entities
         public long DesignTypeID { get; set; }
         public decimal Length { get; set; }
         public decimal Width { get; set; }
+        public decimal Subtotal { get; set; }
         public bool Display { get; set; }
     }
 
@@ -162,6 +163,7 @@ namespace DFAPI.Entities
         public string? DesignTypeName { get; set; }
         public decimal Length { get; set; }
         public decimal Width { get; set; }
+        public decimal Subtotal { get; set; }
         public bool Display { get; set; }
     }
 
