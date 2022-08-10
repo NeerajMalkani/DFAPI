@@ -188,9 +188,12 @@ namespace DFAPI.Repositories
             {
                 foreach (DealerBuyerCategoryDiscountMapping dbcdm in dealerBuyerCategoryDiscountMapping)
                 {
-                    context.DealerBuyerCategoryDiscountMapping.Add(dbcdm);
-                    context.SaveChanges();
-                    rowsAffected = 1;
+                    if (dbcdm.BuyerCategoryDiscount > 0)
+                    {
+                        context.DealerBuyerCategoryDiscountMapping.Add(dbcdm);
+                        context.SaveChanges();
+                        rowsAffected = 1;
+                    }
                 }
             }
             catch (Exception)
@@ -209,9 +212,12 @@ namespace DFAPI.Repositories
                 context.DealerBuyerCategoryDiscountMapping.RemoveRange(dealerBuyerCategoryDiscountMappings);
                 foreach (DealerBuyerCategoryDiscountMapping dbcdm in dealerBuyerCategoryDiscountMapping)
                 {
-                    context.DealerBuyerCategoryDiscountMapping.Add(dbcdm);
-                    context.SaveChanges();
-                    rowsAffected = 1;
+                    if (dbcdm.BuyerCategoryDiscount > 0)
+                    {
+                        context.DealerBuyerCategoryDiscountMapping.Add(dbcdm);
+                        context.SaveChanges();
+                        rowsAffected = 1;
+                    }
                 }
             }
             catch (Exception)
