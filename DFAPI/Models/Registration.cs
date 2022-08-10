@@ -47,6 +47,7 @@ namespace DFAPI.Entities
         public string? BranchName { get; set; }
         public string? IFSCCode { get; set; }
         public string? CompanyNamePrefix { get; set; }
+        public string? QuotationBudgetPrefix { get; set; }
         public string? EmployeeCodePrefix { get; set; }
         public string? PurchaseOrderPrefix { get; set; }
         public string? SalesOrderPrefix { get; set; }

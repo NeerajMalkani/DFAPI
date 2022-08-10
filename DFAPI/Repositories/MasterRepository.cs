@@ -1060,12 +1060,13 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@BranchName", Value = userProfile.BranchName },
                     new SqlParameter { ParameterName = "@IFSCCode", Value = userProfile.IFSCCode },
                     new SqlParameter { ParameterName = "@CompanyNamePrefix", Value = userProfile.CompanyNamePrefix },
+                    new SqlParameter { ParameterName = "@QuotationBudgetPrefix",Value =userProfile.QuotationBudgetPrefix},
                     new SqlParameter { ParameterName = "@EmployeeCodePrefix", Value = userProfile.EmployeeCodePrefix },
                     new SqlParameter { ParameterName = "@PurchaseOrderPrefix", Value = userProfile.PurchaseOrderPrefix },
                     new SqlParameter { ParameterName = "@SalesOrderPrefix", Value = userProfile.SalesOrderPrefix },
                     new SqlParameter { ParameterName = "@ShowBrand", Value = userProfile.ShowBrand }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_UserProfile @UserID, @CompanyName, @CompanyLogo, @ContactPersonName, @ContactPersonNumber, @LocationName, @AddressLine, @StateID, @CityID, @Pincode, @GSTNumber, @PAN, @AccountNumber, @BankName, @BranchName, @IFSCCode, @CompanyNamePrefix, @EmployeeCodePrefix, @PurchaseOrderPrefix, @SalesOrderPrefix, @ShowBrand", parms.ToArray());
+                context.Database.ExecuteSqlRaw("exec df_Insert_UserProfile @UserID, @CompanyName, @CompanyLogo, @ContactPersonName, @ContactPersonNumber, @LocationName, @AddressLine, @StateID, @CityID, @Pincode, @GSTNumber, @PAN, @AccountNumber, @BankName, @BranchName, @IFSCCode, @CompanyNamePrefix, @QuotationBudgetPrefix, @EmployeeCodePrefix, @PurchaseOrderPrefix, @SalesOrderPrefix, @ShowBrand", parms.ToArray());
                 rowsAffected = 1;
             }
             catch (Exception)
