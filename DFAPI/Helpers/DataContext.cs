@@ -66,7 +66,12 @@ namespace DFAPI.Helpers
 
         public DbSet<DealerProductMapping> DealerProductMapping => Set<DealerProductMapping>();
         public DbSet<DealerProduct> DealerProduct => Set<DealerProduct>();
-        
+
+        #endregion
+
+        #region Contractor
+        public DbSet<ContractorServiceList> ContractorServiceList => Set<ContractorServiceList>();
+        public DbSet<ContractorServiceMapping> ContractorServiceMapping => Set<ContractorServiceMapping>();
         #endregion
 
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
