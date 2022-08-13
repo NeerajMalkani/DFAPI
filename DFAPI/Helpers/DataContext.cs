@@ -50,6 +50,9 @@ namespace DFAPI.Helpers
         public DbSet<MaterialSetupMasterGet> MaterialSetupMasterGet => Set<MaterialSetupMasterGet>();
         public DbSet<MaterialProductMappingGet> MaterialProductMappingGet => Set<MaterialProductMappingGet>();
         public DbSet<PostNewDesign> PostNewDesign => Set<PostNewDesign>();
+
+        public DbSet<UserDepartmentMapping> UserDepartmentMapping => Set<UserDepartmentMapping>();
+        public DbSet<UserDepartmentMappingResponse> UserDepartmentMappingResponse => Set<UserDepartmentMappingResponse>();
         #endregion
 
         #region Dealers

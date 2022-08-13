@@ -1211,7 +1211,7 @@ namespace DFAPI.Controllers
         }
         #endregion
 
-        #region Users
+        #region Users 
         [HttpGet]
         [Route("getuserbyid")]
         public Response GetUserbyID([FromQuery] Users users)
@@ -1288,6 +1288,91 @@ namespace DFAPI.Controllers
             return response;
         }
 
+
+        #endregion
+
+        #region User Department
+        [HttpGet]
+        [Route("getuserdepartments")]
+        public Response GetUserDepartments([FromQuery] UserDepartmentMapping userDepartmentMapping)
+        {
+            
+            Response response = new Response();
+            try
+            {
+                List<UserDepartmentMappingResponse> userDepartmentMappingList = new MasterRepository().GetUserDepartments(_db, userDepartmentMapping);
+                if (userDepartmentMappingList.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+
+        [HttpPost]
+        [Route("insertuserdepartments")]
+        public Response InsertUserDepartments(UserDepartmentMapping userDepartmentMapping)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertUserDepartment(_db, userDepartmentMapping);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updateuserdepartment")]
+        public Response UpdateUserDepartment(UserDepartmentMapping userDepartmentMapping)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().UpdateUserDepartment(_db, userDepartmentMapping);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
 
         #endregion
     }

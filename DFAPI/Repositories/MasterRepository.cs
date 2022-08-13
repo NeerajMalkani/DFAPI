@@ -1077,5 +1077,86 @@ namespace DFAPI.Repositories
         }
 
         #endregion
+
+        #region User Department
+        public List<UserDepartmentMappingResponse> GetUserDepartments(DataContext context, UserDepartmentMapping userDepartmentMapping)
+        {
+            List<UserDepartmentMappingResponse> userDepartmentMappingResponses = new List<UserDepartmentMappingResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userDepartmentMapping.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userDepartmentMapping.UserType },
+                };
+                userDepartmentMappingResponses = context.UserDepartmentMappingResponse.FromSqlRaw("exec df_Get_UserDepartments @UserId, @UserType", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userDepartmentMappingResponses;
+        }
+
+        public long InsertUserDepartment(DataContext context, UserDepartmentMapping userDepartmentMapping)
+        {
+            List<UserDepartmentMapping> userDepartmentMappings = new List<UserDepartmentMapping>();
+            long rowsAffected = 0;
+            try
+            {
+                userDepartmentMappings = context.UserDepartmentMapping
+                    .Where(udm => (udm.UserId == userDepartmentMapping.UserId &&
+                    udm.UserType == userDepartmentMapping.UserType &&
+                    udm.DepartmentID == userDepartmentMapping.DepartmentID)).ToList();
+
+                if (!userDepartmentMappings.Any())
+                {
+                    context.UserDepartmentMapping.Add(userDepartmentMapping);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateUserDepartment(DataContext context, UserDepartmentMapping userDepartmentMapping)
+        {
+            List<UserDepartmentMapping> userDepartmentMappingsMain = new List<UserDepartmentMapping>();
+            long rowsAffected = 0;
+            try
+            {
+                userDepartmentMappingsMain = context.UserDepartmentMapping
+                    .Where(udm => (udm.UserId == userDepartmentMapping.UserId &&
+                    udm.UserType == userDepartmentMapping.UserType &&
+                    udm.DepartmentID == userDepartmentMapping.DepartmentID &&
+                    udm.ID != userDepartmentMapping.ID)).ToList();
+
+                if (!userDepartmentMappingsMain.Any())
+                {
+                    context.UserDepartmentMapping.Update(userDepartmentMapping);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        #endregion
     }
 }

@@ -134,6 +134,27 @@ namespace DFAPI.Entities
         public bool? Display { get; set; }
     }
 
+    public class UserDepartmentMapping
+    {
+        [Key]
+        public long ID { get; set; }
+        public int? UserType { get; set; }
+        public long? UserId { get; set; }
+        public int? DepartmentID { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class UserDepartmentMappingResponse
+    {
+        [Key]
+        public long ID { get; set; }
+        public int? UserType { get; set; }
+        public long? UserId { get; set; }
+        public int? DepartmentID { get; set; }
+        public string? DepartmentName { get; set; }
+        public bool? Display { get; set; }
+    }
+
     public class LocationTypeMaster
     {
         [Key]
