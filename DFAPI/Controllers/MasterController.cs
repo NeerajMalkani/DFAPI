@@ -1300,10 +1300,10 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                List<UserDepartmentMappingResponse> userDepartmentMappingList = new MasterRepository().GetUserDepartments(_db, userDepartmentMapping);
+                List<UserDepartmentMappingList> userDepartmentMappingList = new MasterRepository().GetUserDepartments(_db, userDepartmentMapping);
                 if (userDepartmentMappingList.Any())
                 {
-                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDepartmentMappingList);
                 }
                 else
                 {

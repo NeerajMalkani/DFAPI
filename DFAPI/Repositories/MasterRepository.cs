@@ -1079,9 +1079,9 @@ namespace DFAPI.Repositories
         #endregion
 
         #region User Department
-        public List<UserDepartmentMappingResponse> GetUserDepartments(DataContext context, UserDepartmentMapping userDepartmentMapping)
+        public List<UserDepartmentMappingList> GetUserDepartments(DataContext context, UserDepartmentMapping userDepartmentMapping)
         {
-            List<UserDepartmentMappingResponse> userDepartmentMappingResponses = new List<UserDepartmentMappingResponse>();
+            List<UserDepartmentMappingList> userDepartmentMappingLists = new List<UserDepartmentMappingList>();
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
@@ -1089,13 +1089,13 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@UserId", Value = userDepartmentMapping.UserId },
                     new SqlParameter { ParameterName = "@UserType", Value = userDepartmentMapping.UserType },
                 };
-                userDepartmentMappingResponses = context.UserDepartmentMappingResponse.FromSqlRaw("exec df_Get_UserDepartments @UserId, @UserType", parms.ToArray()).ToList();
+                userDepartmentMappingLists = context.UserDepartmentMappingList.FromSqlRaw("exec df_Get_UserDepartments @UserId, @UserType", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return userDepartmentMappingResponses;
+            return userDepartmentMappingLists;
         }
 
         public long InsertUserDepartment(DataContext context, UserDepartmentMapping userDepartmentMapping)

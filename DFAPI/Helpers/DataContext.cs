@@ -52,7 +52,7 @@ namespace DFAPI.Helpers
         public DbSet<PostNewDesign> PostNewDesign => Set<PostNewDesign>();
 
         public DbSet<UserDepartmentMapping> UserDepartmentMapping => Set<UserDepartmentMapping>();
-        public DbSet<UserDepartmentMappingResponse> UserDepartmentMappingResponse => Set<UserDepartmentMappingResponse>();
+        public DbSet<UserDepartmentMappingList> UserDepartmentMappingList => Set<UserDepartmentMappingList>();
         #endregion
 
         #region Dealers
