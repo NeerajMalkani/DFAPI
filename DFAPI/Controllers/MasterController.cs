@@ -1027,7 +1027,7 @@ namespace DFAPI.Controllers
             }
             return response;
         }
-        #endregion
+#endregion
 
         #region E Way Bill
         [HttpGet]
@@ -1354,6 +1354,91 @@ namespace DFAPI.Controllers
             try
             {
                 long rowsAffected = new MasterRepository().UpdateUserDepartment(_db, userDepartmentMapping);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        #endregion
+
+        #region User Designation
+        [HttpGet]
+        [Route("getuserdesignation")]
+        public Response GetUserDesignation([FromQuery] UserDesignationMapping userDesignationMapping)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserDesignationMappingList> userDesignationMappingLists = new MasterRepository().GetUserDesignation(_db, userDesignationMapping);
+                if (userDesignationMappingLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDesignationMappingLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+
+        [HttpPost]
+        [Route("insertuserdesignation")]
+        public Response InsertUserDesignation(UserDesignationMapping userDesignationMapping)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertUserDesignation(_db, userDesignationMapping);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updateuserdesignation")]
+        public Response UpdateUserDesignation(UserDesignationMapping userDesignationMapping)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().UpdateUserDesignation(_db, userDesignationMapping);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);

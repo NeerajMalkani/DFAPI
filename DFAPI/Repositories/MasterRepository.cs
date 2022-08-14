@@ -1158,5 +1158,90 @@ namespace DFAPI.Repositories
         }
 
         #endregion
+
+        #region User Designation
+        public List<UserDesignationMappingList> GetUserDesignation(DataContext context, UserDesignationMapping userDesignationMapping)
+        {
+            List<UserDesignationMappingList> userDesignationMappingLists = new List<UserDesignationMappingList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userDesignationMapping.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userDesignationMapping.UserType },
+                };
+                userDesignationMappingLists = context.UserDesignationMappingList.FromSqlRaw("exec df_Get_UserDesignations @UserId, @UserType", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userDesignationMappingLists;
+        }
+
+        public long InsertUserDesignation(DataContext context, UserDesignationMapping userDesignationMapping)
+        {
+            List<UserDesignationMapping> userDesignationMappingList = new List<UserDesignationMapping>();
+            long rowsAffected = 0;
+            try
+            {
+                userDesignationMappingList = context.UserDesignationMapping
+                    .Where(udm => (udm.UserId == userDesignationMapping.UserId &&
+                    udm.UserType == userDesignationMapping.UserType &&
+                    udm.DesignationID == userDesignationMapping.DesignationID &&
+                    udm.ReportingAuthority == userDesignationMapping.ReportingAuthority)).ToList();
+
+                if (!userDesignationMappingList.Any())
+                {
+                    context.UserDesignationMapping.Add(userDesignationMapping);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateUserDesignation(DataContext context, UserDesignationMapping userDesignationMapping)
+        {
+            List<UserDesignationMapping> userDesignationMappingList = new List<UserDesignationMapping>();
+            long rowsAffected = 0;
+            try
+            {
+                userDesignationMappingList = context.UserDesignationMapping
+                    .Where(udm => (udm.UserId == userDesignationMapping.UserId &&
+                    udm.UserType == userDesignationMapping.UserType &&
+                    udm.DesignationID == userDesignationMapping.DesignationID &&
+                    udm.ReportingAuthority == userDesignationMapping.ReportingAuthority &&
+                    udm.ID != userDesignationMapping.ID)).ToList();
+
+                if (!userDesignationMappingList.Any())
+                {
+                    context.UserDesignationMapping.Update(userDesignationMapping);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        #endregion
+
+
     }
 }

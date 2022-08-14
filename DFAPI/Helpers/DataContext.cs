@@ -53,6 +53,12 @@ namespace DFAPI.Helpers
 
         public DbSet<UserDepartmentMapping> UserDepartmentMapping => Set<UserDepartmentMapping>();
         public DbSet<UserDepartmentMappingList> UserDepartmentMappingList => Set<UserDepartmentMappingList>();
+
+        public DbSet<UserDesignationMapping> UserDesignationMapping => Set<UserDesignationMapping>();
+        public DbSet<UserDesignationMappingList> UserDesignationMappingList => Set<UserDesignationMappingList>();
+
+
+
         #endregion
 
         #region Dealers
