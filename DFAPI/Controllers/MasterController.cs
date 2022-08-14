@@ -1296,7 +1296,6 @@ namespace DFAPI.Controllers
         [Route("getuserdepartments")]
         public Response GetUserDepartments([FromQuery] UserDepartmentMapping userDepartmentMapping)
         {
-            
             Response response = new Response();
             try
             {
