@@ -1133,6 +1133,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
+               // activityMasterMain = context.ActivityMaster.Where(b => (b.ActivityRoleName == activityMaster.ActivityRoleName && b.ID != activityMaster.ID)).ToList();
                 userDepartmentMappingsMain = context.UserDepartmentMapping
                     .Where(udm => (udm.UserId == userDepartmentMapping.UserId &&
                     udm.UserType == userDepartmentMapping.UserType &&
