@@ -390,28 +390,32 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                List<MaterialSetupMasterGet> materialSetupMasterGet = context.MaterialSetupMasterGet.Where(b => b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID).ToList();
-                if (!materialSetupMasterGet.Any())
+                if (materialSetupRequest.MaterialSetupMaster != null)
                 {
-                    if (materialSetupRequest.MaterialSetupMaster != null)
+                    List<MaterialSetupMaster> materialSetupMasterGet = context.MaterialSetupMaster.Where(b => b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID).ToList();
+
+                    if (!materialSetupMasterGet.Any())
                     {
-                        context.MaterialSetupMaster.Add(materialSetupRequest.MaterialSetupMaster);
-                        context.SaveChanges();
-                        rowsAffected = 1;
-                    }
-                    if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
-                    {
-                        foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                        if (materialSetupRequest.MaterialSetupMaster != null)
                         {
-                            mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
-                            context.MaterialProductMapping.Add(mpm);
+                            context.MaterialSetupMaster.Add(materialSetupRequest.MaterialSetupMaster);
                             context.SaveChanges();
+                            rowsAffected = 1;
+                        }
+                        if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
+                        {
+                            foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                            {
+                                mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
+                                context.MaterialProductMapping.Add(mpm);
+                                context.SaveChanges();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    rowsAffected = -2;
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
                 }
             }
             catch (Exception)
@@ -426,30 +430,33 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                List<MaterialSetupMasterGet> materialSetupMasterGet = context.MaterialSetupMasterGet.Where(b => (b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID && b.ID != materialSetupRequest.MaterialSetupMaster.ID)).ToList();
-                if (!materialSetupMasterGet.Any())
+                if (materialSetupRequest.MaterialSetupMaster != null)
                 {
-                    if (materialSetupRequest.MaterialSetupMaster != null)
+                    List<MaterialSetupMaster> materialSetupMasterGet = context.MaterialSetupMaster.Where(b => (b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID && b.ID != materialSetupRequest.MaterialSetupMaster.ID)).ToList();
+                    if (!materialSetupMasterGet.Any())
                     {
-                        context.MaterialSetupMaster.Update(materialSetupRequest.MaterialSetupMaster);
-                        context.SaveChanges();
-                        rowsAffected = 1;
-                    }
-                    if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
-                    {
-                        List<MaterialProductMapping> materialProductMappings = context.MaterialProductMapping.Where(el => el.MaterialSetupID == materialSetupRequest.MaterialSetupMaster.ID).ToList();
-                        context.MaterialProductMapping.RemoveRange(materialProductMappings);
-                        foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                        if (materialSetupRequest.MaterialSetupMaster != null)
                         {
-                            mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
-                            context.MaterialProductMapping.Add(mpm);
+                            context.MaterialSetupMaster.Update(materialSetupRequest.MaterialSetupMaster);
                             context.SaveChanges();
+                            rowsAffected = 1;
+                        }
+                        if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
+                        {
+                            List<MaterialProductMapping> materialProductMappings = context.MaterialProductMapping.Where(el => el.MaterialSetupID == materialSetupRequest.MaterialSetupMaster.ID).ToList();
+                            context.MaterialProductMapping.RemoveRange(materialProductMappings);
+                            foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                            {
+                                mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
+                                context.MaterialProductMapping.Add(mpm);
+                                context.SaveChanges();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    rowsAffected = -2;
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
                 }
             }
             catch (Exception)
