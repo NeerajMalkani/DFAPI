@@ -50,6 +50,15 @@ namespace DFAPI.Helpers
         public DbSet<MaterialSetupMasterGet> MaterialSetupMasterGet => Set<MaterialSetupMasterGet>();
         public DbSet<MaterialProductMappingGet> MaterialProductMappingGet => Set<MaterialProductMappingGet>();
         public DbSet<PostNewDesign> PostNewDesign => Set<PostNewDesign>();
+
+        public DbSet<UserDepartmentMapping> UserDepartmentMapping => Set<UserDepartmentMapping>();
+        public DbSet<UserDepartmentMappingList> UserDepartmentMappingList => Set<UserDepartmentMappingList>();
+
+        public DbSet<UserDesignationMapping> UserDesignationMapping => Set<UserDesignationMapping>();
+        public DbSet<UserDesignationMappingList> UserDesignationMappingList => Set<UserDesignationMappingList>();
+
+
+
         #endregion
 
         #region Dealers
@@ -70,7 +79,12 @@ namespace DFAPI.Helpers
         #endregion
 
         #region General Users
-        public DbSet<ImageGallery> ImageGallery => Set<ImageGallery>(); 
+        public DbSet<ImageGallery> ImageGallery => Set<ImageGallery>();
+        #endregion
+
+        #region Contractor
+        public DbSet<ContractorServiceList> ContractorServiceList => Set<ContractorServiceList>();
+        public DbSet<ContractorServiceMapping> ContractorServiceMapping => Set<ContractorServiceMapping>();
         #endregion
 
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();

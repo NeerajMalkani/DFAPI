@@ -392,17 +392,29 @@ namespace DFAPI.Repositories
             {
                 if (materialSetupRequest.MaterialSetupMaster != null)
                 {
-                    context.MaterialSetupMaster.Add(materialSetupRequest.MaterialSetupMaster);
-                    context.SaveChanges();
-                    rowsAffected = 1;
-                }
-                if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
-                {
-                    foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                    List<MaterialSetupMaster> materialSetupMasterGet = context.MaterialSetupMaster.Where(b => b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID).ToList();
+
+                    if (!materialSetupMasterGet.Any())
                     {
-                        mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
-                        context.MaterialProductMapping.Add(mpm);
-                        context.SaveChanges();
+                        if (materialSetupRequest.MaterialSetupMaster != null)
+                        {
+                            context.MaterialSetupMaster.Add(materialSetupRequest.MaterialSetupMaster);
+                            context.SaveChanges();
+                            rowsAffected = 1;
+                        }
+                        if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
+                        {
+                            foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                            {
+                                mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
+                                context.MaterialProductMapping.Add(mpm);
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        rowsAffected = -2;
                     }
                 }
             }
@@ -420,19 +432,30 @@ namespace DFAPI.Repositories
             {
                 if (materialSetupRequest.MaterialSetupMaster != null)
                 {
-                    context.MaterialSetupMaster.Update(materialSetupRequest.MaterialSetupMaster);
-                    context.SaveChanges();
-                    rowsAffected = 1;
-                }
-                if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
-                {
-                    List<MaterialProductMapping> materialProductMappings = context.MaterialProductMapping.Where(el => el.MaterialSetupID == materialSetupRequest.MaterialSetupMaster.ID).ToList();
-                    context.MaterialProductMapping.RemoveRange(materialProductMappings);
-                    foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                    List<MaterialSetupMaster> materialSetupMasterGet = context.MaterialSetupMaster.Where(b => (b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID && b.ID != materialSetupRequest.MaterialSetupMaster.ID)).ToList();
+                    if (!materialSetupMasterGet.Any())
                     {
-                        mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
-                        context.MaterialProductMapping.Add(mpm);
-                        context.SaveChanges();
+                        if (materialSetupRequest.MaterialSetupMaster != null)
+                        {
+                            context.MaterialSetupMaster.Update(materialSetupRequest.MaterialSetupMaster);
+                            context.SaveChanges();
+                            rowsAffected = 1;
+                        }
+                        if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
+                        {
+                            List<MaterialProductMapping> materialProductMappings = context.MaterialProductMapping.Where(el => el.MaterialSetupID == materialSetupRequest.MaterialSetupMaster.ID).ToList();
+                            context.MaterialProductMapping.RemoveRange(materialProductMappings);
+                            foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                            {
+                                mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
+                                context.MaterialProductMapping.Add(mpm);
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        rowsAffected = -2;
                     }
                 }
             }

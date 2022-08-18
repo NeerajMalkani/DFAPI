@@ -134,6 +134,56 @@ namespace DFAPI.Entities
         public bool? Display { get; set; }
     }
 
+    public class UserDepartmentMapping
+    {
+        [Key]
+        public long ID { get; set; }
+        public byte? UserType { get; set; }
+        public long? UserId { get; set; }
+        public int? DepartmentID { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class UserDepartmentMappingList
+    {
+        [Key]
+        public long ID { get; set; }
+        public int? DepartmentID { get; set; }
+        public string? DepartmentName { get; set; }
+        public bool? Display { get; set; }
+    }
+
+
+    public class DesignationMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? DesignationName { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class UserDesignationMapping
+    {
+        [Key]
+        public long ID { get; set; }
+        public byte? UserType { get; set; }
+        public long? UserId { get; set; }
+        public int? DesignationID { get; set; }
+        public bool? ReportingAuthority { get; set; }
+        public bool? Display { get; set; }
+    }
+
+    public class UserDesignationMappingList
+    {
+        [Key]
+        public long ID { get; set; }
+        public int? DesignationID { get; set; }
+        public string? DesignationName { get; set; }
+        public bool? ReportingAuthority { get; set; }
+        public bool? Display { get; set; }
+    }
+
+
     public class LocationTypeMaster
     {
         [Key]
@@ -159,14 +209,6 @@ namespace DFAPI.Entities
         public string? BranchType { get; set; }
         public string? ActivityID { get; set; }
         public string? ServiceID { get; set; }
-        public bool? Display { get; set; }
-    }
-
-    public class DesignationMaster
-    {
-        [Key]
-        public long ID { get; set; }
-        public string? DesignationName { get; set; }
         public bool? Display { get; set; }
     }
 
