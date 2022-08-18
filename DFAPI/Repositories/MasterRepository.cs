@@ -1189,8 +1189,7 @@ namespace DFAPI.Repositories
                 userDesignationMappingList = context.UserDesignationMapping
                     .Where(udm => (udm.UserId == userDesignationMapping.UserId &&
                     udm.UserType == userDesignationMapping.UserType &&
-                    udm.DesignationID == userDesignationMapping.DesignationID &&
-                    udm.ReportingAuthority == userDesignationMapping.ReportingAuthority)).ToList();
+                    udm.DesignationID == userDesignationMapping.DesignationID)).ToList();
 
                 if (!userDesignationMappingList.Any())
                 {
@@ -1220,7 +1219,6 @@ namespace DFAPI.Repositories
                     .Where(udm => (udm.UserId == userDesignationMapping.UserId &&
                     udm.UserType == userDesignationMapping.UserType &&
                     udm.DesignationID == userDesignationMapping.DesignationID &&
-                    udm.ReportingAuthority == userDesignationMapping.ReportingAuthority &&
                     udm.ID != userDesignationMapping.ID)).ToList();
 
                 if (!userDesignationMappingList.Any())
