@@ -476,8 +476,15 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@DesignImage", Value = postNewDesignMaster.DesignImage },
                     new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_PostNewDesign @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
-                rowsAffected = 1;
+                rowsAffected = context.Database.ExecuteSqlRaw("exec df_Insert_PostNewDesign @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
+                if(rowsAffected > 0)
+                {
+                    rowsAffected = 1;
+                } else
+                {
+                    rowsAffected = -2;
+                }
+                
             }
             catch (Exception)
             {
@@ -506,12 +513,15 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@DesignImage", Value = postNewDesignMaster.DesignImage },
                     new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
                 };
-                context.Database.ExecuteSqlRaw("exec df_Update_PostNewDesign @ID, @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
-                rowsAffected = 1;
-                //if (postNewDesignMasterCurrent.DesignImage != null && postNewDesignMaster.DesignImage != postNewDesignMasterCurrent.DesignImage)
-                //{
-                //    _ = new AWSHelper(new BasicAWSCredentials("AKIAZGRJKC5EP34PJHE7", "4pxNounxWTG7ua6knQ9A7YRzmvelmLuwju0PLc0k")).DeleteFileAsync(postNewDesignMasterCurrent.DesignImage);
-                //}
+                rowsAffected = context.Database.ExecuteSqlRaw("exec df_Update_PostNewDesign @ID, @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
+                if (rowsAffected > 0)
+                {
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {

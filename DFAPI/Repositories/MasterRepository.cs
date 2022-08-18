@@ -211,7 +211,7 @@ namespace DFAPI.Repositories
                 {
                     new SqlParameter { ParameterName = "@Unit1Name", Value = unitOfSalesMaster.Unit1Name },
                     new SqlParameter { ParameterName = "@Unit2Name", Value = unitOfSalesMaster.Unit2Name },
-                     new SqlParameter { ParameterName = "@Display", Value = unitOfSalesMaster.Display },
+                    new SqlParameter { ParameterName = "@Display", Value = unitOfSalesMaster.Display },
                     new SqlParameter { ParameterName = "@ID", Direction = ParameterDirection.Output, SqlDbType = SqlDbType.BigInt }
                 };
                 context.Database.ExecuteSqlRaw("exec df_insertUpdate_Unit @Unit1Name, @Unit2Name, @Display, @ID out", parms.ToArray());
