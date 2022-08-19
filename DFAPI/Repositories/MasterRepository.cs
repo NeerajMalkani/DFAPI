@@ -1304,5 +1304,26 @@ namespace DFAPI.Repositories
         }
         #endregion
 
+
+        #region Branch
+        public List<UserBranchList> GetUserBranches(DataContext context, UserMappingRequest userMappingRequest)
+        {
+            List<UserBranchList> userDesignationMappingLists = new List<UserBranchList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                };
+                userDesignationMappingLists = context.UserBranchList.FromSqlRaw("exec df_Get_UserBranchDetails @UserId, @UserType", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userDesignationMappingLists;
+        }
+        #endregion
     }
 }

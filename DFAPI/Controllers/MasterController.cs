@@ -1518,5 +1518,32 @@ namespace DFAPI.Controllers
             return response;
         }
         #endregion
+
+        #region Branch
+        [HttpGet]
+        [Route("getuserbranches")]
+        public Response GetUserBranchList([FromQuery] UserMappingRequest userMappingRequest)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserBranchList> userBranchLists = new MasterRepository().GetUserBranches(_db, userMappingRequest);
+                if (userBranchLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userBranchLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
     }
 }

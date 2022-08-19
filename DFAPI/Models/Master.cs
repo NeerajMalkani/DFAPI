@@ -331,4 +331,42 @@ namespace DFAPI.Entities
         public bool? loginStatus { get; set; }
         public bool? verifyStatus { get; set; }
     }
+
+    public class BranchMaster
+    {
+        [Key]
+        public string? ID { get; set; }
+        public byte? UserType { get; set; }
+        public long? UserID { get; set; }
+        public int? CompanyID { get; set; }
+        public int? BranchTypeID { get; set; }
+        public int? BranchAdminID { get; set; }
+        public string? ContactPersonNo { get; set; }
+        public string? GSTNo { get; set; }
+        public string? PANNo { get; set; }
+        public bool? Display { get; set; }
+        public string? LocationName { get; set; }
+        public string? Address { get; set; }
+        public int? StateID { get; set; }
+        public int? CityID { get; set; }
+        public int? Pincode { get; set; }
+        public string? AccountNo { get; set; }
+        public string? BankName { get; set; }
+        public string? BankBranchName { get; set; }
+        public string? IFSCCode { get; set; }
+    }
+
+    public class UserBranchList
+    {
+        [Key]
+        public long ID { get; set; }
+        public int? BranchTypeID { get; set; }
+        public string? BranchType { get; set; }
+        public string? LocationName { get; set; }
+        public string? BranchAdmin { get; set; }
+        public string? Address { get; set; }
+        public string? GSTNo { get; set; }
+        public string? PANNo { get; set; }
+        public bool? Display { get; set; }
+    }
 }
