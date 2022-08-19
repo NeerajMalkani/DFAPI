@@ -173,6 +173,8 @@ namespace DFAPI.Entities
         public bool? Display { get; set; }
     }
 
+
+
     public class UserDesignationMappingList
     {
         [Key]
@@ -255,5 +257,78 @@ namespace DFAPI.Entities
     public class RowsAffectedResponse
     {
         public long rowsAffected { get; set; }
+    }
+
+    public class UserMappingRequest
+    {
+        public byte? UserType { get; set; }
+        public long? UserId { get; set; }
+    }
+
+    public class UserEmployeeListResponse
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? DepartmentName { get; set; }
+        public string? DesignationName { get; set; }
+        public bool? profileStatus { get; set; }
+        public bool? loginStatus { get; set; }
+        public bool? verifyStatus { get; set; }
+    }
+
+    public class UserEmployeeRequest
+    {
+        public byte? UserType { get; set; }
+        public long? UserId { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? AadharNo { get; set; }
+    }
+
+    public class UserEmployeeList
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? AadharNo { get; set; }
+    }
+
+    public class EmployeeMaster
+    {
+        [Key]
+        public long ID { get; set; }
+        public byte? UserType { get; set; }
+        public long? UserID { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? EmployeeCode { get; set; }
+        public string? MobileNo { get; set; }
+        public string? AadharNo { get; set; }
+        public string? FatherName { get; set; }
+        public string? Address { get; set; }
+        public int? StateID { get; set; }
+        public int? CityID { get; set; }
+        public int? Pincode { get; set; }
+        public string? ProfilePhoto { get; set; }
+        public byte? BloodGroup { get; set; }
+        public DateTime? DOB { get; set; }
+        public DateTime? DOJ { get; set; }
+        public string? EmergencyContactName { get; set; }
+        public string? EmergencyContactNo { get; set; }
+        public DateTime? IDCardValidity { get; set; }
+        public bool? LoginActiveStatus { get; set; }
+        public long? BranchID { get; set; }
+        public long? DepartmentID { get; set; }
+        public long? DesignationID { get; set; }
+        public byte? EmployeeType { get; set; }
+        public DateTime? LastWorkDate { get; set; }
+        public bool? WagesType { get; set; }
+        public decimal? Salary { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? profileStatus { get; set; }
+        public bool? loginStatus { get; set; }
+        public bool? verifyStatus { get; set; }
     }
 }

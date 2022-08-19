@@ -1459,5 +1459,64 @@ namespace DFAPI.Controllers
         }
 
         #endregion
+
+        #region User Employees
+        [HttpGet]
+        [Route("getuseremployeelist")]
+        public Response GetUserEmployeeList([FromQuery] UserMappingRequest userMappingRequest)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserEmployeeListResponse> userDesignationMappingLists = new MasterRepository().GetUserEmployeeList(_db, userMappingRequest);
+                if (userDesignationMappingLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDesignationMappingLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertuseremployees")]
+        public Response InsertUserEmployees(UserEmployeeRequest userEmployeeRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertUserEmployee(_db, userEmployeeRequest);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Mobile number already exists", out response);
+                }
+                else if (rowsAffected == -3)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Aadhar number already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+        #endregion
     }
 }

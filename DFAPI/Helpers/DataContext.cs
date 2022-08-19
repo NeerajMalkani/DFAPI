@@ -57,6 +57,10 @@ namespace DFAPI.Helpers
         public DbSet<UserDesignationMapping> UserDesignationMapping => Set<UserDesignationMapping>();
         public DbSet<UserDesignationMappingList> UserDesignationMappingList => Set<UserDesignationMappingList>();
 
+        public DbSet<UserEmployeeListResponse> UserEmployeeListResponse => Set<UserEmployeeListResponse>();
+        public DbSet<UserEmployeeList> UserEmployeeList => Set<UserEmployeeList>();
+        public DbSet<EmployeeMaster> EmployeeMaster => Set<EmployeeMaster>();
+
 
 
         #endregion

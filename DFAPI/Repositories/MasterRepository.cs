@@ -1133,7 +1133,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-               // activityMasterMain = context.ActivityMaster.Where(b => (b.ActivityRoleName == activityMaster.ActivityRoleName && b.ID != activityMaster.ID)).ToList();
+                // activityMasterMain = context.ActivityMaster.Where(b => (b.ActivityRoleName == activityMaster.ActivityRoleName && b.ID != activityMaster.ID)).ToList();
                 userDepartmentMappingsMain = context.UserDepartmentMapping
                     .Where(udm => (udm.UserId == userDepartmentMapping.UserId &&
                     udm.UserType == userDepartmentMapping.UserType &&
@@ -1243,6 +1243,68 @@ namespace DFAPI.Repositories
 
         #endregion
 
+        #region User Employees
+        public List<UserEmployeeListResponse> GetUserEmployeeList(DataContext context, UserMappingRequest userMappingRequest)
+        {
+            List<UserEmployeeListResponse> UserEmployeeList = new List<UserEmployeeListResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                };
+                UserEmployeeList = context.UserEmployeeListResponse.FromSqlRaw("exec df_Get_UserEmployeeList @UserId, @UserType", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return UserEmployeeList;
+        }
+
+        public long InsertUserEmployee(DataContext context, UserEmployeeRequest userEmployeeRequest)
+        {
+            List<UserEmployeeList> userEmployeeLists_mobile = new List<UserEmployeeList>();
+            List<UserEmployeeList> userEmployeeLists_aadhar = new List<UserEmployeeList>();
+            long rowsAffected = 0;
+            try
+            {
+                userEmployeeLists_mobile = context.UserEmployeeList.Where(udm => (udm.MobileNo == userEmployeeRequest.MobileNo)).ToList();
+                userEmployeeLists_aadhar = context.UserEmployeeList.Where(udm => (udm.AadharNo == userEmployeeRequest.AadharNo)).ToList();
+
+                if (!userEmployeeLists_mobile.Any() && !userEmployeeLists_aadhar.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userEmployeeRequest.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userEmployeeRequest.UserType },
+                     new SqlParameter { ParameterName = "@EmployeeName", Value = userEmployeeRequest.EmployeeName },
+                     new SqlParameter { ParameterName = "@MobileNo", Value = userEmployeeRequest.MobileNo },
+                     new SqlParameter { ParameterName = "@AadharNo", Value = userEmployeeRequest.AadharNo },
+                };
+                    context.Database.ExecuteSqlRaw("exec df_Insert_User_Employee @UserId, @UserType, @EmployeeName, @MobileNo, @AadharNo", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    if (userEmployeeLists_mobile.Any())
+                    {
+                        rowsAffected = -2;
+                    }
+                    else if (userEmployeeLists_aadhar.Any())
+                    {
+                        rowsAffected = -3;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+        #endregion
 
     }
 }
