@@ -390,28 +390,32 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                List<MaterialSetupMasterGet> materialSetupMasterGet = context.MaterialSetupMasterGet.Where(b => b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID).ToList();
-                if (!materialSetupMasterGet.Any())
+                if (materialSetupRequest.MaterialSetupMaster != null)
                 {
-                    if (materialSetupRequest.MaterialSetupMaster != null)
+                    List<MaterialSetupMaster> materialSetupMasterGet = context.MaterialSetupMaster.Where(b => b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID).ToList();
+
+                    if (!materialSetupMasterGet.Any())
                     {
-                        context.MaterialSetupMaster.Add(materialSetupRequest.MaterialSetupMaster);
-                        context.SaveChanges();
-                        rowsAffected = 1;
-                    }
-                    if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
-                    {
-                        foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                        if (materialSetupRequest.MaterialSetupMaster != null)
                         {
-                            mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
-                            context.MaterialProductMapping.Add(mpm);
+                            context.MaterialSetupMaster.Add(materialSetupRequest.MaterialSetupMaster);
                             context.SaveChanges();
+                            rowsAffected = 1;
+                        }
+                        if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
+                        {
+                            foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                            {
+                                mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
+                                context.MaterialProductMapping.Add(mpm);
+                                context.SaveChanges();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    rowsAffected = -2;
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
                 }
             }
             catch (Exception)
@@ -426,30 +430,33 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                List<MaterialSetupMasterGet> materialSetupMasterGet = context.MaterialSetupMasterGet.Where(b => (b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID && b.ID != materialSetupRequest.MaterialSetupMaster.ID)).ToList();
-                if (!materialSetupMasterGet.Any())
+                if (materialSetupRequest.MaterialSetupMaster != null)
                 {
-                    if (materialSetupRequest.MaterialSetupMaster != null)
+                    List<MaterialSetupMaster> materialSetupMasterGet = context.MaterialSetupMaster.Where(b => (b.DesignTypeID == materialSetupRequest.MaterialSetupMaster.DesignTypeID && b.ID != materialSetupRequest.MaterialSetupMaster.ID)).ToList();
+                    if (!materialSetupMasterGet.Any())
                     {
-                        context.MaterialSetupMaster.Update(materialSetupRequest.MaterialSetupMaster);
-                        context.SaveChanges();
-                        rowsAffected = 1;
-                    }
-                    if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
-                    {
-                        List<MaterialProductMapping> materialProductMappings = context.MaterialProductMapping.Where(el => el.MaterialSetupID == materialSetupRequest.MaterialSetupMaster.ID).ToList();
-                        context.MaterialProductMapping.RemoveRange(materialProductMappings);
-                        foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                        if (materialSetupRequest.MaterialSetupMaster != null)
                         {
-                            mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
-                            context.MaterialProductMapping.Add(mpm);
+                            context.MaterialSetupMaster.Update(materialSetupRequest.MaterialSetupMaster);
                             context.SaveChanges();
+                            rowsAffected = 1;
+                        }
+                        if (materialSetupRequest.MaterialProductMappings != null && materialSetupRequest.MaterialSetupMaster != null && materialSetupRequest.MaterialSetupMaster.ID != 0)
+                        {
+                            List<MaterialProductMapping> materialProductMappings = context.MaterialProductMapping.Where(el => el.MaterialSetupID == materialSetupRequest.MaterialSetupMaster.ID).ToList();
+                            context.MaterialProductMapping.RemoveRange(materialProductMappings);
+                            foreach (MaterialProductMapping mpm in materialSetupRequest.MaterialProductMappings)
+                            {
+                                mpm.MaterialSetupID = materialSetupRequest.MaterialSetupMaster.ID;
+                                context.MaterialProductMapping.Add(mpm);
+                                context.SaveChanges();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    rowsAffected = -2;
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
                 }
             }
             catch (Exception)
@@ -492,8 +499,15 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@DesignImage", Value = postNewDesignMaster.DesignImage },
                     new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_PostNewDesign @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
-                rowsAffected = 1;
+                rowsAffected = context.Database.ExecuteSqlRaw("exec df_Insert_PostNewDesign @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
+                if(rowsAffected > 0)
+                {
+                    rowsAffected = 1;
+                } else
+                {
+                    rowsAffected = -2;
+                }
+                
             }
             catch (Exception)
             {
@@ -522,12 +536,15 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@DesignImage", Value = postNewDesignMaster.DesignImage },
                     new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
                 };
-                context.Database.ExecuteSqlRaw("exec df_Update_PostNewDesign @ID, @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
-                rowsAffected = 1;
-                //if (postNewDesignMasterCurrent.DesignImage != null && postNewDesignMaster.DesignImage != postNewDesignMasterCurrent.DesignImage)
-                //{
-                //    _ = new AWSHelper(new BasicAWSCredentials("AKIAZGRJKC5EP34PJHE7", "4pxNounxWTG7ua6knQ9A7YRzmvelmLuwju0PLc0k")).DeleteFileAsync(postNewDesignMasterCurrent.DesignImage);
-                //}
+                rowsAffected = context.Database.ExecuteSqlRaw("exec df_Update_PostNewDesign @ID, @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
+                if (rowsAffected > 0)
+                {
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {

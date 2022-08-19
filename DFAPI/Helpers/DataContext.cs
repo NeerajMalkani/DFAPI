@@ -82,6 +82,10 @@ namespace DFAPI.Helpers
 
         #endregion
 
+        #region General Users
+        public DbSet<ImageGallery> ImageGallery => Set<ImageGallery>();
+        #endregion
+
         #region Contractor
         public DbSet<ContractorServiceList> ContractorServiceList => Set<ContractorServiceList>();
         public DbSet<ContractorServiceMapping> ContractorServiceMapping => Set<ContractorServiceMapping>();

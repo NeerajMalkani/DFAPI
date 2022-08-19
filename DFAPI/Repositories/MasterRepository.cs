@@ -211,7 +211,7 @@ namespace DFAPI.Repositories
                 {
                     new SqlParameter { ParameterName = "@Unit1Name", Value = unitOfSalesMaster.Unit1Name },
                     new SqlParameter { ParameterName = "@Unit2Name", Value = unitOfSalesMaster.Unit2Name },
-                     new SqlParameter { ParameterName = "@Display", Value = unitOfSalesMaster.Display },
+                    new SqlParameter { ParameterName = "@Display", Value = unitOfSalesMaster.Display },
                     new SqlParameter { ParameterName = "@ID", Direction = ParameterDirection.Output, SqlDbType = SqlDbType.BigInt }
                 };
                 context.Database.ExecuteSqlRaw("exec df_insertUpdate_Unit @Unit1Name, @Unit2Name, @Display, @ID out", parms.ToArray());
@@ -1189,8 +1189,7 @@ namespace DFAPI.Repositories
                 userDesignationMappingList = context.UserDesignationMapping
                     .Where(udm => (udm.UserId == userDesignationMapping.UserId &&
                     udm.UserType == userDesignationMapping.UserType &&
-                    udm.DesignationID == userDesignationMapping.DesignationID &&
-                    udm.ReportingAuthority == userDesignationMapping.ReportingAuthority)).ToList();
+                    udm.DesignationID == userDesignationMapping.DesignationID)).ToList();
 
                 if (!userDesignationMappingList.Any())
                 {
@@ -1220,7 +1219,6 @@ namespace DFAPI.Repositories
                     .Where(udm => (udm.UserId == userDesignationMapping.UserId &&
                     udm.UserType == userDesignationMapping.UserType &&
                     udm.DesignationID == userDesignationMapping.DesignationID &&
-                    udm.ReportingAuthority == userDesignationMapping.ReportingAuthority &&
                     udm.ID != userDesignationMapping.ID)).ToList();
 
                 if (!userDesignationMappingList.Any())
