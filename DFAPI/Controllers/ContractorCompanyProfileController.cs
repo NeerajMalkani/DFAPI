@@ -97,11 +97,5 @@ namespace DFAPI.Controllers
             return response;
         }
         #endregion
-
-
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
     }
 }

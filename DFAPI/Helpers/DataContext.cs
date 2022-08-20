@@ -86,6 +86,9 @@ namespace DFAPI.Helpers
 
         #region General Users
         public DbSet<ImageGallery> ImageGallery => Set<ImageGallery>();
+        public DbSet<UserEstimationEnquiries> UserEstimationEnquiries => Set<UserEstimationEnquiries>();
+        public DbSet<UserEstimationEnquiriesGet> UserEstimationEnquiriesGet => Set<UserEstimationEnquiriesGet>();
+        public DbSet<UserEstimationEnquiriesForMaterialSetup> UserEstimationEnquiriesForMaterialSetup => Set<UserEstimationEnquiriesForMaterialSetup>(); 
         #endregion
 
         #region Contractor

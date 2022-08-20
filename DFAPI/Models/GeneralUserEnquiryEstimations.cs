@@ -26,4 +26,46 @@ namespace DFAPI.Entities
     {
         public long CategoryID { get; set; }
     }
+
+    public class UserEstimationEnquiries
+    {
+        [Key]
+        public long ID { get; set; }
+        public long UserID { get; set; }
+        public long DesignTypeID { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public bool Status { get; set; }
+    }
+
+    public class UserEstimationEnquiriesGet
+    {
+        [Key]
+        public long ID { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public bool Status { get; set; }
+        public decimal LabourCost { get; set; }
+        public decimal MaterialCostPerSqFeet { get; set; }
+    }
+
+    [Keyless]
+    public class UserEstimationEnquiriesForMaterialSetup
+    {
+        public long MaterialSetupID { get; set; }
+        public string? ProductName { get; set; }
+        public string? BrandName { get; set; }
+        public decimal Rate { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Formula { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public decimal GeneralDiscount { get; set; }
+    }
+
+    public class UserDesignEstimation
+    {
+        public long UserDesignEstimationID { get; set; }
+    }
 }

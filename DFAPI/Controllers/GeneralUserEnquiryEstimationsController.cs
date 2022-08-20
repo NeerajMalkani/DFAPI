@@ -66,6 +66,82 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
+        [HttpGet]
+        [Route("getdesignestimateenquiries")]
+        public Response GetDesignEstimateEnquiries([FromQuery] UserDesignEstimation userDesignEstimation)
+        {
+            Response response = new Response();
+            try
+            {
+                List<UserEstimationEnquiriesGet> userEstimationEnquiriesGet = new GeneralUserEnquiryEstimationsRepository().GetUserEstimationEnquiries(_db, userDesignEstimation);
+                if (userEstimationEnquiriesGet.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userEstimationEnquiriesGet);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, userEstimationEnquiriesGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertdesignestimateenquiries")]
+        public Response InsertUpdateDesignEstimateEnquiries(UserEstimationEnquiries userEstimationEnquiries)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new GeneralUserEnquiryEstimationsRepository().InsertUpdateUserEstimationEnquiries(_db, userEstimationEnquiries);
+                if (rowsAffected > 0)
+                {
+                    List<UserDesignEstimation> userDesignEstimation = new List<UserDesignEstimation>();
+                    UserDesignEstimation userDesignEstimation1 = new UserDesignEstimation();
+                    userDesignEstimation1.UserDesignEstimationID = rowsAffected;
+                    userDesignEstimation.Add(userDesignEstimation1);
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDesignEstimation);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getdesignestimateenquiriesformaterialsetup")]
+        public Response GetDesignEstimateEnquiriesForMaterialSetup([FromQuery] UserEstimationEnquiriesForMaterialSetup userEstimationEnquiriesForMaterialSetup)
+        {
+            Response response = new Response();
+            try
+            {
+                List<UserEstimationEnquiriesForMaterialSetup> UserEstimationEnquiriesForMaterialSetups = new GeneralUserEnquiryEstimationsRepository().GetUserEstimationEnquiriesForMaterialSetup(_db, userEstimationEnquiriesForMaterialSetup);
+                if (UserEstimationEnquiriesForMaterialSetups.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, UserEstimationEnquiriesForMaterialSetups);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, UserEstimationEnquiriesForMaterialSetups);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
         #endregion
     }
 }
