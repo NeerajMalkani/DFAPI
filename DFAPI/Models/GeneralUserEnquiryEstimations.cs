@@ -33,9 +33,10 @@ namespace DFAPI.Entities
         public long ID { get; set; }
         public long UserID { get; set; }
         public long DesignTypeID { get; set; }
-        public decimal Length { get; set; }
-        public decimal Width { get; set; }
-        public bool Status { get; set; }
+        public decimal? Length { get; set; }
+        public decimal? Width { get; set; }
+        public decimal? TotalAmount { get; set; }
+        public bool? Status { get; set; }
     }
 
     public class UserEstimationEnquiriesGet
@@ -47,6 +48,19 @@ namespace DFAPI.Entities
         public bool Status { get; set; }
         public decimal LabourCost { get; set; }
         public decimal MaterialCostPerSqFeet { get; set; }
+    }
+
+    public class UserAllEstimationGet
+    {
+        [Key]
+        public long ID { get; set; }
+        public long DesignTypeID { get; set; }
+        public string? DesignTypeName { get; set; }
+        public string? ProductName { get; set; }
+        public decimal? Length { get; set; }
+        public decimal? Width { get; set; }
+        public decimal? TotalAmount { get; set; }
+        public bool Status { get; set; }
     }
 
     [Keyless]

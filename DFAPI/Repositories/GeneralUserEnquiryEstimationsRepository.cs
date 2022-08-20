@@ -58,15 +58,45 @@ namespace DFAPI.Repositories
             return userEstimationEnquiriesGet;
         }
 
+        public List<UserAllEstimationGet> GetUserAllEstimation(DataContext context, UserEstimationEnquiries userEstimationEnquiries)
+        {
+            List<UserAllEstimationGet> userAllEstimationGet = new List<UserAllEstimationGet>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@UserID", Value = userEstimationEnquiries.UserID }
+                };
+                userAllEstimationGet = context.UserAllEstimationGet.FromSqlRaw("exec df_Get_DesignEstimationsForUser @UserID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userAllEstimationGet;
+        }
+
         public long InsertUpdateUserEstimationEnquiries(DataContext context, UserEstimationEnquiries userEstimationEnquiries)
         {
             List<UserEstimationEnquiries> userEstimationEnquiriesMain = new List<UserEstimationEnquiries>();
             long rowsAffected = 0;
             try
             {
-                context.UserEstimationEnquiries.Add(userEstimationEnquiries);
-                context.SaveChanges();
-                rowsAffected = userEstimationEnquiries.ID;
+                userEstimationEnquiriesMain = context.UserEstimationEnquiries.Where(b => b.ID == userEstimationEnquiries.ID).ToList();
+                if (userEstimationEnquiriesMain.Any())
+                {
+                    userEstimationEnquiriesMain.First().Status = userEstimationEnquiries.Status;
+                    userEstimationEnquiriesMain.First().TotalAmount = userEstimationEnquiries.TotalAmount;
+                    context.UserEstimationEnquiries.Update(userEstimationEnquiriesMain.First());
+                    context.SaveChanges();
+                    rowsAffected = userEstimationEnquiries.ID;
+                }
+                else
+                {
+                    context.UserEstimationEnquiries.Add(userEstimationEnquiries);
+                    context.SaveChanges();
+                    rowsAffected = userEstimationEnquiries.ID;
+                }
             }
             catch (Exception)
             {

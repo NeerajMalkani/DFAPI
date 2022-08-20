@@ -91,6 +91,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getuserallestimation")]
+        public Response GetUserAllEstimation([FromQuery] UserEstimationEnquiries userEstimationEnquiries)
+        {
+            Response response = new Response();
+            try
+            {
+                List<UserAllEstimationGet> userAllEstimationGet = new GeneralUserEnquiryEstimationsRepository().GetUserAllEstimation(_db, userEstimationEnquiries);
+                if (userAllEstimationGet.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userAllEstimationGet);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, userAllEstimationGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertdesignestimateenquiries")]
         public Response InsertUpdateDesignEstimateEnquiries(UserEstimationEnquiries userEstimationEnquiries)
