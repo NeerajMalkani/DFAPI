@@ -123,6 +123,7 @@ namespace DFAPI.Entities
         [Key]
         public long ProductID { get; set; }
         public string? ProductName { get; set; }
+        public decimal? RateWithoutMaterials { get; set; }
         public bool? Display { get; set; }
     }
 
