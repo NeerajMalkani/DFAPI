@@ -1324,6 +1324,102 @@ namespace DFAPI.Repositories
             }
             return userDesignationMappingLists;
         }
+
+        public long InsertUserBranch(DataContext context, BranchMaster branchMaster)
+        {
+            List<BranchMaster> branchMasters_regional = new List<BranchMaster>();
+            List<BranchMaster> branchMasters_branch = new List<BranchMaster>();
+            long rowsAffected = 0;
+            try
+            {
+                branchMasters_regional = context.BranchMaster
+                    .Where(udm => (udm.UserID == branchMaster.UserID &&
+                    udm.UserType == branchMaster.UserType &&
+                    udm.BranchTypeID == 2 &&
+                    udm.BranchTypeID == branchMaster.BranchTypeID &&
+                    udm.StateID == branchMaster.StateID)).ToList();
+
+                branchMasters_branch = context.BranchMaster
+                    .Where(udm => (udm.UserID == branchMaster.UserID &&
+                    udm.UserType == branchMaster.UserType &&
+                    udm.BranchTypeID == 2 &&
+                    udm.BranchTypeID == branchMaster.BranchTypeID &&
+                    udm.CityID == branchMaster.CityID &&
+                    udm.LocationName == branchMaster.LocationName)).ToList();
+
+                if (!branchMasters_regional.Any() && !branchMasters_branch.Any())
+                {
+                    context.BranchMaster.Add(branchMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    if (!branchMasters_regional.Any())
+                    {
+                        rowsAffected = -2;
+                    }
+                    else if (!branchMasters_branch.Any())
+                    {
+                        rowsAffected = -3;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateUserBranch(DataContext context, BranchMaster branchMaster)
+        {
+            List<BranchMaster> branchMasters_regional = new List<BranchMaster>();
+            List<BranchMaster> branchMasters_branch = new List<BranchMaster>();
+            long rowsAffected = 0;
+            try
+            {
+                branchMasters_regional = context.BranchMaster
+                    .Where(udm => (udm.UserID == branchMaster.UserID &&
+                    udm.UserType == branchMaster.UserType &&
+                    udm.BranchTypeID == 2 &&
+                    udm.BranchTypeID == branchMaster.BranchTypeID &&
+                    udm.StateID == branchMaster.StateID &&
+                    udm.ID != branchMaster.ID)).ToList();
+
+                branchMasters_branch = context.BranchMaster
+                    .Where(udm => (udm.UserID == branchMaster.UserID &&
+                    udm.UserType == branchMaster.UserType &&
+                    udm.BranchTypeID == 2 &&
+                    udm.BranchTypeID == branchMaster.BranchTypeID &&
+                    udm.CityID == branchMaster.CityID &&
+                    udm.LocationName == branchMaster.LocationName &&
+                    udm.ID != branchMaster.ID)).ToList();
+
+                if (!branchMasters_regional.Any() && !branchMasters_branch.Any())
+                {
+                    context.BranchMaster.Add(branchMaster);
+                    context.SaveChanges();
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    if (!branchMasters_regional.Any())
+                    {
+                        rowsAffected = -2;
+                    }
+                    else if (!branchMasters_branch.Any())
+                    {
+                        rowsAffected = -3;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
         #endregion
     }
 }

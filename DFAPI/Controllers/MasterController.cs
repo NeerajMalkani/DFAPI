@@ -1544,6 +1544,71 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
+        [HttpPost]
+        [Route("insertuserbranch")]
+        public Response InsertUserBranch(BranchMaster branchMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertUserBranch(_db, branchMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Regional Office already exists", out response);
+                }
+                else if (rowsAffected == -3)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Branch Office already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updateuserbranch")]
+        public Response UpdateUserBranch(BranchMaster branchMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().UpdateUserBranch(_db, branchMaster);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Regional Office already exists", out response);
+                }
+                else if (rowsAffected == -3)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Branch Office already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         #endregion
     }
 }
