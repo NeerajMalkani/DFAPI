@@ -99,7 +99,7 @@ namespace DFAPI.Entities
         public long? ServiceID { get; set; }
         public string? ServiceName { get; set; }
         public long? CategoryID { get; set; }
-        public string? CategoryName { get; set; }           
+        public string? CategoryName { get; set; }
         public string? HSNSACCode { get; set; }
         public decimal? GSTRate { get; set; }
         public long? UnitOfSalesID { get; set; }
@@ -109,7 +109,7 @@ namespace DFAPI.Entities
         public Int32? Unit1ID { get; set; }
         public Int32? Unit2ID { get; set; }
         public decimal? ConversionRate { get; set; }
-        public bool? Display { get; set; }      
+        public bool? Display { get; set; }
         public decimal? RateWithMaterials { get; set; }
         public decimal? RateWithoutMaterials { get; set; }
         public decimal? AlternateUnitOfSales { get; set; }
@@ -369,5 +369,27 @@ namespace DFAPI.Entities
         public string? GSTNo { get; set; }
         public string? PANNo { get; set; }
         public bool? Display { get; set; }
+    }
+
+    public class Companies
+    {
+        [Key]
+        public long CompanyID { get; set; }
+        public long? UserID { get; set; }
+        public string? CompanyName { get; set; }
+        public string? CompanyNamePrefix { get; set; }
+        public string? EmpoyeeCodePrefix { get; set; }
+        public string? QuotationNumberPrefix { get; set; }
+        public string? CompanyLogo { get; set; }
+        public string? IsActive { get; set; }
+        public string? ContactPersonName { get; set; }
+        public string? ContactPersonNumber { get; set; }
+    }
+
+    public class CompanyList
+    {
+        [Key]
+        public long CompanyID { get; set; }
+        public string? CompanyName { get; set; }
     }
 }

@@ -1325,6 +1325,28 @@ namespace DFAPI.Repositories
             return userDesignationMappingLists;
         }
 
+        public List<CompanyList> GetUserCompanyName(DataContext context, UserMappingRequest userMappingRequest)
+        {
+            List<CompanyList> companyLists = new List<CompanyList>();
+            List<Companies> companies = new List<Companies>();
+            try
+            {
+                companies = context.Companies
+                    .Where(c => (c.UserID == userMappingRequest.UserId)).ToList();
+
+                if (companies.Any())
+                {
+                    companyLists[0].CompanyID = companies[0].CompanyID;
+                    companyLists[0].CompanyName = companies[0].CompanyName;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return companyLists;
+        }
+
         public long InsertUserBranch(DataContext context, BranchMaster branchMaster)
         {
             List<BranchMaster> branchMasters_regional = new List<BranchMaster>();

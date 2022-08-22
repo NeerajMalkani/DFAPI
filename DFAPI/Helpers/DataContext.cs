@@ -61,6 +61,8 @@ namespace DFAPI.Helpers
         public DbSet<UserEmployeeList> UserEmployeeList => Set<UserEmployeeList>();
         public DbSet<EmployeeMaster> EmployeeMaster => Set<EmployeeMaster>();
         public DbSet<BranchMaster> BranchMaster => Set<BranchMaster>();
+        public DbSet<Companies> Companies => Set<Companies>();
+        public DbSet<CompanyList> CompanyList => Set<CompanyList>();
         public DbSet<UserBranchList> UserBranchList => Set<UserBranchList>();
 
 
