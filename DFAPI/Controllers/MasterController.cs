@@ -1570,6 +1570,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getuserbranchtypes")]
+        public Response GetUserBranchType([FromQuery] UserMappingRequest userMappingRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<LocationTypeMaster> locationTypeList = new MasterRepository().GetLocationTypeForBranch(_db);
+                if (locationTypeList.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, locationTypeList);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertuserbranch")]
         public Response InsertUserBranch(BranchMaster branchMaster)

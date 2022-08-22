@@ -1347,6 +1347,22 @@ namespace DFAPI.Repositories
             return companyLists;
         }
 
+        public List<LocationTypeMaster> GetLocationTypeForBranch(DataContext context)
+        {
+            List<LocationTypeMaster> locationTypeList = new List<LocationTypeMaster>();
+            try
+            {
+                locationTypeList = context.LocationTypeMaster
+                    .Where(ltm => (ltm.ID == 2 &&
+                    ltm.ID == 3)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return locationTypeList;
+        }
+
         public long InsertUserBranch(DataContext context, BranchMaster branchMaster)
         {
             List<BranchMaster> branchMasters_regional = new List<BranchMaster>();
