@@ -97,6 +97,8 @@ namespace DFAPI.Helpers
         #region Contractor
         public DbSet<ContractorServiceList> ContractorServiceList => Set<ContractorServiceList>();
         public DbSet<ContractorServiceMapping> ContractorServiceMapping => Set<ContractorServiceMapping>();
+        public DbSet<Client> Client => Set<Client>();
+        public DbSet<ClientGet> ClientGet => Set<ClientGet>();
         #endregion
 
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
