@@ -16,9 +16,9 @@ namespace DFAPI.Repositories
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                new SqlParameter { ParameterName = "@UserID", Value = clientMaster.UserID }
+                new SqlParameter { ParameterName = "@AddedByUserID", Value = clientMaster.AddedByUserID }
                 };
-                clientGet = context.ClientGet.FromSqlRaw("exec df_Get_Clients @UserID", parms.ToArray()).ToList();
+                clientGet = context.ClientGet.FromSqlRaw("exec df_Get_Clients @AddedByUserID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
@@ -35,6 +35,7 @@ namespace DFAPI.Repositories
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = client.AddedByUserID, SqlDbType = SqlDbType.VarChar },
                     new SqlParameter { ParameterName = "@CompanyName", Value = client.CompanyName, SqlDbType = SqlDbType.VarChar },
                     new SqlParameter { ParameterName = "@ContactPerson", Value = client.ContactPerson, SqlDbType = SqlDbType.VarChar },
                     new SqlParameter { ParameterName = "@ContactMobileNumber", Value = client.ContactMobileNumber, SqlDbType = SqlDbType.VarChar },
@@ -48,12 +49,12 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@Display", Value = client.Display, SqlDbType = SqlDbType.Bit },
                     new SqlParameter { ParameterName = "@Status", Direction = ParameterDirection.Output, SqlDbType = SqlDbType.TinyInt }
                 };
-                context.Database.ExecuteSqlRaw("exec df_Insert_Client @CompanyName, @ContactPerson, @ContactMobileNumber, @Address1, @StateID, @CityID, @Pincode, @GSTNumber, @PAN, @ServiceType, @Display, @Status out", parms.ToArray());
-                if (Convert.ToInt16(parms[11].Value) == 1)
+                context.Database.ExecuteSqlRaw("exec df_Insert_Client @AddedByUserID, @CompanyName, @ContactPerson, @ContactMobileNumber, @Address1, @StateID, @CityID, @Pincode, @GSTNumber, @PAN, @ServiceType, @Display, @Status out", parms.ToArray());
+                if (Convert.ToInt16(parms[12].Value) == 1)
                 {
                     rowsAffected = 1;
                 }
-                else if (Convert.ToInt16(parms[11].Value) == 2)
+                else if (Convert.ToInt16(parms[12].Value) == 2)
                 {
                     rowsAffected = -2;
                 }

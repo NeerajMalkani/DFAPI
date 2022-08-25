@@ -6,6 +6,7 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
+        public long AddedByUserID { get; set; }
         public long? UserID { get; set; }
         public long? CompanyID { get; set; }
         public int? ServiceType { get; set; }
@@ -16,6 +17,7 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
+        public long? AddedByUserID { get; set; }
         public string? CompanyName { get; set; }
         public string? ContactPerson { get; set; }
         public string? ContactMobileNumber { get; set; }
