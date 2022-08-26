@@ -297,6 +297,16 @@ namespace DFAPI.Entities
         public string? AadharNo { get; set; }
     }
 
+    public class UserEmployeeSearchResponse
+    {
+        public long ID { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? AadharNo { get; set; }
+        public string? CompanyName { get; set; }
+        public long? CompanyID { get; set; }
+    }
+
     public class EmployeeMaster
     {
         [Key]
@@ -333,6 +343,13 @@ namespace DFAPI.Entities
         public bool? verifyStatus { get; set; }
     }
 
+    public class UserEmployeeSearchRequest
+    {
+        public byte? UserType { get; set; }
+        public long? UserID { get; set; }
+        public string? MobileNo { get; set; }
+        public string? AadharNo { get; set; }
+    }
     public class BranchMaster
     {
         [Key]

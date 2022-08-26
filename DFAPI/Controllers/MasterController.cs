@@ -1486,6 +1486,31 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getemployeesearchlist")]
+        public Response GetUserEmployeeSearchList([FromQuery] UserEmployeeSearchRequest userEmployeeSearchRequest)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserEmployeeSearchResponse> userEmployeeSearchResponses = new MasterRepository().GetUserEmployeeSearchList(_db, userEmployeeSearchRequest);
+                if (userEmployeeSearchResponses.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userEmployeeSearchResponses);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertuseremployees")]
         public Response InsertUserEmployees(UserEmployeeRequest userEmployeeRequest)

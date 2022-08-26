@@ -1261,6 +1261,27 @@ namespace DFAPI.Repositories
             return UserEmployeeList;
         }
 
+        public List<UserEmployeeSearchResponse> GetUserEmployeeSearchList(DataContext context, UserEmployeeSearchRequest userEmployeeSearchRequest )
+        {
+            List<UserEmployeeSearchResponse> userEmployeeSearchResponses = new List<UserEmployeeSearchResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userEmployeeSearchRequest.UserID },
+                    new SqlParameter { ParameterName = "@UserType", Value = userEmployeeSearchRequest.UserType },
+                    new SqlParameter { ParameterName = "@AadharNo", Value = userEmployeeSearchRequest.AadharNo },
+                    new SqlParameter { ParameterName = "@MobileNo", Value = userEmployeeSearchRequest.MobileNo },
+                };
+                userEmployeeSearchResponses = context.UserEmployeeSearchResponse.FromSqlRaw("exec df_Get_EmployeeSearchList @UserId, @UserType, @AadharNo, @MobileNo", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userEmployeeSearchResponses;
+        }
+
         public long InsertUserEmployee(DataContext context, UserEmployeeRequest userEmployeeRequest)
         {
             List<UserEmployeeList> userEmployeeLists_mobile = new List<UserEmployeeList>();
