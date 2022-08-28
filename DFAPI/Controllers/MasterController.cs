@@ -1511,6 +1511,82 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getuserbranchforemployee")]
+        public Response GetUserBranchForEmployee([FromQuery] UserMappingRequest userMappingRequest)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserBranchForEmployeeResponse> userBranchForEmployeeResponses = new MasterRepository().GetBranchForEmployee(_db, userMappingRequest);
+                if (userBranchForEmployeeResponses.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userBranchForEmployeeResponses);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getuserdepartmentforbranchemployee")]
+        public Response GetUserDepartmentForBranchEmployee([FromQuery] UserMappingRequest userMappingRequest)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserDepartmentForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new MasterRepository().GetUserDepartmentForBranchEmployee(_db, userMappingRequest);
+                if (userDepartmentForBranchEmployeeResponses.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDepartmentForBranchEmployeeResponses);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+
+        [HttpGet]
+        [Route("getuserdesignationforbranchemployee")]
+        public Response GetUserDesignationForBranchEmployee([FromQuery] UserMappingRequest userMappingRequest)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserDesignationForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new MasterRepository().GetUserDesignatonForBranchEmployee(_db, userMappingRequest);
+                if (userDepartmentForBranchEmployeeResponses.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDepartmentForBranchEmployeeResponses);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertuseremployees")]
         public Response InsertUserEmployees(UserEmployeeRequest userEmployeeRequest)

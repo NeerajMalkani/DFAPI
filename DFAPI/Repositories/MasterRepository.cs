@@ -1261,6 +1261,84 @@ namespace DFAPI.Repositories
             return UserEmployeeList;
         }
 
+        public List<UserBranchForEmployeeResponse> GetBranchForEmployee(DataContext context, UserMappingRequest userMappingRequest)
+        {
+            List<UserBranchForEmployeeResponse> userBranchForEmployeeResponses = new List<UserBranchForEmployeeResponse>();
+            List<BranchMaster> branchMasters = new List<BranchMaster>();
+            try
+            {
+                branchMasters = context.BranchMaster
+                    .Where(c => (c.UserID == userMappingRequest.UserId)).ToList();
+
+                if (branchMasters.Any())
+                {
+                    userBranchForEmployeeResponses[0].ID = branchMasters[0].ID;
+                    userBranchForEmployeeResponses[0].LocationName = branchMasters[0].LocationName;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userBranchForEmployeeResponses;
+        }
+
+        public List<UserDepartmentForBranchEmployeeResponse> GetUserDepartmentForBranchEmployee(DataContext context, UserMappingRequest userMappingRequest)
+        {
+            List<UserDepartmentForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new List<UserDepartmentForBranchEmployeeResponse>();
+            List<UserDepartmentMappingList> userDepartmentMappingLists = new List<UserDepartmentMappingList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                };
+                userDepartmentMappingLists = context.UserDepartmentMappingList.FromSqlRaw("exec df_Get_UserDepartmentForBranchEmployee @UserId, @UserType", parms.ToArray()).ToList();
+
+                if (userDepartmentMappingLists.Any())
+                {
+                    userDepartmentForBranchEmployeeResponses[0].DepartmentID = userDepartmentMappingLists[0].DepartmentID;
+                    userDepartmentForBranchEmployeeResponses[0].DepartmentName = userDepartmentMappingLists[0].DepartmentName;
+                }    
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userDepartmentForBranchEmployeeResponses;
+        }
+
+        public List<UserDesignationForBranchEmployeeResponse> GetUserDesignatonForBranchEmployee(DataContext context, UserMappingRequest userMappingRequest)
+        {
+            List<UserDesignationForBranchEmployeeResponse> userDesignationForBranchEmployeeResponses = new List<UserDesignationForBranchEmployeeResponse>();
+            List<UserDesignationMappingList> userDesignationMappingLists = new List<UserDesignationMappingList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                };
+                userDesignationMappingLists = context.UserDesignationMappingList.FromSqlRaw("exec df_Get_UserDesignationForBranchEmployee @UserId, @UserType", parms.ToArray()).ToList();
+
+                if (userDesignationMappingLists.Any())
+                {
+                    userDesignationForBranchEmployeeResponses[0].DesignationID = userDesignationMappingLists[0].DesignationID;
+                    userDesignationForBranchEmployeeResponses[0].DesignationName = userDesignationMappingLists[0].DesignationName;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userDesignationForBranchEmployeeResponses;
+        }
+
+
+
         public List<UserEmployeeSearchResponse> GetUserEmployeeSearchList(DataContext context, UserEmployeeSearchRequest userEmployeeSearchRequest )
         {
             List<UserEmployeeSearchResponse> userEmployeeSearchResponses = new List<UserEmployeeSearchResponse>();
