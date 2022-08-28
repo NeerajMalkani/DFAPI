@@ -1272,8 +1272,8 @@ namespace DFAPI.Repositories
 
                 if (branchMasters.Any())
                 {
-                    userBranchForEmployeeResponses[0].ID = branchMasters[0].ID;
-                    userBranchForEmployeeResponses[0].LocationName = branchMasters[0].LocationName;
+                    userBranchForEmployeeResponses.Add(new UserBranchForEmployeeResponse
+                    { ID = branchMasters[0].ID, LocationName = branchMasters[0].LocationName });
                 }
             }
             catch (Exception)
@@ -1289,6 +1289,7 @@ namespace DFAPI.Repositories
             List<UserDepartmentMappingList> userDepartmentMappingLists = new List<UserDepartmentMappingList>();
             try
             {
+
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
@@ -1298,9 +1299,15 @@ namespace DFAPI.Repositories
 
                 if (userDepartmentMappingLists.Any())
                 {
-                    userDepartmentForBranchEmployeeResponses[0].DepartmentID = userDepartmentMappingLists[0].DepartmentID;
-                    userDepartmentForBranchEmployeeResponses[0].DepartmentName = userDepartmentMappingLists[0].DepartmentName;
-                }    
+                    foreach (UserDepartmentMappingList userDepartmentMappingList in userDepartmentMappingLists)
+                    {
+                        userDepartmentForBranchEmployeeResponses.Add(new UserDepartmentForBranchEmployeeResponse
+                        {
+                            DepartmentID = userDepartmentMappingList.DepartmentID,
+                            DepartmentName = userDepartmentMappingList.DepartmentName
+                        });
+                    }
+                }
 
             }
             catch (Exception)
@@ -1325,10 +1332,15 @@ namespace DFAPI.Repositories
 
                 if (userDesignationMappingLists.Any())
                 {
-                    userDesignationForBranchEmployeeResponses[0].DesignationID = userDesignationMappingLists[0].DesignationID;
-                    userDesignationForBranchEmployeeResponses[0].DesignationName = userDesignationMappingLists[0].DesignationName;
+                    foreach (UserDesignationMappingList userDesignationMappingList in userDesignationMappingLists)
+                    {
+                        userDesignationForBranchEmployeeResponses.Add(new UserDesignationForBranchEmployeeResponse
+                        {
+                            DesignationID = userDesignationMappingList.DesignationID,
+                            DesignationName = userDesignationMappingList.DesignationName
+                        });
+                    }
                 }
-
             }
             catch (Exception)
             {
@@ -1339,7 +1351,7 @@ namespace DFAPI.Repositories
 
 
 
-        public List<UserEmployeeSearchResponse> GetUserEmployeeSearchList(DataContext context, UserEmployeeSearchRequest userEmployeeSearchRequest )
+        public List<UserEmployeeSearchResponse> GetUserEmployeeSearchList(DataContext context, UserEmployeeSearchRequest userEmployeeSearchRequest)
         {
             List<UserEmployeeSearchResponse> userEmployeeSearchResponses = new List<UserEmployeeSearchResponse>();
             try
