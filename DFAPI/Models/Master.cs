@@ -279,6 +279,12 @@ namespace DFAPI.Entities
         public bool? verifyStatus { get; set; }
     }
 
+    public class UserBranchForEmployeeResponse
+    {
+        public long? ID { get; set; }
+        public string? LocationName { get; set; }
+    }
+
     public class UserEmployeeRequest
     {
         public byte? UserType { get; set; }
@@ -353,7 +359,7 @@ namespace DFAPI.Entities
     public class BranchMaster
     {
         [Key]
-        public string? ID { get; set; }
+        public long? ID { get; set; }
         public byte? UserType { get; set; }
         public long? UserID { get; set; }
         public int? CompanyID { get; set; }
@@ -408,5 +414,17 @@ namespace DFAPI.Entities
         [Key]
         public long CompanyID { get; set; }
         public string? CompanyName { get; set; }
+    }
+
+    public class UserDepartmentForBranchEmployeeResponse
+    {
+        public int? DepartmentID { get; set; }
+        public string? DepartmentName { get; set; }
+    }
+
+    public class UserDesignationForBranchEmployeeResponse
+    {
+        public int? DesignationID { get; set; }
+        public string? DesignationName { get; set; }
     }
 }
