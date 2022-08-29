@@ -384,7 +384,7 @@ namespace DFAPI.Controllers
             }
             return response;
         }
-
+        //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TBR XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         [HttpGet]
         [Route("getproductsbybrandproductids")]
         public Response GetProductsByBrandProductID([FromQuery] ProductBarndRequest productBarndRequest)
@@ -408,7 +408,7 @@ namespace DFAPI.Controllers
             }
             return response;
         }
-
+        //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TBR XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         [HttpGet]
         [Route("getbrandsbyproductids")]
         public Response GetBrandsByProductID([FromQuery] ProductsRequest productsRequest)

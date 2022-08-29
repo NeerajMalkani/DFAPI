@@ -582,6 +582,7 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TBR XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         [HttpGet]
         [Route("getunitbycategoryid")]
         public Response GetUnitByCategoryID([FromQuery] CategoryMaster categoryMaster)
@@ -605,6 +606,7 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+        //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TBR XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
         [HttpGet]
         [Route("getproductsbycategoryid")]

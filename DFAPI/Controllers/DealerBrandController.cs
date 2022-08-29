@@ -99,7 +99,7 @@ namespace DFAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("deletebuyercategory")]
+        [Route("deletebrand")]
         public Response DeleteBrand(BrandMaster brandMaster)
         {
             Response response = new Response();
