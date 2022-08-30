@@ -1589,6 +1589,31 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getreportingemployee")]
+        public Response GetReportingEmployee([FromQuery] UserMappingRequest userMappingRequest)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserReportingEmployeeResponse> userReportingEmployeeResponses = new MasterRepository().GetReportingEmployeeList(_db, userMappingRequest);
+                if (userReportingEmployeeResponses.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userReportingEmployeeResponses);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertuseremployees")]
         public Response InsertUserEmployees(UserEmployeeRequest userEmployeeRequest)

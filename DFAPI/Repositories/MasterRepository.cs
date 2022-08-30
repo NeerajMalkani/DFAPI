@@ -1372,6 +1372,25 @@ namespace DFAPI.Repositories
             return userEmployeeSearchResponses;
         }
 
+        public List<UserReportingEmployeeResponse> GetReportingEmployeeList(DataContext context, UserMappingRequest userMappingRequest)
+        {
+            List<UserReportingEmployeeResponse> userReportingEmployeeResponses  = new List<UserReportingEmployeeResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                };
+                userReportingEmployeeResponses = context.UserReportingEmployeeResponse.FromSqlRaw("exec df_Get_ReportingEmployee @UserId, @UserType", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userReportingEmployeeResponses;
+        }
+
         public long InsertUserEmployee(DataContext context, UserEmployeeRequest userEmployeeRequest)
         {
             List<UserEmployeeList> userEmployeeLists_mobile = new List<UserEmployeeList>();
@@ -1414,7 +1433,6 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
         #endregion
-
 
         #region Branch
         public List<UserBranchList> GetUserBranches(DataContext context, UserMappingRequest userMappingRequest)
