@@ -313,6 +313,12 @@ namespace DFAPI.Entities
         public long? CompanyID { get; set; }
     }
 
+    public class UserReportingEmployeeResponse
+    {
+        public long ID { get; set; }
+        public string? Employee { get; set; }
+    }
+
     public class EmployeeMaster
     {
         [Key]
