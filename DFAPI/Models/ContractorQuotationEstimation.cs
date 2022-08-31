@@ -47,6 +47,18 @@ namespace DFAPI.Entities
         public string? GSTNumber { get; set; }
         public string? PAN { get; set; }
         public byte? ServiceType { get; set; }
+        public bool? AddedBy { get; set; }
         public bool? Display { get; set; }
+    }
+
+    public class ApprovedEstimations
+    {
+        [Key]
+        public long ID { get; set; }
+        public long UserEstimationID { get; set; }
+        public string? Remarks { get; set; }
+        public byte ApprovedThrough { get; set; }
+        public string? ApproveProof { get; set; }
+
     }
 }

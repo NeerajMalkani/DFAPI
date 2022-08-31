@@ -85,8 +85,30 @@ namespace DFAPI.Repositories
                 userEstimationEnquiriesMain = context.UserEstimationEnquiries.Where(b => b.ID == userEstimationEnquiries.ID).ToList();
                 if (userEstimationEnquiriesMain.Any())
                 {
-                    userEstimationEnquiriesMain.First().Status = userEstimationEnquiries.Status;
-                    userEstimationEnquiriesMain.First().TotalAmount = userEstimationEnquiries.TotalAmount;
+                    if (userEstimationEnquiries.Status != null)
+                    {
+                        userEstimationEnquiriesMain.First().Status = userEstimationEnquiries.Status;
+                    }
+                    if (userEstimationEnquiries.SubtotalAmount != null && userEstimationEnquiries.SubtotalAmount != 0)
+                    {
+                        userEstimationEnquiriesMain.First().SubtotalAmount = userEstimationEnquiries.SubtotalAmount;
+                    }
+                    if (userEstimationEnquiries.LabourCost != null && userEstimationEnquiries.LabourCost != 0)
+                    {
+                        userEstimationEnquiriesMain.First().LabourCost = userEstimationEnquiries.LabourCost;
+                    }
+                    if (userEstimationEnquiries.TotalAmount != null && userEstimationEnquiries.TotalAmount != 0)
+                    {
+                        userEstimationEnquiriesMain.First().TotalAmount = userEstimationEnquiries.TotalAmount;
+                    }
+                    if (userEstimationEnquiries.ClientID != null && userEstimationEnquiries.ClientID != 0)
+                    {
+                        userEstimationEnquiriesMain.First().ClientID = userEstimationEnquiries.ClientID;
+                    }
+                    if (userEstimationEnquiries.ApprovalStatus != null)
+                    {
+                        userEstimationEnquiriesMain.First().ApprovalStatus = userEstimationEnquiries.ApprovalStatus;
+                    }
                     context.UserEstimationEnquiries.Update(userEstimationEnquiriesMain.First());
                     context.SaveChanges();
                     rowsAffected = userEstimationEnquiries.ID;
