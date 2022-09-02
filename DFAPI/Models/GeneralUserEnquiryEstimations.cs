@@ -32,11 +32,16 @@ namespace DFAPI.Entities
         [Key]
         public long ID { get; set; }
         public long UserID { get; set; }
+        public long? ClientID { get; set; }
         public long DesignTypeID { get; set; }
+        public long WorkLocationID { get; set; }
         public decimal? Length { get; set; }
         public decimal? Width { get; set; }
+        public decimal? SubtotalAmount { get; set; }
+        public decimal? LabourCost { get; set; }
         public decimal? TotalAmount { get; set; }
         public bool? Status { get; set; }
+        public byte? ApprovalStatus { get; set; }
     }
 
     public class UserEstimationEnquiriesGet
@@ -56,17 +61,42 @@ namespace DFAPI.Entities
         public long ID { get; set; }
         public long DesignTypeID { get; set; }
         public string? DesignTypeName { get; set; }
+        public string? DesignTypeImage { get; set; }
         public string? ProductName { get; set; }
         public decimal? Length { get; set; }
         public decimal? Width { get; set; }
+        public decimal? SubtotalAmount { get; set; }
+        public decimal? LabourCost { get; set; }
         public decimal? TotalAmount { get; set; }
         public bool Status { get; set; }
+    }
+
+    public class ContractorAllEstimationGet
+    {
+        [Key]
+        public long ID { get; set; }
+        public long DesignTypeID { get; set; }
+        public string? FullName { get; set; }
+        public string? Username { get; set; }
+        public string? ServiceName { get; set; }
+        public string? CategoryName { get; set; }
+        public string? DesignTypeName { get; set; }
+        public string? DesignTypeImage { get; set; }
+        public string? ProductName { get; set; }
+        public decimal? Length { get; set; }
+        public decimal? Width { get; set; }
+        public decimal? SubtotalAmount { get; set; }
+        public decimal? LabourCost { get; set; }
+        public decimal? TotalAmount { get; set; }
+        public bool? Status { get; set; }
+        public byte? ApprovalStatus { get; set; }
     }
 
     [Keyless]
     public class UserEstimationEnquiriesForMaterialSetup
     {
         public long MaterialSetupID { get; set; }
+        public long? ProductID { get; set; }
         public string? ProductName { get; set; }
         public string? BrandName { get; set; }
         public decimal Rate { get; set; }

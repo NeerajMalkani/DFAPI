@@ -102,6 +102,8 @@ namespace DFAPI.Helpers
         public DbSet<ContractorServiceMapping> ContractorServiceMapping => Set<ContractorServiceMapping>();
         public DbSet<Client> Client => Set<Client>();
         public DbSet<ClientGet> ClientGet => Set<ClientGet>();
+        public DbSet<ContractorAllEstimationGet> ContractorAllEstimationGet => Set<ContractorAllEstimationGet>();
+        public DbSet<ApprovedEstimations> ApprovedEstimations => Set<ApprovedEstimations>(); 
         #endregion
 
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
