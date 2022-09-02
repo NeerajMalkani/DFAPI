@@ -1290,6 +1290,7 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        
 
         #endregion
 
@@ -1463,18 +1464,26 @@ namespace DFAPI.Controllers
         #endregion
 
         #region User Employees
-        [HttpGet]
-        [Route("getuseremployeelist")]
-        public Response GetUserEmployeeList([FromQuery] UserMappingRequest userMappingRequest)
-        {
 
+        [HttpPost]
+        [Route("insertuseremployees")]
+        public Response InsertUserEmployees(UserEmployeeRequest userEmployeeRequest)
+        {
             Response response = new Response();
             try
             {
-                List<UserEmployeeListResponse> userDesignationMappingLists = new MasterRepository().GetUserEmployeeList(_db, userMappingRequest);
-                if (userDesignationMappingLists.Any())
+                long rowsAffected = new MasterRepository().InsertUserEmployee(_db, userEmployeeRequest);
+                if (rowsAffected > 0)
                 {
-                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDesignationMappingLists);
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Mobile number already exists", out response);
+                }
+                else if (rowsAffected == -3)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Aadhar number already exists", out response);
                 }
                 else
                 {
@@ -1514,14 +1523,46 @@ namespace DFAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getuserbranchforemployee")]
-        public Response GetUserBranchForEmployee([FromQuery] UserMappingRequest userMappingRequest)
+        [Route("getuseremployeelist")]
+        public Response GetUserEmployeeList([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
 
             Response response = new Response();
             try
             {
-                List<UserBranchForEmployeeResponse> userBranchForEmployeeResponses = new MasterRepository().GetBranchForEmployee(_db, userMappingRequest);
+                List<UserEmployeeListResponse> userDesignationMappingLists = new MasterRepository().GetUserEmployeeList(_db, empoyeeMappingRequest);
+                if (userDesignationMappingLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDesignationMappingLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        
+
+
+
+
+
+
+        [HttpGet]
+        [Route("getuserbranchforemployee")]
+        public Response GetUserBranchForEmployee([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+
+            Response response = new Response();
+            try
+            {
+                List<UserBranchForEmployeeResponse> userBranchForEmployeeResponses = new MasterRepository().GetBranchForEmployee(_db, empoyeeMappingRequest);
                 if (userBranchForEmployeeResponses.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userBranchForEmployeeResponses);
@@ -1562,7 +1603,6 @@ namespace DFAPI.Controllers
             }
             return response;
         }
-
 
         [HttpGet]
         [Route("getuserdesignationforbranchemployee")]
@@ -1614,25 +1654,23 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        
+
         [HttpPost]
-        [Route("insertuseremployees")]
-        public Response InsertUserEmployees(UserEmployeeRequest userEmployeeRequest)
+        [Route("updateemployeeverificationstatus")]
+        public Response UpdateEmployeeVerificationStatus(UserEmployeeVerifyRequest userEmployeeVerifyRequest)
         {
             Response response = new Response();
             try
             {
-                long rowsAffected = new MasterRepository().InsertUserEmployee(_db, userEmployeeRequest);
+                long rowsAffected = new MasterRepository().UpdateEmployeeVerificationStatus(_db, userEmployeeVerifyRequest);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
                 else if (rowsAffected == -2)
                 {
-                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Mobile number already exists", out response);
-                }
-                else if (rowsAffected == -3)
-                {
-                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Aadhar number already exists", out response);
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
                 }
                 else
                 {

@@ -1242,17 +1242,77 @@ namespace DFAPI.Repositories
         #endregion
 
         #region User Employees
-        public List<UserEmployeeListResponse> GetUserEmployeeList(DataContext context, UserMappingRequest userMappingRequest)
+        public long InsertUserEmployee(DataContext context, UserEmployeeRequest userEmployeeRequest)
+        {
+            List<UserEmployeeList> userEmployeeLists_mobile = new List<UserEmployeeList>();
+            List<UserEmployeeList> userEmployeeLists_aadhar = new List<UserEmployeeList>();
+            long rowsAffected = 0;
+            try
+            {
+                userEmployeeLists_mobile = context.UserEmployeeList.Where(udm => (udm.MobileNo == userEmployeeRequest.MobileNo)).ToList();
+                userEmployeeLists_aadhar = context.UserEmployeeList.Where(udm => (udm.AadharNo == userEmployeeRequest.AadharNo)).ToList();
+
+                if (!userEmployeeLists_mobile.Any() && !userEmployeeLists_aadhar.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = userEmployeeRequest.AddedByUserID },
+                     new SqlParameter { ParameterName = "@EmployeeName", Value = userEmployeeRequest.EmployeeName },
+                     new SqlParameter { ParameterName = "@MobileNo", Value = userEmployeeRequest.MobileNo },
+                     new SqlParameter { ParameterName = "@AadharNo", Value = userEmployeeRequest.AadharNo },
+                };
+                    context.Database.ExecuteSqlRaw("exec df_Insert_User_Employee @AddedByUserID, @EmployeeName, @MobileNo, @AadharNo", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    if (userEmployeeLists_mobile.Any())
+                    {
+                        rowsAffected = -2;
+                    }
+                    else if (userEmployeeLists_aadhar.Any())
+                    {
+                        rowsAffected = -3;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public List<UserEmployeeSearchResponse> GetUserEmployeeSearchList(DataContext context, UserEmployeeSearchRequest userEmployeeSearchRequest)
+        {
+            List<UserEmployeeSearchResponse> userEmployeeSearchResponses = new List<UserEmployeeSearchResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = userEmployeeSearchRequest.AddedByUserID },
+                    new SqlParameter { ParameterName = "@AadharNo", Value = userEmployeeSearchRequest.AadharNo },
+                    new SqlParameter { ParameterName = "@MobileNo", Value = userEmployeeSearchRequest.MobileNo },
+                };
+                userEmployeeSearchResponses = context.UserEmployeeSearchResponse.FromSqlRaw("exec df_Get_EmployeeSearchList @AddedByUserID, @AadharNo, @MobileNo", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userEmployeeSearchResponses;
+        }
+
+        public List<UserEmployeeListResponse> GetUserEmployeeList(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserEmployeeListResponse> UserEmployeeList = new List<UserEmployeeListResponse>();
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
                 };
-                UserEmployeeList = context.UserEmployeeListResponse.FromSqlRaw("exec df_Get_UserEmployeeList @UserId, @UserType", parms.ToArray()).ToList();
+                UserEmployeeList = context.UserEmployeeListResponse.FromSqlRaw("exec df_Get_UserEmployeeList @AddedByUserID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
@@ -1261,14 +1321,20 @@ namespace DFAPI.Repositories
             return UserEmployeeList;
         }
 
-        public List<UserBranchForEmployeeResponse> GetBranchForEmployee(DataContext context, UserMappingRequest userMappingRequest)
+
+
+
+
+
+
+        public List<UserBranchForEmployeeResponse> GetBranchForEmployee(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserBranchForEmployeeResponse> userBranchForEmployeeResponses = new List<UserBranchForEmployeeResponse>();
             List<BranchMaster> branchMasters = new List<BranchMaster>();
             try
             {
                 branchMasters = context.BranchMaster
-                    .Where(c => (c.UserID == userMappingRequest.UserId)).ToList();
+                    .Where(bm => (bm.UserID == empoyeeMappingRequest.AddedByUserID)).ToList();
 
                 if (branchMasters.Any())
                 {
@@ -1351,26 +1417,7 @@ namespace DFAPI.Repositories
 
 
 
-        public List<UserEmployeeSearchResponse> GetUserEmployeeSearchList(DataContext context, UserEmployeeSearchRequest userEmployeeSearchRequest)
-        {
-            List<UserEmployeeSearchResponse> userEmployeeSearchResponses = new List<UserEmployeeSearchResponse>();
-            try
-            {
-                List<SqlParameter> parms = new List<SqlParameter>
-                {
-                    new SqlParameter { ParameterName = "@UserId", Value = userEmployeeSearchRequest.UserID },
-                    new SqlParameter { ParameterName = "@UserType", Value = userEmployeeSearchRequest.UserType },
-                    new SqlParameter { ParameterName = "@AadharNo", Value = userEmployeeSearchRequest.AadharNo },
-                    new SqlParameter { ParameterName = "@MobileNo", Value = userEmployeeSearchRequest.MobileNo },
-                };
-                userEmployeeSearchResponses = context.UserEmployeeSearchResponse.FromSqlRaw("exec df_Get_EmployeeSearchList @UserId, @UserType, @AadharNo, @MobileNo", parms.ToArray()).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return userEmployeeSearchResponses;
-        }
+        
 
         public List<UserReportingEmployeeResponse> GetReportingEmployeeList(DataContext context, UserMappingRequest userMappingRequest)
         {
@@ -1391,39 +1438,29 @@ namespace DFAPI.Repositories
             return userReportingEmployeeResponses;
         }
 
-        public long InsertUserEmployee(DataContext context, UserEmployeeRequest userEmployeeRequest)
+        
+
+        public long UpdateEmployeeVerificationStatus(DataContext context, UserEmployeeVerifyRequest userEmployeeVerifyRequest)
         {
-            List<UserEmployeeList> userEmployeeLists_mobile = new List<UserEmployeeList>();
-            List<UserEmployeeList> userEmployeeLists_aadhar = new List<UserEmployeeList>();
+            List<EmployeeMaster> employeeMasters = new List<EmployeeMaster>();
             long rowsAffected = 0;
             try
             {
-                userEmployeeLists_mobile = context.UserEmployeeList.Where(udm => (udm.MobileNo == userEmployeeRequest.MobileNo)).ToList();
-                userEmployeeLists_aadhar = context.UserEmployeeList.Where(udm => (udm.AadharNo == userEmployeeRequest.AadharNo)).ToList();
-
-                if (!userEmployeeLists_mobile.Any() && !userEmployeeLists_aadhar.Any())
+                employeeMasters = context.EmployeeMaster.Where(b => (b.ID == userEmployeeVerifyRequest.EmployeeID && b.verifyStatus == false)).ToList();
+                if (employeeMasters.Any())
                 {
                     List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userEmployeeRequest.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userEmployeeRequest.UserType },
-                     new SqlParameter { ParameterName = "@EmployeeName", Value = userEmployeeRequest.EmployeeName },
-                     new SqlParameter { ParameterName = "@MobileNo", Value = userEmployeeRequest.MobileNo },
-                     new SqlParameter { ParameterName = "@AadharNo", Value = userEmployeeRequest.AadharNo },
+                    new SqlParameter { ParameterName = "@UserId", Value = userEmployeeVerifyRequest.UserId },
+                    new SqlParameter { ParameterName = "@UserType", Value = userEmployeeVerifyRequest.UserType },
+                    new SqlParameter { ParameterName = "@EmployeeID", Value = userEmployeeVerifyRequest.EmployeeID },
                 };
-                    context.Database.ExecuteSqlRaw("exec df_Insert_User_Employee @UserId, @UserType, @EmployeeName, @MobileNo, @AadharNo", parms.ToArray());
+                    context.Database.ExecuteSqlRaw("exec df_Update_User_Employee_Status @UserId, @UserType, @EmployeeID", parms.ToArray());
                     rowsAffected = 1;
                 }
                 else
                 {
-                    if (userEmployeeLists_mobile.Any())
-                    {
-                        rowsAffected = -2;
-                    }
-                    else if (userEmployeeLists_aadhar.Any())
-                    {
-                        rowsAffected = -3;
-                    }
+                    rowsAffected = -2;
                 }
             }
             catch (Exception)

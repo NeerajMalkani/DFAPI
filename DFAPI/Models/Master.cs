@@ -266,6 +266,18 @@ namespace DFAPI.Entities
         public long? UserId { get; set; }
     }
 
+    public class EmpoyeeMappingRequest
+    {
+        public long? AddedByUserID { get; set; }
+    }
+
+    public class UserEmployeeVerifyRequest
+    {
+        public byte? UserType { get; set; }
+        public long? UserId { get; set; }
+        public long? EmployeeID { get; set; }
+    }
+
     public class UserEmployeeListResponse
     {
         [Key]
@@ -287,8 +299,7 @@ namespace DFAPI.Entities
 
     public class UserEmployeeRequest
     {
-        public byte? UserType { get; set; }
-        public long? UserId { get; set; }
+        public long? AddedByUserID { get; set; }
         public string? EmployeeName { get; set; }
         public string? MobileNo { get; set; }
         public string? AadharNo { get; set; }
@@ -357,8 +368,7 @@ namespace DFAPI.Entities
 
     public class UserEmployeeSearchRequest
     {
-        public byte? UserType { get; set; }
-        public long? UserID { get; set; }
+        public long? AddedByUserID { get; set; }
         public string? MobileNo { get; set; }
         public string? AadharNo { get; set; }
     }
