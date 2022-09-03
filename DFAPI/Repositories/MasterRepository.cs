@@ -1081,17 +1081,16 @@ namespace DFAPI.Repositories
         #endregion
 
         #region User Department
-        public List<UserDepartmentMappingList> GetUserDepartments(DataContext context, UserDepartmentMapping userDepartmentMapping)
+        public List<UserDepartmentMappingList> GetUserDepartments(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserDepartmentMappingList> userDepartmentMappingLists = new List<UserDepartmentMappingList>();
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userDepartmentMapping.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userDepartmentMapping.UserType },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
                 };
-                userDepartmentMappingLists = context.UserDepartmentMappingList.FromSqlRaw("exec df_Get_UserDepartments @UserId, @UserType", parms.ToArray()).ToList();
+                userDepartmentMappingLists = context.UserDepartmentMappingList.FromSqlRaw("exec df_Get_UserDepartments_v1 @AddedByUserID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
@@ -1107,8 +1106,7 @@ namespace DFAPI.Repositories
             try
             {
                 userDepartmentMappings = context.UserDepartmentMapping
-                    .Where(udm => (udm.UserId == userDepartmentMapping.UserId &&
-                    udm.UserType == userDepartmentMapping.UserType &&
+                    .Where(udm => (udm.AddedByUserID == userDepartmentMapping.AddedByUserID &&
                     udm.DepartmentID == userDepartmentMapping.DepartmentID)).ToList();
 
                 if (!userDepartmentMappings.Any())
@@ -1135,10 +1133,8 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                // activityMasterMain = context.ActivityMaster.Where(b => (b.ActivityRoleName == activityMaster.ActivityRoleName && b.ID != activityMaster.ID)).ToList();
                 userDepartmentMappingsMain = context.UserDepartmentMapping
-                    .Where(udm => (udm.UserId == userDepartmentMapping.UserId &&
-                    udm.UserType == userDepartmentMapping.UserType &&
+                    .Where(udm => (udm.AddedByUserID == userDepartmentMapping.AddedByUserID &&
                     udm.DepartmentID == userDepartmentMapping.DepartmentID &&
                     udm.ID != userDepartmentMapping.ID)).ToList();
 
@@ -1170,10 +1166,9 @@ namespace DFAPI.Repositories
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userDesignationMapping.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userDesignationMapping.UserType },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = userDesignationMapping.AddedByUserID },
                 };
-                userDesignationMappingLists = context.UserDesignationMappingList.FromSqlRaw("exec df_Get_UserDesignations @UserId, @UserType", parms.ToArray()).ToList();
+                userDesignationMappingLists = context.UserDesignationMappingList.FromSqlRaw("exec df_Get_UserDesignations_v1 @UserId, @UserType", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
@@ -1189,8 +1184,7 @@ namespace DFAPI.Repositories
             try
             {
                 userDesignationMappingList = context.UserDesignationMapping
-                    .Where(udm => (udm.UserId == userDesignationMapping.UserId &&
-                    udm.UserType == userDesignationMapping.UserType &&
+                    .Where(udm => (udm.AddedByUserID == userDesignationMapping.AddedByUserID &&
                     udm.DesignationID == userDesignationMapping.DesignationID)).ToList();
 
                 if (!userDesignationMappingList.Any())
@@ -1218,8 +1212,7 @@ namespace DFAPI.Repositories
             try
             {
                 userDesignationMappingList = context.UserDesignationMapping
-                    .Where(udm => (udm.UserId == userDesignationMapping.UserId &&
-                    udm.UserType == userDesignationMapping.UserType &&
+                    .Where(udm => (udm.AddedByUserID == userDesignationMapping.AddedByUserID &&
                     udm.DesignationID == userDesignationMapping.DesignationID &&
                     udm.ID != userDesignationMapping.ID)).ToList();
 
@@ -1323,12 +1316,6 @@ namespace DFAPI.Repositories
             return UserEmployeeList;
         }
 
-
-
-
-
-
-
         public List<UserBranchForEmployeeResponse> GetBranchForEmployee(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserBranchForEmployeeResponse> userBranchForEmployeeResponses = new List<UserBranchForEmployeeResponse>();
@@ -1350,6 +1337,17 @@ namespace DFAPI.Repositories
             }
             return userBranchForEmployeeResponses;
         }
+
+
+
+
+
+
+
+
+
+
+
 
         public List<UserDepartmentForBranchEmployeeResponse> GetUserDepartmentForBranchEmployee(DataContext context, UserMappingRequest userMappingRequest)
         {
@@ -1453,11 +1451,10 @@ namespace DFAPI.Repositories
                 {
                     List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userEmployeeVerifyRequest.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userEmployeeVerifyRequest.UserType },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = userEmployeeVerifyRequest.AddedByUserID },
                     new SqlParameter { ParameterName = "@EmployeeID", Value = userEmployeeVerifyRequest.EmployeeID },
                 };
-                    context.Database.ExecuteSqlRaw("exec df_Update_User_Employee_Status @UserId, @UserType, @EmployeeID", parms.ToArray());
+                    context.Database.ExecuteSqlRaw("exec df_Update_User_Employee_Status @UserId, @EmployeeID", parms.ToArray());
                     rowsAffected = 1;
                 }
                 else

@@ -1297,12 +1297,12 @@ namespace DFAPI.Controllers
         #region User Department
         [HttpGet]
         [Route("getuserdepartments")]
-        public Response GetUserDepartments([FromQuery] UserDepartmentMapping userDepartmentMapping)
+        public Response GetUserDepartments([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             Response response = new Response();
             try
             {
-                List<UserDepartmentMappingList> userDepartmentMappingList = new MasterRepository().GetUserDepartments(_db, userDepartmentMapping);
+                List<UserDepartmentMappingList> userDepartmentMappingList = new MasterRepository().GetUserDepartments(_db, empoyeeMappingRequest);
                 if (userDepartmentMappingList.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDepartmentMappingList);
@@ -1403,7 +1403,6 @@ namespace DFAPI.Controllers
             }
             return response;
         }
-
 
         [HttpPost]
         [Route("insertuserdesignation")]
@@ -1547,13 +1546,6 @@ namespace DFAPI.Controllers
             return response;
         }
 
-        
-
-
-
-
-
-
         [HttpGet]
         [Route("getuserbranchforemployee")]
         public Response GetUserBranchForEmployee([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
@@ -1578,6 +1570,7 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
 
         [HttpGet]
         [Route("getuserdepartmentforbranchemployee")]
@@ -1653,7 +1646,6 @@ namespace DFAPI.Controllers
             }
             return response;
         }
-
         
 
         [HttpPost]

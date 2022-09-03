@@ -139,8 +139,7 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
-        public byte? UserType { get; set; }
-        public long? UserId { get; set; }
+        public long? AddedByUserID { get; set; }
         public int? DepartmentID { get; set; }
         public bool? Display { get; set; }
     }
@@ -167,8 +166,7 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
-        public byte? UserType { get; set; }
-        public long? UserId { get; set; }
+        public long? AddedByUserID { get; set; }
         public int? DesignationID { get; set; }
         public bool? ReportingAuthority { get; set; }
         public bool? Display { get; set; }
@@ -273,8 +271,7 @@ namespace DFAPI.Entities
 
     public class UserEmployeeVerifyRequest
     {
-        public byte? UserType { get; set; }
-        public long? UserId { get; set; }
+        public long? AddedByUserID { get; set; }
         public long? EmployeeID { get; set; }
     }
 
