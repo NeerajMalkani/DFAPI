@@ -27,6 +27,7 @@ namespace DFAPI.Entities
         public string? Image { get; set; }
         public decimal? Price { get; set; }
         public decimal? UnitValue { get; set; }
+        public string? UnitName { get; set; }
         public string? Description { get; set; }
         public bool Display { get; set; }
     }
