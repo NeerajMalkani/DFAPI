@@ -331,7 +331,6 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
-        public byte? UserType { get; set; }
         public long? UserID { get; set; }
         public string? EmployeeName { get; set; }
         public string? EmployeeCode { get; set; }
@@ -361,6 +360,7 @@ namespace DFAPI.Entities
         public bool? profileStatus { get; set; }
         public bool? loginStatus { get; set; }
         public bool? verifyStatus { get; set; }
+        public long? AddedByUserID { get; set; }
     }
 
     public class UserEmployeeSearchRequest
@@ -373,7 +373,6 @@ namespace DFAPI.Entities
     {
         [Key]
         public long? ID { get; set; }
-        public byte? UserType { get; set; }
         public long? UserID { get; set; }
         public int? CompanyID { get; set; }
         public int? BranchTypeID { get; set; }
