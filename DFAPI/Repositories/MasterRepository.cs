@@ -1454,7 +1454,7 @@ namespace DFAPI.Repositories
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = empoyeeMappingRequest.AddedByUserID },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
                 };
                 userReportingEmployeeResponses = context.UserReportingEmployeeResponse.FromSqlRaw("exec df_Get_ReportingEmployee @AddedByUserID", parms.ToArray()).ToList();
             }
