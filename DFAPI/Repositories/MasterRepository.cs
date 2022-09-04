@@ -1078,6 +1078,34 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
+        public List<UsersList> GetUserApprovedList(DataContext context)
+        {
+            List<UsersList> usersLists = new List<UsersList>();
+            try
+            {
+                usersLists = context.UsersList.FromSqlRaw("exec df_Get_ApprovedUserList").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return usersLists;
+        }
+
+        public List<UsersList> GetUserDeclinedList(DataContext context)
+        {
+            List<UsersList> usersLists = new List<UsersList>();
+            try
+            {
+                usersLists = context.UsersList.FromSqlRaw("exec df_Get_DeclinedUserList").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return usersLists;
+        }
+
         #endregion
 
         #region User Department
@@ -1419,17 +1447,16 @@ namespace DFAPI.Repositories
 
         
 
-        public List<UserReportingEmployeeResponse> GetReportingEmployeeList(DataContext context, UserMappingRequest userMappingRequest)
+        public List<UserReportingEmployeeResponse> GetReportingEmployeeList(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserReportingEmployeeResponse> userReportingEmployeeResponses  = new List<UserReportingEmployeeResponse>();
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                    new SqlParameter { ParameterName = "@UserId", Value = empoyeeMappingRequest.AddedByUserID },
                 };
-                userReportingEmployeeResponses = context.UserReportingEmployeeResponse.FromSqlRaw("exec df_Get_ReportingEmployee @UserId, @UserType", parms.ToArray()).ToList();
+                userReportingEmployeeResponses = context.UserReportingEmployeeResponse.FromSqlRaw("exec df_Get_ReportingEmployee @AddedByUserID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {

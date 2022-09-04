@@ -321,6 +321,16 @@ namespace DFAPI.Entities
         public long? CompanyID { get; set; }
     }
 
+    public class UsersList
+    {
+        [Key]
+        public long UserID { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+        public string? ActivityRoleName { get; set; }
+        public string? Company { get; set; }
+    }
+
     public class UserReportingEmployeeResponse
     {
         public long ID { get; set; }
