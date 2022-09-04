@@ -59,6 +59,7 @@ namespace DFAPI.Helpers
 
         public DbSet<UserEmployeeListResponse> UserEmployeeListResponse => Set<UserEmployeeListResponse>();
         public DbSet<UserEmployeeSearchResponse> UserEmployeeSearchResponse => Set<UserEmployeeSearchResponse>();
+        public DbSet<UsersList> UsersList => Set<UsersList>();
         public DbSet<UserReportingEmployeeResponse> UserReportingEmployeeResponse => Set<UserReportingEmployeeResponse>();
         public DbSet<UserBranchForEmployeeResponse> UserBranchForEmployeeResponse => Set<UserBranchForEmployeeResponse>();
         public DbSet<UserEmployeeList> UserEmployeeList => Set<UserEmployeeList>();

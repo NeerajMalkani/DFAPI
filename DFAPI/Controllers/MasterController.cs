@@ -1290,7 +1290,54 @@ namespace DFAPI.Controllers
             return response;
         }
 
-        
+        [HttpGet]
+        [Route("getapprovedusers")]
+        public Response GetApprovedUserList()
+        {
+            Response response = new Response();
+            try
+            {
+                List<UsersList> usersLists = new MasterRepository().GetUserApprovedList(_db);
+                if (usersLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, usersLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getdeclinedusers")]
+        public Response GetDeclinedUserList()
+        {
+            Response response = new Response();
+            try
+            {
+                List<UsersList> usersLists = new MasterRepository().GetUserDeclinedList(_db);
+                if (usersLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, usersLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
 
         #endregion
 
@@ -1624,13 +1671,13 @@ namespace DFAPI.Controllers
 
         [HttpGet]
         [Route("getreportingemployee")]
-        public Response GetReportingEmployee([FromQuery] UserMappingRequest userMappingRequest)
+        public Response GetReportingEmployee([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
 
             Response response = new Response();
             try
             {
-                List<UserReportingEmployeeResponse> userReportingEmployeeResponses = new MasterRepository().GetReportingEmployeeList(_db, userMappingRequest);
+                List<UserReportingEmployeeResponse> userReportingEmployeeResponses = new MasterRepository().GetReportingEmployeeList(_db, empoyeeMappingRequest);
                 if (userReportingEmployeeResponses.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userReportingEmployeeResponses);
