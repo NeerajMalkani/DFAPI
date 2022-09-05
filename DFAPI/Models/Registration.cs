@@ -54,6 +54,14 @@ namespace DFAPI.Entities
         public bool? ShowBrand { get; set; }
     }
 
+    public class UserStatusRequest
+    {
+        [Required]
+        [Key]
+        public long UserID { get; set; }
+        public byte? Status { get; set; }
+    }
+
     public class LoginUser
     {
         [Key]

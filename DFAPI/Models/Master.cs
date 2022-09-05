@@ -329,6 +329,8 @@ namespace DFAPI.Entities
         public string? Password { get; set; }
         public string? ActivityRoleName { get; set; }
         public string? Company { get; set; }
+        public string? Department { get; set; }
+        public string? Designation { get; set; }
     }
 
     public class UserReportingEmployeeResponse

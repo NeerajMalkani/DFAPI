@@ -1078,6 +1078,36 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
+        public long UpdateUserStatus(DataContext context, UserStatusRequest userStatusRequest)
+        {
+            List<Users> user = new List<Users>();
+            long rowsAffected = 0;
+            try
+            {
+                user = context.Users.Where(u => (u.UserID == userStatusRequest.UserID)).ToList();
+
+                if (user.Any()) {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserID", Value = userStatusRequest.UserID },
+                    new SqlParameter { ParameterName = "@Status", Value = userStatusRequest.Status },
+                };
+                    context.Database.ExecuteSqlRaw("exec df_Update_UserStatus @UserID, @Status", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+                    
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
         public List<UsersList> GetUserApprovedList(DataContext context)
         {
             List<UsersList> usersLists = new List<UsersList>();
@@ -1098,6 +1128,20 @@ namespace DFAPI.Repositories
             try
             {
                 usersLists = context.UsersList.FromSqlRaw("exec df_Get_DeclinedUserList").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return usersLists;
+        }
+
+        public List<UsersList> GetUserPendingList(DataContext context)
+        {
+            List<UsersList> usersLists = new List<UsersList>();
+            try
+            {
+                usersLists = context.UsersList.FromSqlRaw("exec df_Get_PendingUserList").ToList();
             }
             catch (Exception)
             {
