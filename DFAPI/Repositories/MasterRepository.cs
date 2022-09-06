@@ -1316,8 +1316,8 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                userEmployee_mobile = context.EmployeeMaster.Where(udm => (udm.MobileNo == userEmployeeRequest.MobileNo)).ToList();
                 userEmployee_aadhar = context.EmployeeMaster.Where(udm => (udm.AadharNo == userEmployeeRequest.AadharNo)).ToList();
+                userEmployee_mobile = context.EmployeeMaster.Where(udm => (udm.MobileNo == userEmployeeRequest.MobileNo)).ToList();
 
                 if (!userEmployee_mobile.Any() && !userEmployee_aadhar.Any())
                 {
@@ -1539,6 +1539,38 @@ namespace DFAPI.Repositories
             }
             return rowsAffected;
         }
+
+        public long UpdateUserEmployee(DataContext context, EmployeeVerificationRequest employeeVerificationRequest)
+        {
+            List<Users> user = new List<Users>();
+            long rowsAffected = 0;
+            try
+            {
+                user = context.Users.Where(udm => (udm.UserID == employeeVerificationRequest.UserID)).ToList();
+
+                if (!user.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserID", Value = employeeVerificationRequest.UserID },
+                     new SqlParameter { ParameterName = "@OTP", Value = employeeVerificationRequest.OTP },
+                     new SqlParameter { ParameterName = "@EmployeeID", Value = employeeVerificationRequest.EmployeeID},
+                };
+                    context.Database.ExecuteSqlRaw("exec df_Update_UserEmployee @UserID, @OTP, @EmployeeID", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
         #endregion
 
         #region Branch

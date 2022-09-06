@@ -286,6 +286,8 @@ namespace DFAPI.Entities
         public bool? profileStatus { get; set; }
         public bool? loginStatus { get; set; }
         public bool? verifyStatus { get; set; }
+        public int? OTP { get; set; }
+
     }
 
     public class UserBranchForEmployeeResponse
@@ -300,6 +302,13 @@ namespace DFAPI.Entities
         public string? EmployeeName { get; set; }
         public string? MobileNo { get; set; }
         public string? AadharNo { get; set; }
+    }
+
+    public class EmployeeVerificationRequest
+    {
+        public long? UserID { get; set; }
+        public int? OTP { get; set; }
+        public long? EmployeeID { get; set; }
     }
 
     public class UserEmployeeList
