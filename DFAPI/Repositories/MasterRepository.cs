@@ -1548,7 +1548,7 @@ namespace DFAPI.Repositories
             {
                 user = context.Users.Where(udm => (udm.UserID == employeeVerificationRequest.UserID)).ToList();
 
-                if (!user.Any())
+                if (user.Any())
                 {
                     List<SqlParameter> parms = new List<SqlParameter>
                 {
