@@ -108,5 +108,8 @@ namespace DFAPI.Helpers
         #endregion
 
         public DbSet<RowsAffectedResponse> RowsAffected => Set<RowsAffectedResponse>();
+
+        public DbSet<EmployeeReportingAuthority> EmployeeReportingAuthority => Set<EmployeeReportingAuthority>();
+        public DbSet<BankDetails> BankDetails => Set<BankDetails>();
     }
 }

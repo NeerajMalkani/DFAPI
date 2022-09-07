@@ -296,6 +296,13 @@ namespace DFAPI.Entities
         public string? LocationName { get; set; }
     }
 
+    public class EmployeeResponse
+    {
+        public EmployeeMaster? Employee { get; set; }
+        public EmployeeReportingAuthority? EmployeeReportingAuthority { get; set; }
+        public BankDetails? BankDetails { get; set; }
+    }
+
     public class UserEmployeeRequest
     {
         public long? AddedByUserID { get; set; }
@@ -306,7 +313,6 @@ namespace DFAPI.Entities
 
     public class EmployeeVerificationRequest
     {
-        public long? UserID { get; set; }
         public int? OTP { get; set; }
         public long? EmployeeID { get; set; }
     }
@@ -459,5 +465,32 @@ namespace DFAPI.Entities
     {
         public int? DesignationID { get; set; }
         public string? DesignationName { get; set; }
+    }
+
+    public class EmployeeReportingAuthority
+    {
+        [Key]
+        public long ID { get; set; }
+        public long? EmployeeID { get; set; }
+        public int? ReportingAuthorityID { get; set; }
+    }
+
+    public class BankDetails
+    {
+        [Key]
+        public long BankID { get; set; }
+        public long? CompanyID { get; set; }
+        public long? AccountNumber { get; set; }
+        public string? BankName { get; set; }
+        public string? BranchName { get; set; }
+        public string? IFSCCode { get; set; }
+        public string? AccountHolderName { get; set; }
+        public long? UserID { get; set; }
+    }
+
+    public class EmployeeIDRequest
+    {
+        [Key]
+        public long ID { get; set; }
     }
 }

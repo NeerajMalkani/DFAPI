@@ -1543,20 +1543,21 @@ namespace DFAPI.Repositories
         public long UpdateUserEmployee(DataContext context, EmployeeVerificationRequest employeeVerificationRequest)
         {
             List<Users> user = new List<Users>();
+            List<EmployeeMaster> employeeMasters = new List<EmployeeMaster>();
             long rowsAffected = 0;
             try
             {
-                user = context.Users.Where(udm => (udm.UserID == employeeVerificationRequest.UserID)).ToList();
+                employeeMasters = context.EmployeeMaster.Where(udm => (udm.ID == employeeVerificationRequest.EmployeeID)).ToList();
+                user = context.Users.Where(udm => (udm.UserID == employeeMasters[0].UserID)).ToList();
 
                 if (user.Any())
                 {
                     List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserID", Value = employeeVerificationRequest.UserID },
                      new SqlParameter { ParameterName = "@OTP", Value = employeeVerificationRequest.OTP },
                      new SqlParameter { ParameterName = "@EmployeeID", Value = employeeVerificationRequest.EmployeeID},
                 };
-                    context.Database.ExecuteSqlRaw("exec df_Update_UserEmployee @UserID, @OTP, @EmployeeID", parms.ToArray());
+                    context.Database.ExecuteSqlRaw("exec df_Update_UserEmployee @OTP, @EmployeeID", parms.ToArray());
                     rowsAffected = 1;
                 }
                 else
@@ -1569,6 +1570,40 @@ namespace DFAPI.Repositories
                 throw;
             }
             return rowsAffected;
+        }
+
+        public List<EmployeeResponse> GetEmployeeDetailsByID(DataContext context, EmployeeIDRequest employeeIDRequest)
+        {
+            List<EmployeeResponse> employeeResponses = new List<EmployeeResponse>();
+            List<EmployeeMaster> employeeMasters = new List<EmployeeMaster>();
+            List<EmployeeReportingAuthority> employeeReportingAuthority = new List<EmployeeReportingAuthority>();
+            List<BankDetails> bankDetails = new List<BankDetails>();
+            List<Users> user = new List<Users>();
+            try
+            {
+                employeeMasters = context.EmployeeMaster.Where(bm => (bm.ID == employeeIDRequest.ID)).ToList();
+                user = context.Users.Where(bm => (bm.UserID == employeeMasters[0].UserID)).ToList();
+                employeeReportingAuthority = context.EmployeeReportingAuthority.Where(bm => (bm.EmployeeID == employeeIDRequest.ID)).ToList();
+                bankDetails = context.BankDetails.Where(bm => (bm.UserID == user[0].UserID)).ToList();
+
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ID", Value = employeeIDRequest.ID },
+                };
+
+                employeeResponses.Add(new EmployeeResponse
+                { 
+                Employee = employeeMasters[0],
+                EmployeeReportingAuthority = employeeReportingAuthority[0],
+                BankDetails = bankDetails[0]
+                });
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return employeeResponses;
         }
 
         #endregion

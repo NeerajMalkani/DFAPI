@@ -1802,6 +1802,31 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
+        [HttpGet]
+        [Route("getemployeedetailsbyid")]
+        public Response GetEmployeeDetailsByID([FromQuery] EmployeeIDRequest employeeIDRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<EmployeeResponse> employeeResponses = new MasterRepository().GetEmployeeDetailsByID(_db, employeeIDRequest);
+                if (employeeResponses.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, employeeResponses);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         #endregion
 
         #region Branch
