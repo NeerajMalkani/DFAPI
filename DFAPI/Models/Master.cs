@@ -298,9 +298,9 @@ namespace DFAPI.Entities
 
     public class EmployeeResponse
     {
-        public EmployeeMaster? Employee { get; set; }
-        public EmployeeReportingAuthority? EmployeeReportingAuthority { get; set; }
-        public BankDetails? BankDetails { get; set; }
+        public List<EmployeeMaster> Employee { get; set; }
+        public List<EmployeeReportingAuthority> EmployeeReportingAuthority { get; set; }
+        public List<BankDetails> BankDetails { get; set; }
     }
 
     public class UserEmployeeRequest

@@ -1586,18 +1586,18 @@ namespace DFAPI.Repositories
                 employeeReportingAuthority = context.EmployeeReportingAuthority.Where(bm => (bm.EmployeeID == employeeIDRequest.ID)).ToList();
                 bankDetails = context.BankDetails.Where(bm => (bm.UserID == user[0].UserID)).ToList();
 
-                List<SqlParameter> parms = new List<SqlParameter>
-                {
-                    new SqlParameter { ParameterName = "@ID", Value = employeeIDRequest.ID },
-                };
+
+                //employeeResponses[0].Employee = employeeMasters;
+                //employeeResponses[0].EmployeeReportingAuthority = employeeReportingAuthority;
+                //employeeResponses[0].BankDetails = bankDetails;
 
                 employeeResponses.Add(new EmployeeResponse
-                { 
-                Employee = employeeMasters[0],
-                EmployeeReportingAuthority = employeeReportingAuthority[0],
-                BankDetails = bankDetails[0]
+                {
+                    Employee = employeeMasters,
+                    EmployeeReportingAuthority = employeeReportingAuthority,
+                    BankDetails = bankDetails,
                 });
-                
+
             }
             catch (Exception)
             {
