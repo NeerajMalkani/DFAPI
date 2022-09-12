@@ -1509,7 +1509,26 @@ namespace DFAPI.Repositories
             return userReportingEmployeeResponses;
         }
 
-        
+        public List<EmployeeReportingAuthorityResponse> GetEmployeeReportingAuthorities(DataContext context, EmployeeReportingAuthorityRequest employeeReportingAuthorityRequest)
+        {
+            List<EmployeeReportingAuthorityResponse> employeeReportingAuthorityResponses = new List<EmployeeReportingAuthorityResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = employeeReportingAuthorityRequest.AddedByUserID },
+                    new SqlParameter { ParameterName = "@EmployeeID", Value = employeeReportingAuthorityRequest.EmployeeID },
+                };
+                employeeReportingAuthorityResponses = context.EmployeeReportingAuthorityResponse.FromSqlRaw("exec df_Get_EmployeeReportingAuthorities @AddedByUserID, @EmployeeID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return employeeReportingAuthorityResponses;
+        }
+
+
 
         public long UpdateEmployeeVerificationStatus(DataContext context, UserEmployeeVerifyRequest userEmployeeVerifyRequest)
         {

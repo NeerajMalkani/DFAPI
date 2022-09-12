@@ -69,6 +69,7 @@ namespace DFAPI.Helpers
         public DbSet<CompanyList> CompanyList => Set<CompanyList>();
         public DbSet<UserBranchList> UserBranchList => Set<UserBranchList>();
 
+        public DbSet<EmployeeReportingAuthorityResponse> EmployeeReportingAuthorityResponse => Set<EmployeeReportingAuthorityResponse>();
 
 
         #endregion

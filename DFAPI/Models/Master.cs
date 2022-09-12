@@ -298,9 +298,9 @@ namespace DFAPI.Entities
 
     public class EmployeeResponse
     {
-        public List<EmployeeMaster> Employee { get; set; }
-        public List<EmployeeReportingAuthority> EmployeeReportingAuthority { get; set; }
-        public List<BankDetails> BankDetails { get; set; }
+        public List<EmployeeMaster>? Employee { get; set; }
+        public List<EmployeeReportingAuthority>? EmployeeReportingAuthority { get; set; }
+        public List<BankDetails>? BankDetails { get; set; }
     }
 
     public class UserEmployeeRequest
@@ -492,5 +492,16 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
+    }
+
+    public class EmployeeReportingAuthorityRequest
+    {
+        public long? EmployeeID { get; set; }
+        public long? AddedByUserID { get; set; }
+    }
+
+    public class EmployeeReportingAuthorityResponse
+    {
+        public int? ReportingAuthorityID { get; set; }
     }
 }

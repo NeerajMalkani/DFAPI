@@ -1745,7 +1745,32 @@ namespace DFAPI.Controllers
             }
             return response;
         }
-        
+
+        [HttpGet]
+        [Route("getreportingemployee")]
+        public Response GetReportingEmployee([FromQuery] EmployeeReportingAuthorityRequest employeeReportingAuthorityRequest)
+        {
+             
+            Response response = new Response();
+            try
+            {
+                List<EmployeeReportingAuthorityResponse> employeeReportingAuthorityResponses = new MasterRepository().GetEmployeeReportingAuthorities(_db, employeeReportingAuthorityRequest);
+                if (employeeReportingAuthorityResponses.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, employeeReportingAuthorityResponses);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
 
         [HttpPost]
         [Route("updateemployeeverificationstatus")]
