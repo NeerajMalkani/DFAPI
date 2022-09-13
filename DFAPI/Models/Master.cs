@@ -472,6 +472,7 @@ namespace DFAPI.Entities
         [Key]
         public long ID { get; set; }
         public long? EmployeeID { get; set; }
+        public long? AddedByUserID { get; set; }
         public int? ReportingAuthorityID { get; set; }
     }
 
@@ -502,6 +503,41 @@ namespace DFAPI.Entities
 
     public class EmployeeReportingAuthorityResponse
     {
+        public int? ReportingAuthorityID { get; set; }
+    }
+
+    public class UpdateEmployeeRequest
+    {
+        public long? ID { get; set; }
+        public string? MobileNo { get; set; }
+        public string? AadharNo { get; set; }
+        public string? FatherName { get; set; }
+        public string? Address { get; set; }
+        public int? StateID { get; set; }
+        public int? CityID { get; set; }
+        public int? Pincode { get; set; }
+        public string? ProfilePhoto { get; set; }
+        public byte? BloodGroup { get; set; }
+        public DateTime? DOB { get; set; }
+        public DateTime? DOJ { get; set; }
+        public string? EmergencyContactName { get; set; }
+        public string? EmergencyContactNo { get; set; }
+        public DateTime? IDCardValidity { get; set; }
+        public bool? LoginActiveStatus { get; set; }
+        public long? BranchID { get; set; }
+        public long? DepartmentID { get; set; }
+        public long? DesignationID { get; set; }
+        public byte? EmployeeType { get; set; }
+        public DateTime? LastWorkDate { get; set; }
+        public bool? WagesType { get; set; }
+        public decimal? Salary { get; set; }
+        public List<EmployeeReportingAuthority>? employeeReportingAuthority { get; set; }
+    }
+
+    public class EmployeeReportingAuthorityUpdateRequest
+    {
+        public long? EmployeeID { get; set; }
+        public long? AddedByUserID { get; set; }
         public int? ReportingAuthorityID { get; set; }
     }
 }

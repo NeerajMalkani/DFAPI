@@ -1620,6 +1620,76 @@ namespace DFAPI.Repositories
             return employeeResponses;
         }
 
+        public long UpdateEmployeeDetails(DataContext context, UpdateEmployeeRequest updateEmployeeRequest)
+        {
+            List<EmployeeMaster> employeeMasters = new List<EmployeeMaster>();
+            long rowsAffected = 0;
+            try
+            {
+                employeeMasters = context.EmployeeMaster.Where(b => (b.ID == updateEmployeeRequest.ID)).ToList();
+                if (employeeMasters.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ID", Value = updateEmployeeRequest.ID },
+                    new SqlParameter { ParameterName = "@MobileNo", Value = updateEmployeeRequest.MobileNo },
+                    new SqlParameter { ParameterName = "@AadharNo", Value = updateEmployeeRequest.AadharNo },
+                    new SqlParameter { ParameterName = "@FatherName", Value = updateEmployeeRequest.FatherName },
+                    new SqlParameter { ParameterName = "@Address", Value = updateEmployeeRequest.Address },
+                    new SqlParameter { ParameterName = "@StateID", Value = updateEmployeeRequest.StateID },
+                    new SqlParameter { ParameterName = "@CityID", Value = updateEmployeeRequest.CityID },
+                    new SqlParameter { ParameterName = "@Pincode", Value = updateEmployeeRequest.Pincode },
+                    new SqlParameter { ParameterName = "@ProfilePhoto", Value = updateEmployeeRequest.ProfilePhoto },
+                    new SqlParameter { ParameterName = "@BloodGroup", Value = updateEmployeeRequest.BloodGroup },
+                    new SqlParameter { ParameterName = "@DOB", Value = updateEmployeeRequest.DOB },
+                    new SqlParameter { ParameterName = "@DOJ", Value = updateEmployeeRequest.DOJ },
+                    new SqlParameter { ParameterName = "@EmergencyContactName", Value = updateEmployeeRequest.EmergencyContactName },
+                    new SqlParameter { ParameterName = "@EmergencyContactNo", Value = updateEmployeeRequest.EmergencyContactNo },
+                    new SqlParameter { ParameterName = "@IDCardValidity", Value = updateEmployeeRequest.IDCardValidity },
+                    new SqlParameter { ParameterName = "@LoginActiveStatus", Value = updateEmployeeRequest.LoginActiveStatus },
+                    new SqlParameter { ParameterName = "@BranchID", Value = updateEmployeeRequest.BranchID },
+                    new SqlParameter { ParameterName = "@DepartmentID", Value = updateEmployeeRequest.DepartmentID },
+                    new SqlParameter { ParameterName = "@DesignationID", Value = updateEmployeeRequest.DesignationID },
+                    new SqlParameter { ParameterName = "@EmployeeType", Value = updateEmployeeRequest.EmployeeType },
+                    new SqlParameter { ParameterName = "@LastWorkDate", Value = updateEmployeeRequest.LastWorkDate },
+                    new SqlParameter { ParameterName = "@WagesType", Value = updateEmployeeRequest.WagesType },
+                    new SqlParameter { ParameterName = "@Salary", Value = updateEmployeeRequest.Salary },
+                    
+                };
+                    context.Database.ExecuteSqlRaw("exec df_Update_UserEmployeeDetails @ID, @MobileNo, @AadharNo, @FatherName, @Address, @StateID, @CityID, @Pincode, @ProfilePhoto, @BloodGroup, @DOB, @DOJ, @EmergencyContactName, @EmergencyContactNo, @IDCardValidity, @LoginActiveStatus, @BranchID, @DepartmentID, @DesignationID, @EmployeeType, @LastWorkDate, @WagesType, @Salary", parms.ToArray());
+
+
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long UpdateEmployeeReportingAuthority(DataContext context, EmployeeReportingAuthority employeeReportingAuthority)
+        {
+            List<EmployeeReportingAuthority> employeeReportingAuthorityMain = new List<EmployeeReportingAuthority>();
+            long rowsAffected = 0;
+            try
+            {
+                context.EmployeeReportingAuthority.Add(employeeReportingAuthority);
+                context.SaveChanges();
+                rowsAffected = 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
         #endregion
 
         #region Branch
