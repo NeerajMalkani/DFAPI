@@ -533,6 +533,12 @@ namespace DFAPI.Entities
         public DateTime? LastWorkDate { get; set; }
         public bool? WagesType { get; set; }
         public decimal? Salary { get; set; }
+        public string? AccountHolderName { get; set; }
+        public long? AccountNumber { get; set; }
+        public string? BankName { get; set; }
+        public string? BranchName { get; set; }
+        public string? IFSCCode { get; set; }
+
     }
 
     public class EmployeeReportingAuthorityUpdateRequest

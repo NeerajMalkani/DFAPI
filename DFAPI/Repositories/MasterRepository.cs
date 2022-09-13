@@ -1653,9 +1653,17 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@LastWorkDate", Value = updateEmployeeRequest.LastWorkDate },
                     new SqlParameter { ParameterName = "@WagesType", Value = updateEmployeeRequest.WagesType },
                     new SqlParameter { ParameterName = "@Salary", Value = updateEmployeeRequest.Salary },
-                    
+                    new SqlParameter { ParameterName = "@AccountHolderName", Value = updateEmployeeRequest.AccountHolderName },
+                    new SqlParameter { ParameterName = "@AccountNumber", Value = updateEmployeeRequest.AccountNumber },
+                    new SqlParameter { ParameterName = "@BankName", Value = updateEmployeeRequest.BankName },
+                    new SqlParameter { ParameterName = "@BranchName", Value = updateEmployeeRequest.BranchName },
+                    new SqlParameter { ParameterName = "@IFSCCode", Value = updateEmployeeRequest.IFSCCode },
+
                 };
-                    context.Database.ExecuteSqlRaw("exec df_Update_UserEmployeeDetails @ID, @MobileNo, @AadharNo, @FatherName, @Address, @StateID, @CityID, @Pincode, @ProfilePhoto, @BloodGroup, @DOB, @DOJ, @EmergencyContactName, @EmergencyContactNo, @IDCardValidity, @LoginActiveStatus, @BranchID, @DepartmentID, @DesignationID, @EmployeeType, @LastWorkDate, @WagesType, @Salary", parms.ToArray());
+                    context.Database.ExecuteSqlRaw("exec df_Update_UserEmployeeDetails @ID, @MobileNo, @AadharNo, @FatherName, @Address, @StateID, @CityID, " +
+                        "@Pincode, @ProfilePhoto, @BloodGroup, @DOB, @DOJ, @EmergencyContactName, @EmergencyContactNo, @IDCardValidity, @LoginActiveStatus, " +
+                        "@BranchID, @DepartmentID, @DesignationID, @EmployeeType, @LastWorkDate, @WagesType, @Salary, @AccountHolderName, @AccountNumber, " +
+                        "@BankName, @BranchName, @IFSCCode", parms.ToArray());
                     rowsAffected = 1;
                 }
                 else
