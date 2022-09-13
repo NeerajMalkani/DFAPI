@@ -501,9 +501,10 @@ namespace DFAPI.Entities
         public long? AddedByUserID { get; set; }
     }
 
+    [Keyless]
     public class EmployeeReportingAuthorityResponse
     {
-        public int? ReportingAuthorityID { get; set; }
+        public int ReportingAuthorityID { get; set; }
     }
 
     [Keyless]
