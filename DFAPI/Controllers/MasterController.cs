@@ -1856,6 +1856,34 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("updateemployeedetails")]
+        public Response UpdateEmployeeDetails(UpdateEmployeeRequest updateEmployeeRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().UpdateEmployeeDetails(_db, updateEmployeeRequest);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "User does not exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpGet]
         [Route("getemployeedetailsbyid")]
         public Response GetEmployeeDetailsByID([FromQuery] EmployeeIDRequest employeeIDRequest)
