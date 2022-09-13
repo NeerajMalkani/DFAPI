@@ -1626,8 +1626,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                employeeMasters = context.EmployeeMaster.Where(b => (b.ID == updateEmployeeRequest.ID)).ToList();
-                if (employeeMasters.Any())
+                if (updateEmployeeRequest.ID > 0)
                 {
                     List<SqlParameter> parms = new List<SqlParameter>
                 {
@@ -1657,8 +1656,6 @@ namespace DFAPI.Repositories
                     
                 };
                     context.Database.ExecuteSqlRaw("exec df_Update_UserEmployeeDetails @ID, @MobileNo, @AadharNo, @FatherName, @Address, @StateID, @CityID, @Pincode, @ProfilePhoto, @BloodGroup, @DOB, @DOJ, @EmergencyContactName, @EmergencyContactNo, @IDCardValidity, @LoginActiveStatus, @BranchID, @DepartmentID, @DesignationID, @EmployeeType, @LastWorkDate, @WagesType, @Salary", parms.ToArray());
-
-
                     rowsAffected = 1;
                 }
                 else

@@ -506,9 +506,10 @@ namespace DFAPI.Entities
         public int? ReportingAuthorityID { get; set; }
     }
 
+    [Keyless]
     public class UpdateEmployeeRequest
     {
-        public long? ID { get; set; }
+        public long ID { get; set; }
         public string? MobileNo { get; set; }
         public string? AadharNo { get; set; }
         public string? FatherName { get; set; }
