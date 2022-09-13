@@ -531,7 +531,6 @@ namespace DFAPI.Entities
         public DateTime? LastWorkDate { get; set; }
         public bool? WagesType { get; set; }
         public decimal? Salary { get; set; }
-        public List<EmployeeReportingAuthority>? employeeReportingAuthority { get; set; }
     }
 
     public class EmployeeReportingAuthorityUpdateRequest
