@@ -1350,6 +1350,36 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
+        public long InsertNewEmployee(DataContext context, NewEmployeeRequest newEmployeeRequest)
+        {
+            List<EmployeeMaster> userEmployee = new List<EmployeeMaster>();
+            long rowsAffected = 0;
+            try
+            {
+                userEmployee = context.EmployeeMaster.Where(udm => udm.ID == newEmployeeRequest.EmployeeID).ToList();
+
+                if (userEmployee.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = newEmployeeRequest.AddedByUserID },
+                     new SqlParameter { ParameterName = "@EmployeeID", Value = newEmployeeRequest.EmployeeID },
+                };
+                    context.Database.ExecuteSqlRaw("exec df_Insert_New_Employee @AddedByUserID, @EmployeeID", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
         public List<UserEmployeeSearchResponse> GetUserEmployeeSearchList(DataContext context, UserEmployeeSearchRequest userEmployeeSearchRequest)
         {
             List<UserEmployeeSearchResponse> userEmployeeSearchResponses = new List<UserEmployeeSearchResponse>();
