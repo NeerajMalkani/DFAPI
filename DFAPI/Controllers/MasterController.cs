@@ -1750,7 +1750,7 @@ namespace DFAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getreportingemployee")]
+        [Route("getreportingemployeelist")]
         public Response GetReportingEmployee([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
 
