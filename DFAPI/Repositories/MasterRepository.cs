@@ -1451,7 +1451,7 @@ namespace DFAPI.Repositories
 
 
 
-        public List<UserDepartmentForBranchEmployeeResponse> GetUserDepartmentForBranchEmployee(DataContext context, UserMappingRequest userMappingRequest)
+        public List<UserDepartmentForBranchEmployeeResponse> GetUserDepartmentForBranchEmployee(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserDepartmentForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new List<UserDepartmentForBranchEmployeeResponse>();
             List<UserDepartmentMappingList> userDepartmentMappingLists = new List<UserDepartmentMappingList>();
@@ -1460,10 +1460,9 @@ namespace DFAPI.Repositories
 
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
                 };
-                userDepartmentMappingLists = context.UserDepartmentMappingList.FromSqlRaw("exec df_Get_UserDepartmentForBranchEmployee @UserId, @UserType", parms.ToArray()).ToList();
+                userDepartmentMappingLists = context.UserDepartmentMappingList.FromSqlRaw("exec df_Get_UserDepartmentForBranchEmployee_V1 @AddedByUserID", parms.ToArray()).ToList();
 
                 if (userDepartmentMappingLists.Any())
                 {
@@ -1485,7 +1484,7 @@ namespace DFAPI.Repositories
             return userDepartmentForBranchEmployeeResponses;
         }
 
-        public List<UserDesignationForBranchEmployeeResponse> GetUserDesignatonForBranchEmployee(DataContext context, UserMappingRequest userMappingRequest)
+        public List<UserDesignationForBranchEmployeeResponse> GetUserDesignatonForBranchEmployee(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserDesignationForBranchEmployeeResponse> userDesignationForBranchEmployeeResponses = new List<UserDesignationForBranchEmployeeResponse>();
             List<UserDesignationMappingList> userDesignationMappingLists = new List<UserDesignationMappingList>();
@@ -1493,10 +1492,9 @@ namespace DFAPI.Repositories
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
                 };
-                userDesignationMappingLists = context.UserDesignationMappingList.FromSqlRaw("exec df_Get_UserDesignationForBranchEmployee @UserId, @UserType", parms.ToArray()).ToList();
+                userDesignationMappingLists = context.UserDesignationMappingList.FromSqlRaw("exec df_Get_UserDesignationForBranchEmployee_v1 @AddedByUserID", parms.ToArray()).ToList();
 
                 if (userDesignationMappingLists.Any())
                 {

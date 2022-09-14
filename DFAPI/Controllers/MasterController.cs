@@ -1701,13 +1701,13 @@ namespace DFAPI.Controllers
 
         [HttpGet]
         [Route("getuserdepartmentforbranchemployee")]
-        public Response GetUserDepartmentForBranchEmployee([FromQuery] UserMappingRequest userMappingRequest)
+        public Response GetUserDepartmentForBranchEmployee([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
 
             Response response = new Response();
             try
             {
-                List<UserDepartmentForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new MasterRepository().GetUserDepartmentForBranchEmployee(_db, userMappingRequest);
+                List<UserDepartmentForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new MasterRepository().GetUserDepartmentForBranchEmployee(_db, empoyeeMappingRequest);
                 if (userDepartmentForBranchEmployeeResponses.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDepartmentForBranchEmployeeResponses);
@@ -1726,13 +1726,13 @@ namespace DFAPI.Controllers
 
         [HttpGet]
         [Route("getuserdesignationforbranchemployee")]
-        public Response GetUserDesignationForBranchEmployee([FromQuery] UserMappingRequest userMappingRequest)
+        public Response GetUserDesignationForBranchEmployee([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
 
             Response response = new Response();
             try
             {
-                List<UserDesignationForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new MasterRepository().GetUserDesignatonForBranchEmployee(_db, userMappingRequest);
+                List<UserDesignationForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new MasterRepository().GetUserDesignatonForBranchEmployee(_db, empoyeeMappingRequest);
                 if (userDepartmentForBranchEmployeeResponses.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDepartmentForBranchEmployeeResponses);
