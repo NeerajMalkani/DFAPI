@@ -1178,8 +1178,8 @@ namespace DFAPI.Repositories
             try
             {
                 userDepartmentMappings = context.UserDepartmentMapping
-                    .Where(udm => (udm.AddedByUserID == userDepartmentMapping.AddedByUserID &&
-                    udm.DepartmentID == userDepartmentMapping.DepartmentID)).ToList();
+                    .Where(udm => udm.AddedByUserID == userDepartmentMapping.AddedByUserID &&
+                    udm.DepartmentID == userDepartmentMapping.DepartmentID).ToList();
 
                 if (!userDepartmentMappings.Any())
                 {
@@ -1231,16 +1231,16 @@ namespace DFAPI.Repositories
         #endregion
 
         #region User Designation
-        public List<UserDesignationMappingList> GetUserDesignation(DataContext context, UserDesignationMapping userDesignationMapping)
+        public List<UserDesignationMappingList> GetUserDesignation(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserDesignationMappingList> userDesignationMappingLists = new List<UserDesignationMappingList>();
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@AddedByUserID", Value = userDesignationMapping.AddedByUserID },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
                 };
-                userDesignationMappingLists = context.UserDesignationMappingList.FromSqlRaw("exec df_Get_UserDesignations_v1 @UserId, @UserType", parms.ToArray()).ToList();
+                userDesignationMappingLists = context.UserDesignationMappingList.FromSqlRaw("exec df_Get_UserDesignations_v1 @AddedByUserID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {

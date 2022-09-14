@@ -1480,13 +1480,13 @@ namespace DFAPI.Controllers
         #region User Designation
         [HttpGet]
         [Route("getuserdesignation")]
-        public Response GetUserDesignation([FromQuery] UserDesignationMapping userDesignationMapping)
+        public Response GetUserDesignation([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
 
             Response response = new Response();
             try
             {
-                List<UserDesignationMappingList> userDesignationMappingLists = new MasterRepository().GetUserDesignation(_db, userDesignationMapping);
+                List<UserDesignationMappingList> userDesignationMappingLists = new MasterRepository().GetUserDesignation(_db, empoyeeMappingRequest);
                 if (userDesignationMappingLists.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userDesignationMappingLists);
