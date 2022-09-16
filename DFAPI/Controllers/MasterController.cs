@@ -1318,6 +1318,35 @@ namespace DFAPI.Controllers
             return response;
         }
 
+
+        [HttpPost]
+        [Route("updategeneraluserprofile")]
+        public Response UpdateGeneralUserProfile(UpadteGeneralUser upadteGeneralUser)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().UpdateGeneralUserProfile(_db, upadteGeneralUser);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "User does not find", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpGet]
         [Route("getapprovedusers")]
         public Response GetApprovedUserList()

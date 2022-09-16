@@ -1108,6 +1108,46 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
+        public long UpdateGeneralUserProfile(DataContext context, UpadteGeneralUser upadteGeneralUser)
+        {
+            List<Users> user = new List<Users>();
+            long rowsAffected = 0;
+            try
+            {
+                user = context.Users.Where(u => (u.UserID == upadteGeneralUser.UserID)).ToList();
+
+                if (user.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserID", Value = upadteGeneralUser.UserID },
+                    new SqlParameter { ParameterName = "@CompanyName", Value = upadteGeneralUser.CompanyName },
+                    new SqlParameter { ParameterName = "@ContactPersonName", Value = upadteGeneralUser.ContactPersonName },
+                    new SqlParameter { ParameterName = "@ContactPersonNumber", Value = upadteGeneralUser.ContactPersonNumber },
+                    new SqlParameter { ParameterName = "@AddressLine", Value = upadteGeneralUser.AddressLine },
+                    new SqlParameter { ParameterName = "@StateID", Value = upadteGeneralUser.StateID },
+                    new SqlParameter { ParameterName = "@CityID", Value = upadteGeneralUser.CityID },
+                    new SqlParameter { ParameterName = "@Pincode", Value = upadteGeneralUser.Pincode },
+                    new SqlParameter { ParameterName = "@GSTNumber", Value = upadteGeneralUser.GSTNumber },
+                    new SqlParameter { ParameterName = "@PAN", Value = upadteGeneralUser.PAN },
+                };
+                    context.Database.ExecuteSqlRaw("exec df_Update_GeneralUserProfile @UserID, @CompanyName, @ContactPersonName, @ContactPersonNumber, " +
+                        "@AddressLine ,@StateID ,@CityID ,@Pincode ,@GSTNumber ,@PAN", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
         public List<UsersList> GetUserApprovedList(DataContext context)
         {
             List<UsersList> usersLists = new List<UsersList>();
@@ -1149,6 +1189,7 @@ namespace DFAPI.Repositories
             }
             return usersLists;
         }
+
 
         #endregion
 
