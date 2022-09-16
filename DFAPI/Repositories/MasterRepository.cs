@@ -1037,6 +1037,24 @@ namespace DFAPI.Repositories
             return userProfiles;
         }
 
+        public List<GeneralUserProfileResponse> GetGeneralUserProfile(DataContext context, Users user)
+        {
+            List<GeneralUserProfileResponse> generalUserProfileResponses = new List<GeneralUserProfileResponse>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@UserID", Value = user.UserID },
+                };
+                generalUserProfileResponses = context.GeneralUserProfileResponse.FromSqlRaw("exec df_Get_GenralUserProfile  @UserID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return generalUserProfileResponses;
+        }
+
         public long InsertUserProfile(DataContext context, UserProfile userProfile)
         {
             List<UserProfile> locationTypeMain = new List<UserProfile>();

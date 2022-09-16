@@ -11,7 +11,9 @@ namespace DFAPI.Helpers
         }
         #region Registration
         public DbSet<Users> Users => Set<Users>();
-        public DbSet<UserProfile> UserProfile => Set<UserProfile>(); 
+        public DbSet<UserProfile> UserProfile => Set<UserProfile>();
+
+        public DbSet<GeneralUserProfileResponse> GeneralUserProfileResponse => Set<GeneralUserProfileResponse>();
 
         public DbSet<LoginUser> LoginUser => Set<LoginUser>();
         public DbSet<UserCount> UserCount => Set<UserCount>();

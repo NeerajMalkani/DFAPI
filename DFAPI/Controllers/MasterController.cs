@@ -1262,6 +1262,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getusergeneralprofile")]
+        public Response GetGeneralUserProfile([FromQuery] Users users)
+        {
+            Response response = new Response();
+            try
+            {
+                List<GeneralUserProfileResponse> generalUserProfileResponses = new MasterRepository().GetGeneralUserProfile(_db, users);
+                if (generalUserProfileResponses.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, generalUserProfileResponses);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, generalUserProfileResponses);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertuserprofile")]
         public Response InsertUserProfile(UserProfile userProfile)
