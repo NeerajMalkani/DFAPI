@@ -381,7 +381,7 @@ namespace DFAPI.Entities
         public long? DesignationID { get; set; }
         public byte? EmployeeType { get; set; }
         public DateTime? LastWorkDate { get; set; }
-        public bool? WagesType { get; set; }
+        public byte? WagesType { get; set; }
         public decimal? Salary { get; set; }
         public bool? IsActive { get; set; }
         public bool? profileStatus { get; set; }
@@ -531,7 +531,7 @@ namespace DFAPI.Entities
         public long? DesignationID { get; set; }
         public byte? EmployeeType { get; set; }
         public DateTime? LastWorkDate { get; set; }
-        public bool? WagesType { get; set; }
+        public byte? WagesType { get; set; }
         public decimal? Salary { get; set; }
         public string? AccountHolderName { get; set; }
         public long? AccountNumber { get; set; }
