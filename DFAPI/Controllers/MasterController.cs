@@ -1911,19 +1911,19 @@ namespace DFAPI.Controllers
 
         [HttpPost]
         [Route("updateemployeereportingauthority")]
-        public Response UpdateEmployeeReportingAuthority(EmployeeReportingAuthority employeeReportingAuthority)
+        public Response UpdateEmployeeReportingAuthority(EmployeeReportingAuthorityUpdateRequest employeeReportingAuthorityUpdateRequest)
         {
             Response response = new Response();
             try
             {
-                long rowsAffected = new MasterRepository().UpdateEmployeeReportingAuthority(_db, employeeReportingAuthority);
+                long rowsAffected = new MasterRepository().UpdateEmployeeReportingAuthority(_db, employeeReportingAuthorityUpdateRequest);
                 if (rowsAffected > 0)
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
                 }
                 else if (rowsAffected == -2)
                 {
-                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "User does not exists", out response);
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Update failed", out response);
                 }
                 else
                 {

@@ -1727,17 +1727,17 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@Pincode", Value = updateEmployeeRequest.Pincode },
                     new SqlParameter { ParameterName = "@ProfilePhoto", Value = updateEmployeeRequest.ProfilePhoto },
                     new SqlParameter { ParameterName = "@BloodGroup", Value = updateEmployeeRequest.BloodGroup },
-                    new SqlParameter { ParameterName = "@DOB", Value = updateEmployeeRequest.DOB },
-                    new SqlParameter { ParameterName = "@DOJ", Value = updateEmployeeRequest.DOJ },
+                    new SqlParameter { ParameterName = "@DOB", Value = (updateEmployeeRequest.DOB == null) ? DBNull.Value : updateEmployeeRequest.DOB },
+                    new SqlParameter { ParameterName = "@DOJ", Value = (updateEmployeeRequest.DOJ == null) ? DBNull.Value : updateEmployeeRequest.DOJ },
                     new SqlParameter { ParameterName = "@EmergencyContactName", Value = updateEmployeeRequest.EmergencyContactName },
                     new SqlParameter { ParameterName = "@EmergencyContactNo", Value = updateEmployeeRequest.EmergencyContactNo },
-                    new SqlParameter { ParameterName = "@IDCardValidity", Value = updateEmployeeRequest.IDCardValidity },
+                    new SqlParameter { ParameterName = "@IDCardValidity", Value = (updateEmployeeRequest.IDCardValidity == null) ? DBNull.Value : updateEmployeeRequest.IDCardValidity },
                     new SqlParameter { ParameterName = "@LoginActiveStatus", Value = updateEmployeeRequest.LoginActiveStatus },
                     new SqlParameter { ParameterName = "@BranchID", Value = updateEmployeeRequest.BranchID },
                     new SqlParameter { ParameterName = "@DepartmentID", Value = updateEmployeeRequest.DepartmentID },
                     new SqlParameter { ParameterName = "@DesignationID", Value = updateEmployeeRequest.DesignationID },
                     new SqlParameter { ParameterName = "@EmployeeType", Value = updateEmployeeRequest.EmployeeType },
-                    new SqlParameter { ParameterName = "@LastWorkDate", Value = updateEmployeeRequest.LastWorkDate },
+                    new SqlParameter { ParameterName = "@LastWorkDate", Value = (updateEmployeeRequest.LastWorkDate == null) ? DBNull.Value : updateEmployeeRequest.LastWorkDate },
                     new SqlParameter { ParameterName = "@WagesType", Value = updateEmployeeRequest.WagesType },
                     new SqlParameter { ParameterName = "@Salary", Value = updateEmployeeRequest.Salary },
                     new SqlParameter { ParameterName = "@AccountHolderName", Value = updateEmployeeRequest.AccountHolderName },
@@ -1765,15 +1765,26 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
-        public long UpdateEmployeeReportingAuthority(DataContext context, EmployeeReportingAuthority employeeReportingAuthority)
+        public long UpdateEmployeeReportingAuthority(DataContext context, EmployeeReportingAuthorityUpdateRequest employeeReportingAuthorityUpdateRequest)
         {
-            List<EmployeeReportingAuthority> employeeReportingAuthorityMain = new List<EmployeeReportingAuthority>();
             long rowsAffected = 0;
             try
             {
-                context.EmployeeReportingAuthority.Add(employeeReportingAuthority);
-                context.SaveChanges();
-                rowsAffected = 1;
+                if (employeeReportingAuthorityUpdateRequest.ReportingAuthorityID.Trim() != "")
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@EmployeeID", Value = employeeReportingAuthorityUpdateRequest.EmployeeID },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = employeeReportingAuthorityUpdateRequest.AddedByUserID },
+                    new SqlParameter { ParameterName = "@ReportingAuthority", Value = employeeReportingAuthorityUpdateRequest.ReportingAuthorityID.Trim() },
+                };
+                    context.Database.ExecuteSqlRaw("exec df_Update_EmployeeReportingAuthority @EmployeeID, @AddedByUserID, @ReportingAuthority", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
             }
             catch (Exception)
             {
