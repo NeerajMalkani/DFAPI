@@ -1687,10 +1687,10 @@ namespace DFAPI.Repositories
             List<Users> user = new List<Users>();
             try
             {
-                employeeMasters = context.EmployeeMaster.Where(bm => (bm.ID == employeeIDRequest.ID)).ToList();
-                user = context.Users.Where(bm => (bm.UserID == employeeMasters[0].UserID)).ToList();
-                employeeReportingAuthority = context.EmployeeReportingAuthority.Where(bm => (bm.EmployeeID == employeeIDRequest.ID)).ToList();
-                bankDetails = context.BankDetails.Where(bm => (bm.UserID == user[0].UserID)).ToList();
+                employeeMasters = context.EmployeeMaster.Where(bm => bm.ID == employeeIDRequest.ID).ToList();
+                user = context.Users.Where(bm => bm.UserID == employeeMasters[0].UserID).ToList();
+                employeeReportingAuthority = context.EmployeeReportingAuthority.Where(bm => bm.EmployeeID == employeeIDRequest.ID && bm.AddedByUserID == employeeIDRequest.AddedByUserID).ToList();
+                bankDetails = context.BankDetails.Where(bm => bm.UserID == user[0].UserID).ToList();
 
                 employeeResponses.Add(new EmployeeResponse
                 {

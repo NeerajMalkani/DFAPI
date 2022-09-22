@@ -493,6 +493,7 @@ namespace DFAPI.Entities
     {
         [Key]
         public long ID { get; set; }
+        public long? AddedByUserID { get; set; }
     }
 
     public class EmployeeReportingAuthorityRequest
