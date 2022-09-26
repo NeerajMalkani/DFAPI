@@ -65,6 +65,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getclientbyid")]
+        public Response GetClientByID([FromQuery] ClientMaster clientMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ClientGet> clientGet = new ContractorQuotationEstimationRepository().GetClientByID(_db, clientMaster);
+                if (clientGet.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, clientGet);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, clientGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertclient")]
         public Response InsertClient(Client client)

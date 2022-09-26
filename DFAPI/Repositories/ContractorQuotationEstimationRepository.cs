@@ -45,6 +45,25 @@ namespace DFAPI.Repositories
             return clientGet;
         }
 
+        public List<ClientGet> GetClientByID(DataContext context, ClientMaster clientMaster)
+        {
+            List<ClientGet> clientGet = new List<ClientGet>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@AddedByUserID", Value = clientMaster.AddedByUserID },
+                new SqlParameter { ParameterName = "@ID", Value = clientMaster.ID }
+                };
+                clientGet = context.ClientGet.FromSqlRaw("exec df_Get_ClientByID @AddedByUserID, @ID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return clientGet;
+        }
+
         public long InsertClient(DataContext context, Client client)
         {
             List<Client> categoryMastersMain = new List<Client>();

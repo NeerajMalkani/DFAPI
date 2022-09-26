@@ -554,4 +554,11 @@ namespace DFAPI.Entities
         public long? EmployeeID { get; set; }
         public long? AddedByUserID { get; set; }
     }
+
+    public class ContractorActiveServiceList
+    {
+        [Key]
+        public long ID { get; set; }
+        public long? ServiceID { get; set; }
+    }
 }

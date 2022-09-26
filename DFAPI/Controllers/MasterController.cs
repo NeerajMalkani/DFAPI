@@ -2131,5 +2131,29 @@ namespace DFAPI.Controllers
         }
 
         #endregion
+
+        [HttpGet]
+        [Route("getcontractoractiveservices")]
+        public Response GetContractorActiveServices([FromQuery] ContractorServiceMapping contarctorServiceMapping)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ContractorActiveServiceList> contractorActiveServiceLists = new MasterRepository().GetContractorActiveServices(_db, contarctorServiceMapping);
+                if (contractorActiveServiceLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, contractorActiveServiceLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, contractorActiveServiceLists);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
     }
 }

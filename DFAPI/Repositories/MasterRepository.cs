@@ -1104,7 +1104,8 @@ namespace DFAPI.Repositories
             {
                 user = context.Users.Where(u => (u.UserID == userStatusRequest.UserID)).ToList();
 
-                if (user.Any()) {
+                if (user.Any())
+                {
                     List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@UserID", Value = userStatusRequest.UserID },
@@ -1117,7 +1118,7 @@ namespace DFAPI.Repositories
                 {
                     rowsAffected = -2;
                 }
-                    
+
             }
             catch (Exception)
             {
@@ -1265,9 +1266,9 @@ namespace DFAPI.Repositories
             try
             {
                 userDepartmentMappingsMain = context.UserDepartmentMapping
-                    .Where(udm => (udm.AddedByUserID == userDepartmentMapping.AddedByUserID &&
+                    .Where(udm => udm.AddedByUserID == userDepartmentMapping.AddedByUserID &&
                     udm.DepartmentID == userDepartmentMapping.DepartmentID &&
-                    udm.ID != userDepartmentMapping.ID)).ToList();
+                    udm.ID != userDepartmentMapping.ID).ToList();
 
                 if (!userDepartmentMappingsMain.Any())
                 {
@@ -1576,11 +1577,11 @@ namespace DFAPI.Repositories
 
 
 
-        
+
 
         public List<UserReportingEmployeeResponse> GetReportingEmployeeList(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
-            List<UserReportingEmployeeResponse> userReportingEmployeeResponses  = new List<UserReportingEmployeeResponse>();
+            List<UserReportingEmployeeResponse> userReportingEmployeeResponses = new List<UserReportingEmployeeResponse>();
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
@@ -1773,11 +1774,11 @@ namespace DFAPI.Repositories
                 if (employeeReportingAuthorityUpdateRequest.ReportingAuthorityID.Trim() != "")
                 {
                     List<SqlParameter> parms = new List<SqlParameter>
-                {
+                    {
                     new SqlParameter { ParameterName = "@EmployeeID", Value = employeeReportingAuthorityUpdateRequest.EmployeeID },
                     new SqlParameter { ParameterName = "@AddedByUserID", Value = employeeReportingAuthorityUpdateRequest.AddedByUserID },
                     new SqlParameter { ParameterName = "@ReportingAuthority", Value = employeeReportingAuthorityUpdateRequest.ReportingAuthorityID.Trim() },
-                };
+                    };
                     context.Database.ExecuteSqlRaw("exec df_Update_EmployeeReportingAuthority @EmployeeID, @AddedByUserID, @ReportingAuthority", parms.ToArray());
                     rowsAffected = 1;
                 }
@@ -1945,5 +1946,23 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
         #endregion
+
+        public List<ContractorActiveServiceList> GetContractorActiveServices(DataContext context, ContractorServiceMapping contractorServiceMapping)
+        {
+            List<ContractorActiveServiceList> contractorActiveServiceLists = new List<ContractorActiveServiceList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ContractorID", Value = contractorServiceMapping.ContractorID },
+                };
+                contractorActiveServiceLists = context.ContractorActiveServiceList.FromSqlRaw("exec df_Get_ContractorActiveServices @ContractorID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return contractorActiveServiceLists;
+        }
     }
 }
