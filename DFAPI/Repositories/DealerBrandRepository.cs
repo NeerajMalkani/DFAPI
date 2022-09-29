@@ -118,7 +118,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                dealerBrands = context.DealerBrands.Where(b => b.BrandID == dealerBrandsParam.BrandID).ToList();
+                dealerBrands = context.DealerBrands.Where(b => b.BrandID == dealerBrandsParam.BrandID && b.ServiceID== dealerBrandsParam.ServiceID && b.CategoryID == dealerBrandsParam.CategoryID).ToList();
                 if (!dealerBrands.Any())
                 {
                     context.DealerBrands.Add(dealerBrandsParam);
@@ -143,7 +143,7 @@ namespace DFAPI.Repositories
             long rowsAffected = 0;
             try
             {
-                dealerBrands = context.DealerBrands.Where(b => b.BrandID == dealerBrandsParam.BrandID && b.ID != dealerBrandsParam.ID).ToList();
+                dealerBrands = context.DealerBrands.Where(b => b.BrandID == dealerBrandsParam.BrandID && b.ServiceID == dealerBrandsParam.ServiceID && b.CategoryID == dealerBrandsParam.CategoryID && b.ID != dealerBrandsParam.ID).ToList();
                 if (!dealerBrands.Any())
                 {
                     context.DealerBrands.Update(dealerBrandsParam);
