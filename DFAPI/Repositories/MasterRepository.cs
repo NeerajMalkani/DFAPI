@@ -1172,7 +1172,7 @@ namespace DFAPI.Repositories
             List<UsersList> usersLists = new List<UsersList>();
             try
             {
-                usersLists = context.UsersList.FromSqlRaw("exec df_Get_ApprovedUserList").ToList();
+                usersLists = context.UsersList.FromSqlRaw("exec df_Get_ApprovedUserList_v1").ToList();
             }
             catch (Exception)
             {
@@ -1186,7 +1186,7 @@ namespace DFAPI.Repositories
             List<UsersList> usersLists = new List<UsersList>();
             try
             {
-                usersLists = context.UsersList.FromSqlRaw("exec df_Get_DeclinedUserList").ToList();
+                usersLists = context.UsersList.FromSqlRaw("exec df_Get_DeclinedUserList_v1").ToList();
             }
             catch (Exception)
             {
@@ -1200,7 +1200,7 @@ namespace DFAPI.Repositories
             List<UsersList> usersLists = new List<UsersList>();
             try
             {
-                usersLists = context.UsersList.FromSqlRaw("exec df_Get_PendingUserList").ToList();
+                usersLists = context.UsersList.FromSqlRaw("exec df_Get_PendingUserList_v1").ToList();
             }
             catch (Exception)
             {
