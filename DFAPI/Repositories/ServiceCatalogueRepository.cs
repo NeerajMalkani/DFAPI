@@ -283,7 +283,7 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@Display", Value = designTypeMaster.Display },
                     new SqlParameter { ParameterName = "@DesignImage", Value = designTypeMaster.DesignImage },
                 };
-                    context.Database.ExecuteSqlRaw("exec df_Update_DesignType_v1 @ID, @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
+                    context.Database.ExecuteSqlRaw("exec df_Update_DesignType_v1 @ID, @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display, @DesignImage", parms.ToArray());
                     rowsAffected = 1;
                 }
                 else
