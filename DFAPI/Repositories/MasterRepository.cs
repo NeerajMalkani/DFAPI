@@ -425,6 +425,21 @@ namespace DFAPI.Repositories
             return categoriesByServiceID;
         }
 
+
+        public List<DesignTypeMaster> GetDesignTypeImage(DataContext context, DesignTypeMaster designTypeMaster)
+        {
+            List<DesignTypeMaster> objDesignType = new List<DesignTypeMaster>();
+            try
+            {
+                objDesignType = context.DesignTypeMaster.Where(b => b.ID == designTypeMaster.ID).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return objDesignType;
+        }
+
         public List<UnitOfSalesMaster> GetUnitByCategoryID(DataContext context, CategoryMaster categoryMaster)
         {
             List<UnitOfSalesMaster> unitByCategoryID = new List<UnitOfSalesMaster>();

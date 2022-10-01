@@ -28,6 +28,7 @@ namespace DFAPI.Entities
         public long? CategoryID { get; set; }
         public long? ProductID { get; set; }
         public bool? Display { get; set; }
+        public string? DesignImage { get; set; }
     }
 
     public class DesignTypeByProductID
@@ -50,6 +51,7 @@ namespace DFAPI.Entities
         public long? ProductID { get; set; }
         public string? ProductName { get; set; }
         public bool? Display { get; set; }
+        public string? DesignImage { get; set; }
     }
 
     public class PostNewDesignMaster

@@ -247,8 +247,9 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@CategoryID", Value = designTypeMaster.CategoryID },
                     new SqlParameter { ParameterName = "@ProductID", Value = designTypeMaster.ProductID },
                     new SqlParameter { ParameterName = "@Display", Value = designTypeMaster.Display },
+                    new SqlParameter { ParameterName = "@DesignImage", Value = designTypeMaster.DesignImage },
                 };
-                    context.Database.ExecuteSqlRaw("exec df_Insert_DesignType @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
+                    context.Database.ExecuteSqlRaw("exec df_Insert_DesignType_v1 @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display, @DesignImage", parms.ToArray());
                     rowsAffected = 1;
                 }
                 else
@@ -280,8 +281,9 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@CategoryID", Value = designTypeMaster.CategoryID },
                     new SqlParameter { ParameterName = "@ProductID", Value = designTypeMaster.ProductID },
                     new SqlParameter { ParameterName = "@Display", Value = designTypeMaster.Display },
+                    new SqlParameter { ParameterName = "@DesignImage", Value = designTypeMaster.DesignImage },
                 };
-                    context.Database.ExecuteSqlRaw("exec df_Update_DesignType @ID, @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
+                    context.Database.ExecuteSqlRaw("exec df_Update_DesignType_v1 @ID, @DesignTypeName, @ServiceID, @CategoryID, @ProductID, @Display", parms.ToArray());
                     rowsAffected = 1;
                 }
                 else
@@ -500,14 +502,15 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@Display", Value = postNewDesignMaster.Display },
                 };
                 rowsAffected = context.Database.ExecuteSqlRaw("exec df_Insert_PostNewDesign @LabourCost, @ServiceID, @CategoryID, @ProductID, @DesignTypeID, @WorkLocationID, @DesignNumber, @DesignImage, @Display", parms.ToArray());
-                if(rowsAffected > 0)
+                if (rowsAffected > 0)
                 {
                     rowsAffected = 1;
-                } else
+                }
+                else
                 {
                     rowsAffected = -2;
                 }
-                
+
             }
             catch (Exception)
             {

@@ -633,6 +633,30 @@ namespace DFAPI.Controllers
         }
 
         [HttpGet]
+        [Route("getdesigntypeimage")]
+        public Response GetDesignTypeImage([FromQuery] DesignTypeMaster designTypeMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<DesignTypeMaster> designTypeMasters = new MasterRepository().GetDesignTypeImage(_db, designTypeMaster);
+                if (designTypeMasters.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, designTypeMasters);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, designTypeMasters);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
         [Route("getproductsbycategoryidforbrands")]
         public Response GetProductsByCategoryIDForBrands([FromQuery] Products products)
         {
