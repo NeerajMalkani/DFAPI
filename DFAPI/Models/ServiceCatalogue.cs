@@ -183,4 +183,10 @@ namespace DFAPI.Entities
         public decimal Quantity { get; set; }
         public decimal Formula { get; set; }
     }
+
+    public class DesignTypeRequest
+    {
+        public long DesignTypeID { get; set; }
+        
+    }
 }

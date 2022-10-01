@@ -481,6 +481,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getmaterialbydesigntypeid")]
+        public Response GetMaterialByDesignTypeID([FromQuery] DesignTypeRequest designTypeRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<MaterialProductMappingGet> materialProductMappingGet = new ServiceCatalogueRepository().GetMaterialByDesignTypeID(_db, designTypeRequest);
+                if (materialProductMappingGet.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, materialProductMappingGet);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, materialProductMappingGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpPost]
         [Route("insertmaterialsetup")]
         public Response InsertMaterialSetup(MaterialSetupRequest materialSetupRequest)

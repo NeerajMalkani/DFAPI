@@ -387,6 +387,27 @@ namespace DFAPI.Repositories
             return materialProductMappingGet;
         }
 
+
+        public List<MaterialProductMappingGet> GetMaterialByDesignTypeID(DataContext context, DesignTypeRequest designTypeRequest)
+        {
+            List<MaterialProductMappingGet> materialProductMappingGet = new List<MaterialProductMappingGet>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@DesignTypeID", Value = designTypeRequest.DesignTypeID }
+                };
+                materialProductMappingGet = context.MaterialProductMappingGet.FromSqlRaw("exec df_Get_MaterialByDesignTypeID @DesignTypeID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return materialProductMappingGet;
+        }
+
+
+
         public long InsertMaterialSetup(DataContext context, MaterialSetupRequest materialSetupRequest)
         {
             long rowsAffected = 0;
