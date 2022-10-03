@@ -1979,5 +1979,38 @@ namespace DFAPI.Repositories
             }
             return contractorActiveServiceLists;
         }
+
+        public long InsertUpdateContractorRateCard(DataContext context, ContractorRateCard contractorRateCard)
+        {
+            long rowsAffected = 0;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@RateCardID", Value = contractorRateCard.RateCardID },
+                    new SqlParameter { ParameterName = "@ProductID", Value = contractorRateCard.ProductID },
+                    new SqlParameter { ParameterName = "@ActivityID", Value = contractorRateCard.ActivityID },
+                    new SqlParameter { ParameterName = "@ServiceID", Value = contractorRateCard.ServiceID },
+                    new SqlParameter { ParameterName = "@CategoryID", Value = contractorRateCard.CategoryID },
+                    new SqlParameter { ParameterName = "@SelectedUnitID", Value = contractorRateCard.SelectedUnitID },
+                    new SqlParameter { ParameterName = "@UnitOfSalesID", Value = contractorRateCard.UnitOfSalesID },
+                    new SqlParameter { ParameterName = "@RateWithMaterials", Value = contractorRateCard.RateWithMaterials },
+                    new SqlParameter { ParameterName = "@RateWithoutMaterials", Value = contractorRateCard.RateWithMaterials },
+                    new SqlParameter { ParameterName = "@AlternateUnitOfSales", Value = contractorRateCard.AlternateUnitOfSales },
+                    new SqlParameter { ParameterName = "@ShortSpecification", Value = contractorRateCard.ShortSpecification },
+                    new SqlParameter { ParameterName = "@Specification", Value = contractorRateCard.Specification },
+                    new SqlParameter { ParameterName = "@Display", Value = contractorRateCard.Display },
+                    new SqlParameter { ParameterName = "@ContractorID", Value = contractorRateCard.ContractorID },
+                };
+                context.Database.ExecuteSqlRaw("exec df_InsertUpdate_Contractor_RateCard @RateCardID, @ProductID, @ActivityID, @ServiceID, @CategoryID, " +
+                    "@SelectedUnitID, @UnitOfSalesID ,@RateWithMaterials ,@RateWithoutMaterials ,@AlternateUnitOfSales ,@ShortSpecification ,@Specification ,@Display ,@ContractorID", parms.ToArray());
+                rowsAffected = Convert.ToInt32(parms[5].Value);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
     }
 }

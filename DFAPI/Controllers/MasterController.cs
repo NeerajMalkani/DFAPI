@@ -2179,5 +2179,36 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
+        [HttpPost]
+        [Route("insertupdatecontractorratecard")]
+        public Response ManageContractorRateCard(ContractorRateCard contractorRateCard)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().InsertUpdateContractorRateCard(_db, contractorRateCard);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    if (contractorRateCard.RateCardID > 0)
+                    {
+                        Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Fail to Update Record", out response);
+                    }
+                    else
+                    {
+                        Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Fail to Insert Record", out response);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
     }
 }

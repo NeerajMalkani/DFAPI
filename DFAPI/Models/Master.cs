@@ -562,4 +562,25 @@ namespace DFAPI.Entities
         public long? ServiceID { get; set; }
     }
 
+    public class ContractorRateCard
+    {
+        [Key]
+        public long RateCardID { get; set; }
+        public long ProductID { get; set; }
+        public long? ActivityID { get; set; }
+        public long? ServiceID { get; set; }
+        public long? CategoryID { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public long? UnitOfSalesID { get; set; }
+        public decimal? RateWithMaterials { get; set; }
+        public decimal? RateWithoutMaterials { get; set; }
+        public decimal? AlternateUnitOfSales { get; set; }
+        public string? ShortSpecification { get; set; }
+        public string? Specification { get; set; }
+        public bool? Display { get; set; }
+        public DateTime? CreationTStamp { get; set; }
+        public bool? IsActive { get; set; }
+        public long? ContractorID { get; set; }
+
+    }
 }
