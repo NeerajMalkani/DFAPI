@@ -2012,5 +2012,23 @@ namespace DFAPI.Repositories
             }
             return rowsAffected;
         }
+
+        public List<ContractorRateCardList> GetContractorRateCardList(DataContext context, ContractorServiceMapping contractorServiceMapping)
+        {
+            List<ContractorRateCardList> contractorRateCardLists = new List<ContractorRateCardList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ContractorID", Value = contractorServiceMapping.ContractorID },
+                };
+                contractorRateCardLists = context.ContractorRateCardList.FromSqlRaw("exec df_Get_ContractorRateCardList @ContractorID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return contractorRateCardLists;
+        }
     }
 }

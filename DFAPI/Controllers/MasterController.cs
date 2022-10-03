@@ -2210,5 +2210,29 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
+        [HttpGet]
+        [Route("getcontractorratecardlist")]
+        public Response GetContractorRateCardList([FromQuery] ContractorServiceMapping contarctorServiceMapping)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ContractorRateCardList> contractorRateCardLists = new MasterRepository().GetContractorRateCardList(_db, contarctorServiceMapping);
+                if (contractorRateCardLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, contractorRateCardLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, contractorRateCardLists);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
     }
 }

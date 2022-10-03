@@ -116,5 +116,7 @@ namespace DFAPI.Helpers
 
         public DbSet<EmployeeReportingAuthority> EmployeeReportingAuthority => Set<EmployeeReportingAuthority>();
         public DbSet<BankDetails> BankDetails => Set<BankDetails>();
+
+        public DbSet<ContractorRateCardList> ContractorRateCardList => Set<ContractorRateCardList>();
     }
 }
