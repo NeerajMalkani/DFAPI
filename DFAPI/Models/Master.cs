@@ -31,6 +31,15 @@ namespace DFAPI.Entities
         public string? DisplayUnit { get; set; }
     }
 
+    public class UnitOfProduct
+    {
+        [Key]
+        public int ID { get; set; }
+        public Int32? UnitID { get; set; }
+        public string? UnitName { get; set; }
+        public decimal ConversionRate { get; set; }
+    }
+
     public class CategoryMasterResponse
     {
         [Key]
@@ -118,13 +127,42 @@ namespace DFAPI.Entities
         public string? Specification { get; set; }
     }
 
+    public class ProductResponse
+    {
+        [Key]
+        public long ProductID { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public string? ProductName { get; set; }
+        public long? ActivityID { get; set; }
+        public string? ActivityRoleName { get; set; }
+        public long? ServiceID { get; set; }
+        public string? ServiceName { get; set; }
+        public long? CategoryID { get; set; }
+        public string? CategoryName { get; set; }
+        public string? HSNSACCode { get; set; }
+        public decimal? GSTRate { get; set; }
+        public long? UnitOfSalesID { get; set; }
+        public bool? Display { get; set; }
+        public decimal? RateWithMaterials { get; set; }
+        public decimal? RateWithoutMaterials { get; set; }
+        public decimal? AlternateUnitOfSales { get; set; }
+        public bool? ServiceDisplay { get; set; }
+        public string? ShortSpecification { get; set; }
+        public string? Specification { get; set; }
+    }
+
     public class ProductsByCategory
     {
         [Key]
         public long ProductID { get; set; }
         public string? ProductName { get; set; }
+        public decimal? RateWithMaterials { get; set; }
         public decimal? RateWithoutMaterials { get; set; }
+        public long? SelectedUnitID { get; set; }
         public bool? Display { get; set; }
+        public string? ShortSpecification { get; set; }
+        public string? Specification { get; set; }
+        public decimal? ConversionRate { get; set; }
     }
 
     public class DepartmentMaster
@@ -560,6 +598,8 @@ namespace DFAPI.Entities
         [Key]
         public long ID { get; set; }
         public long? ServiceID { get; set; }
+        public string? ServiceName { get; set; }
+        
     }
 
     public class ContractorRateCard

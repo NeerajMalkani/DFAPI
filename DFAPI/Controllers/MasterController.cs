@@ -511,6 +511,30 @@ namespace DFAPI.Controllers
         }
 
         [HttpGet]
+        [Route("getserviceproductsv1")]
+        public Response GetServiceProducts_v1()
+        {
+            Response response = new Response();
+            try
+            {
+                List<ProductResponse> productMaster = new MasterRepository().GetServiceProducts_v1(_db);
+                if (productMaster.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, productMaster);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, productMaster);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
         [Route("getmainactivities")]
         public Response GetActivitiesForProduct()
         {
@@ -695,6 +719,30 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, unitByProductID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getproductunitbyid")]
+        public Response GetProductUnitByID([FromQuery] ProductMaster productMaster)
+        {
+            Response response = new Response();
+            try
+            {
+                List<UnitOfProduct> unitOfProducts = new MasterRepository().GetProductUnitByID(_db, productMaster);
+                if (unitOfProducts.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, unitOfProducts);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, unitOfProducts);
                 }
             }
             catch (Exception ex)

@@ -23,11 +23,14 @@ namespace DFAPI.Helpers
         public DbSet<ActivityMaster> ActivityMaster => Set<ActivityMaster>();
         public DbSet<ServiceMaster> ServiceMaster => Set<ServiceMaster>();
         public DbSet<UnitOfSalesMaster> UnitOfSalesMaster => Set<UnitOfSalesMaster>();
+        public DbSet<UnitOfProduct> UnitOfProduct => Set<UnitOfProduct>();
         public DbSet<CategoryMaster> CategoryMaster => Set<CategoryMaster>();
         public DbSet<CategoryMasterResponse> CategoryMasterResponse => Set<CategoryMasterResponse>(); 
         public DbSet<CategoryByService> CategoryByService => Set<CategoryByService>();
         public DbSet<ProductMaster> ProductMaster => Set<ProductMaster>();
         public DbSet<Products> Products => Set<Products>();
+
+        public DbSet<ProductResponse> ProductResponse => Set<ProductResponse>();
         public DbSet<ProductsByCategory> ProductsByCategory => Set<ProductsByCategory>();
         public DbSet<DepartmentMaster> DepartmentMaster => Set<DepartmentMaster>();
         public DbSet<LocationTypeMaster> LocationTypeMaster => Set<LocationTypeMaster>();

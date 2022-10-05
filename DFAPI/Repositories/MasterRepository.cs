@@ -374,6 +374,20 @@ namespace DFAPI.Repositories
             return products;
         }
 
+        public List<ProductResponse> GetServiceProducts_v1(DataContext context)
+        {
+            List<ProductResponse> products = new List<ProductResponse>();
+            try
+            {
+                products = context.ProductResponse.FromSqlRaw("exec df_Get_ServiceProducts_v1").ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return products;
+        }
+
         public List<ActivityMaster> GetMainActivities(DataContext context)
         {
             List<ActivityMaster> mainActivities = new List<ActivityMaster>();
@@ -516,6 +530,24 @@ namespace DFAPI.Repositories
             return unitByProductID;
         }
 
+        public List<UnitOfProduct> GetProductUnitByID(DataContext context, ProductMaster productMaster)
+        {
+            List<UnitOfProduct> unitOfProducts = new List<UnitOfProduct>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ProductID", Value = productMaster.ProductID }
+                };
+                unitOfProducts = context.UnitOfProduct.FromSqlRaw("exec df_Get_UnitByProductID_v1 @ProductID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return unitOfProducts;
+        }
+
         public long InsertProduct(DataContext context, ProductMaster productMaster)
         {
             List<ProductMaster> productMasterList = new List<ProductMaster>();
@@ -626,10 +658,9 @@ namespace DFAPI.Repositories
                             List<SqlParameter> parms = new List<SqlParameter>
                         {
                             new SqlParameter { ParameterName = "@ProductID", Value = productMaster.ProductID },
-                            new SqlParameter { ParameterName = "@SelectedUnitID", Value = productMaster.SelectedUnitID },
                             new SqlParameter { ParameterName = "@ConversionRate", Value = productMaster.AlternateUnitOfSales },
                         };
-                            context.Database.ExecuteSqlRaw("exec df_update_UnitConversionRate @ProductID, @SelectedUnitID, @ConversionRate", parms.ToArray());
+                            context.Database.ExecuteSqlRaw("exec df_update_UnitConversionRate_v1 @ProductID, @ConversionRate", parms.ToArray());
                         }
                         rowsAffected = 1;
                     }
