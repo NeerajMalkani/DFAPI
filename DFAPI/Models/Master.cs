@@ -615,6 +615,8 @@ namespace DFAPI.Entities
         public long? UnitOfSalesID { get; set; }
         public decimal? RateWithMaterials { get; set; }
         public decimal? RateWithoutMaterials { get; set; }
+        public decimal? AltRateWithMaterials { get; set; }
+        public decimal? AltRateWithoutMaterials { get; set; }
         public decimal? AlternateUnitOfSales { get; set; }
         public string? ShortSpecification { get; set; }
         public string? Specification { get; set; }
@@ -637,6 +639,8 @@ namespace DFAPI.Entities
         public long? UnitOfSalesID { get; set; }
         public decimal? RateWithMaterials { get; set; }
         public decimal? RateWithoutMaterials { get; set; }
+        public decimal? AltRateWithMaterials { get; set; }
+        public decimal? AltRateWithoutMaterials { get; set; }
         public decimal? AlternateUnitOfSales { get; set; }
         public string? ShortSpecification { get; set; }
         public string? Specification { get; set; }

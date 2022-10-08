@@ -2027,6 +2027,8 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@UnitOfSalesID", Value = contractorRateCard.UnitOfSalesID },
                     new SqlParameter { ParameterName = "@RateWithMaterials", Value = contractorRateCard.RateWithMaterials },
                     new SqlParameter { ParameterName = "@RateWithoutMaterials", Value = contractorRateCard.RateWithoutMaterials },
+                    new SqlParameter { ParameterName = "@AltRateWithMaterials", Value = contractorRateCard.AltRateWithMaterials },
+                    new SqlParameter { ParameterName = "@AltRateWithoutMaterials", Value = contractorRateCard.AltRateWithoutMaterials },
                     new SqlParameter { ParameterName = "@AlternateUnitOfSales", Value = contractorRateCard.AlternateUnitOfSales },
                     new SqlParameter { ParameterName = "@ShortSpecification", Value = contractorRateCard.ShortSpecification },
                     new SqlParameter { ParameterName = "@Specification", Value = contractorRateCard.Specification },
@@ -2034,8 +2036,9 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@ContractorID", Value = contractorRateCard.ContractorID },
                 };
                 context.Database.ExecuteSqlRaw("exec df_InsertUpdate_Contractor_RateCard @RateCardID, @ProductID, @ActivityID, @ServiceID, @CategoryID, " +
-                    "@SelectedUnitID, @UnitOfSalesID ,@RateWithMaterials ,@RateWithoutMaterials ,@AlternateUnitOfSales ,@ShortSpecification ,@Specification ,@Display ,@ContractorID", parms.ToArray());
-                rowsAffected = Convert.ToInt32(parms[5].Value);
+                    "@SelectedUnitID, @UnitOfSalesID ,@RateWithMaterials ,@RateWithoutMaterials, @AltRateWithMaterials, @AltRateWithoutMaterials, @AlternateUnitOfSales ,@ShortSpecification ,@Specification ," +
+                    "@Display ,@ContractorID", parms.ToArray());
+                rowsAffected = 1;
             }
             catch (Exception)
             {
@@ -2060,6 +2063,24 @@ namespace DFAPI.Repositories
                 throw;
             }
             return contractorRateCardLists;
+        }
+
+        public List<ContractorRateCard> GetContractorRateCardByID(DataContext context, ContractorRateCard contractorRateCard)
+        {
+            List<ContractorRateCard> contractorRateCards = new List<ContractorRateCard>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@RateCardID", Value = contractorRateCard.RateCardID },
+                };
+                contractorRateCards = context.ContractorRateCard.FromSqlRaw("exec df_Get_ContractorRateCardByID @RateCardID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return contractorRateCards;
         }
     }
 }

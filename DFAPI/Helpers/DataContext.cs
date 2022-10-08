@@ -121,5 +121,7 @@ namespace DFAPI.Helpers
         public DbSet<BankDetails> BankDetails => Set<BankDetails>();
 
         public DbSet<ContractorRateCardList> ContractorRateCardList => Set<ContractorRateCardList>();
+
+        public DbSet<ContractorRateCard> ContractorRateCard => Set<ContractorRateCard>();
     }
 }

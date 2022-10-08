@@ -2282,5 +2282,32 @@ namespace DFAPI.Controllers
             }
             return response;
         }
+
+
+        [HttpGet]
+        [Route("getcontractorratecardbyid")]
+        public Response GetContractorRateCardByID([FromQuery] ContractorRateCard contractorRateCard)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ContractorRateCard> contractorRateCards = new MasterRepository().GetContractorRateCardByID(_db, contractorRateCard);
+                if (contractorRateCards.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, contractorRateCards);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, contractorRateCards);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+
     }
 }
