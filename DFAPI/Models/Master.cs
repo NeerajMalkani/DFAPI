@@ -133,6 +133,7 @@ namespace DFAPI.Entities
         public long ProductID { get; set; }
         public long? SelectedUnitID { get; set; }
         public string? ProductName { get; set; }
+        public string? SelectedUnitName { get; set; }
         public long? ActivityID { get; set; }
         public string? ActivityRoleName { get; set; }
         public long? ServiceID { get; set; }
@@ -147,6 +148,7 @@ namespace DFAPI.Entities
         public decimal? RateWithoutMaterials { get; set; }
         public decimal? AlternateUnitOfSales { get; set; }
         public bool? ServiceDisplay { get; set; }
+        public decimal? ConversionRate { get; set; }
         public string? ShortSpecification { get; set; }
         public string? Specification { get; set; }
     }
@@ -162,7 +164,6 @@ namespace DFAPI.Entities
         public bool? Display { get; set; }
         public string? ShortSpecification { get; set; }
         public string? Specification { get; set; }
-        public decimal? ConversionRate { get; set; }
     }
 
     public class DepartmentMaster
@@ -627,7 +628,7 @@ namespace DFAPI.Entities
     public class ContractorRateCardList
     {
         [Key]
-        public long RateCardID { get; set; }
+        public long ID { get; set; }
         public long ProductID { get; set; }
         public long? ActivityID { get; set; }
         public long? ServiceID { get; set; }
@@ -649,8 +650,8 @@ namespace DFAPI.Entities
         public string? SelectedUnitName { get; set; }
         public string? Unit1Name { get; set; }
         public string? Unit2Name { get; set; }
-        public string? Unit1ID { get; set; }
-        public string? Unit2ID { get; set; }
+        public int? Unit1ID { get; set; }
+        public int? Unit2ID { get; set; }
         public decimal? ConversionRate { get; set; }
 
 

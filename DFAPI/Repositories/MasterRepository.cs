@@ -2026,7 +2026,7 @@ namespace DFAPI.Repositories
                     new SqlParameter { ParameterName = "@SelectedUnitID", Value = contractorRateCard.SelectedUnitID },
                     new SqlParameter { ParameterName = "@UnitOfSalesID", Value = contractorRateCard.UnitOfSalesID },
                     new SqlParameter { ParameterName = "@RateWithMaterials", Value = contractorRateCard.RateWithMaterials },
-                    new SqlParameter { ParameterName = "@RateWithoutMaterials", Value = contractorRateCard.RateWithMaterials },
+                    new SqlParameter { ParameterName = "@RateWithoutMaterials", Value = contractorRateCard.RateWithoutMaterials },
                     new SqlParameter { ParameterName = "@AlternateUnitOfSales", Value = contractorRateCard.AlternateUnitOfSales },
                     new SqlParameter { ParameterName = "@ShortSpecification", Value = contractorRateCard.ShortSpecification },
                     new SqlParameter { ParameterName = "@Specification", Value = contractorRateCard.Specification },
