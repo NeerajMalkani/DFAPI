@@ -2066,13 +2066,13 @@ namespace DFAPI.Controllers
         #region Branch
         [HttpGet]
         [Route("getuserbranches")]
-        public Response GetUserBranchList([FromQuery] UserMappingRequest userMappingRequest)
+        public Response GetUserBranchList([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
 
             Response response = new Response();
             try
             {
-                List<UserBranchList> userBranchLists = new MasterRepository().GetUserBranches(_db, userMappingRequest);
+                List<UserBranchList> userBranchLists = new MasterRepository().GetUserBranches(_db, empoyeeMappingRequest);
                 if (userBranchLists.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, userBranchLists);

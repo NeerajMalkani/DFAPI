@@ -1548,15 +1548,6 @@ namespace DFAPI.Repositories
 
 
 
-
-
-
-
-
-
-
-
-
         public List<UserDepartmentForBranchEmployeeResponse> GetUserDepartmentForBranchEmployee(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserDepartmentForBranchEmployeeResponse> userDepartmentForBranchEmployeeResponses = new List<UserDepartmentForBranchEmployeeResponse>();
@@ -1622,9 +1613,6 @@ namespace DFAPI.Repositories
         }
 
 
-
-
-
         public List<UserReportingEmployeeResponse> GetReportingEmployeeList(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserReportingEmployeeResponse> userReportingEmployeeResponses = new List<UserReportingEmployeeResponse>();
@@ -1661,7 +1649,6 @@ namespace DFAPI.Repositories
             }
             return employeeReportingAuthorityResponses;
         }
-
 
 
         public long UpdateEmployeeVerificationStatus(DataContext context, UserEmployeeVerifyRequest userEmployeeVerifyRequest)
@@ -1843,17 +1830,16 @@ namespace DFAPI.Repositories
         #endregion
 
         #region Branch
-        public List<UserBranchList> GetUserBranches(DataContext context, UserMappingRequest userMappingRequest)
+        public List<UserBranchList> GetUserBranches(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<UserBranchList> userDesignationMappingLists = new List<UserBranchList>();
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@UserId", Value = userMappingRequest.UserId },
-                    new SqlParameter { ParameterName = "@UserType", Value = userMappingRequest.UserType },
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
                 };
-                userDesignationMappingLists = context.UserBranchList.FromSqlRaw("exec df_Get_UserBranchDetails @UserId, @UserType", parms.ToArray()).ToList();
+                userDesignationMappingLists = context.UserBranchList.FromSqlRaw("exec df_Get_UserBranchDetails @AddedByUserID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
