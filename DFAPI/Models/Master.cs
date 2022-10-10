@@ -232,6 +232,13 @@ namespace DFAPI.Entities
         public bool? Display { get; set; }
     }
 
+    public class BranchTypes
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? BranchType { get; set; }
+    }
+
     public class LocationTypeMasterMapped
     {
         [Key]
@@ -659,5 +666,18 @@ namespace DFAPI.Entities
         public decimal? ConversionRate { get; set; }
 
 
+    }
+
+    public class BranchCompanyDetails
+    {
+        [Key]
+        public long CompanyID { get; set; }
+        public string? CompanyName { get; set; }
+        public string? PAN { get; set; }
+    }
+
+    public class ActivityRequest
+    {
+        public long? ActivityID { get; set; }
     }
 }

@@ -123,5 +123,9 @@ namespace DFAPI.Helpers
         public DbSet<ContractorRateCardList> ContractorRateCardList => Set<ContractorRateCardList>();
 
         public DbSet<ContractorRateCard> ContractorRateCard => Set<ContractorRateCard>();
+
+        public DbSet<BranchCompanyDetails> BranchCompanyDetails => Set<BranchCompanyDetails>();
+
+        public DbSet<BranchTypes> BranchTypes => Set<BranchTypes>();
     }
 }

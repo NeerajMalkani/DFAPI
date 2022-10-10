@@ -2097,10 +2097,10 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                List<CompanyList> companyLists = new MasterRepository().GetUserCompanyName(_db, userMappingRequest);
-                if (companyLists.Any())
+                List<BranchCompanyDetails> branchCompanyDetails = new MasterRepository().BranchCompanyDetails(_db, userMappingRequest);
+                if (branchCompanyDetails.Any())
                 {
-                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, companyLists);
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, branchCompanyDetails);
                 }
                 else
                 {
@@ -2116,15 +2116,39 @@ namespace DFAPI.Controllers
 
         [HttpGet]
         [Route("getuserbranchtypes")]
-        public Response GetUserBranchType([FromQuery] UserMappingRequest userMappingRequest)
+        public Response GetUserBranchType([FromQuery] ActivityRequest activityRequest)
         {
             Response response = new Response();
             try
             {
-                List<LocationTypeMaster> locationTypeList = new MasterRepository().GetLocationTypeForBranch(_db);
-                if (locationTypeList.Any())
+                List<BranchTypes> branchTypes = new MasterRepository().GetLocationTypeForBranch(_db, activityRequest);
+                if (branchTypes.Any())
                 {
-                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, locationTypeList);
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, branchTypes);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getbranchadmins")]
+        public Response GetBranchAdmins([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<EmployeeMaster> branchTypes = new MasterRepository().GetBranchAdmins(_db, empoyeeMappingRequest);
+                if (branchTypes.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, branchTypes);
                 }
                 else
                 {
@@ -2203,6 +2227,8 @@ namespace DFAPI.Controllers
         }
 
         #endregion
+
+        #region Contractor
 
         [HttpGet]
         [Route("getcontractoractiveservices")]
@@ -2283,7 +2309,6 @@ namespace DFAPI.Controllers
             return response;
         }
 
-
         [HttpGet]
         [Route("getcontractorratecardbyid")]
         public Response GetContractorRateCardByID([FromQuery] ContractorRateCard contractorRateCard)
@@ -2308,6 +2333,7 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        #endregion
 
     }
 }

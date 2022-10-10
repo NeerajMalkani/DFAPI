@@ -1862,42 +1862,65 @@ namespace DFAPI.Repositories
             return userDesignationMappingLists;
         }
 
-        public List<CompanyList> GetUserCompanyName(DataContext context, UserMappingRequest userMappingRequest)
+        public List<BranchCompanyDetails> BranchCompanyDetails(DataContext context, UserMappingRequest userMappingRequest)
         {
-            List<CompanyList> companyLists = new List<CompanyList>();
+            List<BranchCompanyDetails> branchCompanyDetails = new List<BranchCompanyDetails>();
             List<Companies> companies = new List<Companies>();
+            List<Users> users = new List<Users>();
             try
             {
                 companies = context.Companies
                     .Where(c => (c.UserID == userMappingRequest.UserId)).ToList();
 
+                users = context.Users
+                    .Where(c => c.UserID == userMappingRequest.UserId).ToList();
+
                 if (companies.Any())
                 {
-                    companyLists[0].CompanyID = companies[0].CompanyID;
-                    companyLists[0].CompanyName = companies[0].CompanyName;
+                    branchCompanyDetails[0].CompanyID = companies[0].CompanyID;
+                    branchCompanyDetails[0].CompanyName = companies[0].CompanyName;
+                    branchCompanyDetails[0].PAN = users[0].PAN;
                 }
             }
             catch (Exception)
             {
                 throw;
             }
-            return companyLists;
+            return branchCompanyDetails;
         }
 
-        public List<LocationTypeMaster> GetLocationTypeForBranch(DataContext context)
+        public List<BranchTypes> GetLocationTypeForBranch(DataContext context, ActivityRequest activityRequest)
         {
-            List<LocationTypeMaster> locationTypeList = new List<LocationTypeMaster>();
+            List<BranchTypes> branchTypes = new List<BranchTypes>();
             try
             {
-                locationTypeList = context.LocationTypeMaster
-                    .Where(ltm => (ltm.ID == 2 &&
-                    ltm.ID == 3)).ToList();
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@ActivityID", Value = activityRequest.ActivityID },
+                };
+                branchTypes = context.BranchTypes.FromSqlRaw("exec df_Get_BranchLocationTypes @ActivityID", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return locationTypeList;
+            return branchTypes;
+        }
+
+        public List<EmployeeMaster> GetBranchAdmins(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+            List<EmployeeMaster> employees = new List<EmployeeMaster>();
+            try
+            {
+                employees = context.EmployeeMaster
+                    .Where(c => (c.AddedByUserID == empoyeeMappingRequest.AddedByUserID)).ToList();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return employees;
         }
 
         public long InsertUserBranch(DataContext context, BranchMaster branchMaster)
@@ -1993,6 +2016,8 @@ namespace DFAPI.Repositories
         }
         #endregion
 
+        #region Contractor
+
         public List<ContractorActiveServiceList> GetContractorActiveServices(DataContext context, ContractorServiceMapping contractorServiceMapping)
         {
             List<ContractorActiveServiceList> contractorActiveServiceLists = new List<ContractorActiveServiceList>();
@@ -2082,5 +2107,6 @@ namespace DFAPI.Repositories
             }
             return contractorRateCards;
         }
+        #endregion
     }
 }
