@@ -2091,13 +2091,13 @@ namespace DFAPI.Controllers
 
         [HttpGet]
         [Route("getusercompany")]
-        public Response GetUserCompanyInfo([FromQuery] UserMappingRequest userMappingRequest)
+        public Response GetUserCompanyInfo([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
         {
 
             Response response = new Response();
             try
             {
-                List<BranchCompanyDetails> branchCompanyDetails = new MasterRepository().BranchCompanyDetails(_db, userMappingRequest);
+                List<BranchCompanyDetails> branchCompanyDetails = new MasterRepository().BranchCompanyDetails(_db, empoyeeMappingRequest);
                 if (branchCompanyDetails.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, branchCompanyDetails);

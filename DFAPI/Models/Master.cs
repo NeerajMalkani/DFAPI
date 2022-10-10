@@ -446,7 +446,6 @@ namespace DFAPI.Entities
     {
         [Key]
         public long? ID { get; set; }
-        public long? UserID { get; set; }
         public int? CompanyID { get; set; }
         public int? BranchTypeID { get; set; }
         public int? BranchAdminID { get; set; }
@@ -463,6 +462,8 @@ namespace DFAPI.Entities
         public string? BankName { get; set; }
         public string? BankBranchName { get; set; }
         public string? IFSCCode { get; set; }
+        public long? AddedByUserID { get; set; }
+        public long? RegionalOfficeID { get; set; }
     }
 
     public class UserBranchList

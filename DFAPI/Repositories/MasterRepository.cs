@@ -1531,7 +1531,7 @@ namespace DFAPI.Repositories
             try
             {
                 branchMasters = context.BranchMaster
-                    .Where(bm => (bm.UserID == empoyeeMappingRequest.AddedByUserID)).ToList();
+                    .Where(bm => (bm.AddedByUserID == empoyeeMappingRequest.AddedByUserID)).ToList();
 
                 if (branchMasters.Any())
                 {
@@ -1862,7 +1862,7 @@ namespace DFAPI.Repositories
             return userDesignationMappingLists;
         }
 
-        public List<BranchCompanyDetails> BranchCompanyDetails(DataContext context, UserMappingRequest userMappingRequest)
+        public List<BranchCompanyDetails> BranchCompanyDetails(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
         {
             List<BranchCompanyDetails> branchCompanyDetails = new List<BranchCompanyDetails>();
             List<Companies> companies = new List<Companies>();
@@ -1870,10 +1870,10 @@ namespace DFAPI.Repositories
             try
             {
                 companies = context.Companies
-                    .Where(c => (c.UserID == userMappingRequest.UserId)).ToList();
+                    .Where(c => (c.UserID == empoyeeMappingRequest.AddedByUserID)).ToList();
 
                 users = context.Users
-                    .Where(c => c.UserID == userMappingRequest.UserId).ToList();
+                    .Where(c => c.UserID == empoyeeMappingRequest.AddedByUserID).ToList();
 
                 if (companies.Any())
                 {
@@ -1931,13 +1931,13 @@ namespace DFAPI.Repositories
             try
             {
                 branchMasters_regional = context.BranchMaster
-                    .Where(udm => (udm.UserID == branchMaster.UserID &&
+                    .Where(udm => (udm.AddedByUserID == branchMaster.AddedByUserID &&
                     udm.BranchTypeID == 2 &&
                     udm.BranchTypeID == branchMaster.BranchTypeID &&
                     udm.StateID == branchMaster.StateID)).ToList();
 
                 branchMasters_branch = context.BranchMaster
-                    .Where(udm => (udm.UserID == branchMaster.UserID &&
+                    .Where(udm => (udm.AddedByUserID == branchMaster.AddedByUserID &&
                     udm.BranchTypeID == 2 &&
                     udm.BranchTypeID == branchMaster.BranchTypeID &&
                     udm.CityID == branchMaster.CityID &&
@@ -1976,14 +1976,14 @@ namespace DFAPI.Repositories
             try
             {
                 branchMasters_regional = context.BranchMaster
-                    .Where(udm => (udm.UserID == branchMaster.UserID &&
+                    .Where(udm => (udm.AddedByUserID == branchMaster.AddedByUserID &&
                     udm.BranchTypeID == 2 &&
                     udm.BranchTypeID == branchMaster.BranchTypeID &&
                     udm.StateID == branchMaster.StateID &&
                     udm.ID != branchMaster.ID)).ToList();
 
                 branchMasters_branch = context.BranchMaster
-                    .Where(udm => (udm.UserID == branchMaster.UserID &&
+                    .Where(udm => (udm.AddedByUserID == branchMaster.AddedByUserID &&
                     udm.BranchTypeID == 2 &&
                     udm.BranchTypeID == branchMaster.BranchTypeID &&
                     udm.CityID == branchMaster.CityID &&
