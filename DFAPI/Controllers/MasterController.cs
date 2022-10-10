@@ -2226,6 +2226,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getbranchregionalofficelists")]
+        public Response GetBranchRegionalOffice([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<BranchRegionalOfficeList> branchRegionalOfficeLists = new MasterRepository().GetBranchRegionalOffice(_db, empoyeeMappingRequest);
+                if (branchRegionalOfficeLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, branchRegionalOfficeLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         #endregion
 
         #region Contractor

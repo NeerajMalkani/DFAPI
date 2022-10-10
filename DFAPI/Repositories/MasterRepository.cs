@@ -2014,6 +2014,23 @@ namespace DFAPI.Repositories
             }
             return rowsAffected;
         }
+        public List<BranchRegionalOfficeList> GetBranchRegionalOffice(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+            List<BranchRegionalOfficeList> branchRegionalOfficeLists = new List<BranchRegionalOfficeList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
+                };
+                branchRegionalOfficeLists = context.BranchRegionalOfficeList.FromSqlRaw("exec df_Get_BranchRegionalLocation @AddedByUserID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return branchRegionalOfficeLists;
+        }
         #endregion
 
         #region Contractor

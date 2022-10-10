@@ -680,4 +680,12 @@ namespace DFAPI.Entities
     {
         public long? ActivityID { get; set; }
     }
+
+    public class BranchRegionalOfficeList
+    {
+        [Key]
+        public long? ID { get; set; }
+        public string? LocationName { get; set; }
+        
+    }
 }

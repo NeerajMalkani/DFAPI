@@ -127,5 +127,6 @@ namespace DFAPI.Helpers
         public DbSet<BranchCompanyDetails> BranchCompanyDetails => Set<BranchCompanyDetails>();
 
         public DbSet<BranchTypes> BranchTypes => Set<BranchTypes>();
+        public DbSet<BranchRegionalOfficeList> BranchRegionalOfficeList => Set<BranchRegionalOfficeList>();
     }
 }
