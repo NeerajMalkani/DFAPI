@@ -2434,6 +2434,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("getcontractorratecardsentlist")]
+        public Response GetContractorRateCardSentList([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ContractorRateCardSentList> contractorRateCardSentLists = new MasterRepository().GetContractorRateCardSentList(_db, empoyeeMappingRequest);
+                if (contractorRateCardSentLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, contractorRateCardSentLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         #endregion
 
     }

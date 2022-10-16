@@ -2232,6 +2232,24 @@ namespace DFAPI.Repositories
             return rowsAffected;
         }
 
+        public List<ContractorRateCardSentList> GetContractorRateCardSentList(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+            List<ContractorRateCardSentList> contractorRateCardSentLists = new List<ContractorRateCardSentList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
+                };
+                contractorRateCardSentLists = context.ContractorRateCardSentList.FromSqlRaw("exec df_Get_ContractorRateCardSentList @AddedByUserID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return contractorRateCardSentLists;
+        }
+
         #endregion
     }
 }

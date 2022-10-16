@@ -780,4 +780,16 @@ namespace DFAPI.Entities
         public List<ContractorRateCardMapping>? contractorRateCardMapping { get; set; }
         public List<ContractorRateCardMappingItems>? contractorRateCardMappingItems { get; set; }
     }
+
+    public class ContractorRateCardSentList
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? ClientName { get; set; }
+        public string? ContactNo { get; set; }
+        public string? Unit { get; set; }
+        public bool? InclusiveMaterials { get; set; }
+        public bool? SendStatus { get; set; }
+
+    }
 }
