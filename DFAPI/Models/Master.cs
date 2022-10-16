@@ -158,12 +158,36 @@ namespace DFAPI.Entities
         [Key]
         public long ProductID { get; set; }
         public string? ProductName { get; set; }
+        public string? ServiceName { get; set; }
+        public string? CategoryName { get; set; }
         public decimal? RateWithMaterials { get; set; }
         public decimal? RateWithoutMaterials { get; set; }
         public long? SelectedUnitID { get; set; }
         public bool? Display { get; set; }
         public string? ShortSpecification { get; set; }
         public string? Specification { get; set; }
+    }
+
+    public class RateCardProductsByCategory
+    {
+        [Key]
+        public long ProductID { get; set; }
+        public long ServiceID { get; set; }
+        public long CategoryID { get; set; }
+        public string? ProductName { get; set; }
+        public string? ServiceName { get; set; }
+        public string? CategoryName { get; set; }
+        public decimal? FootRate { get; set; }
+        public decimal? MeterRate { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public long? UnitOfSalesID { get; set; }
+        public bool? Display { get; set; }
+        public string? ShortSpecification { get; set; }
+        public string? Specification { get; set; }
+        public Int32 Unit1ID { get; set; }
+        public string? Unit1Name { get; set; }
+        public Int32 Unit2ID { get; set; }
+        public string? Unit2Name { get; set; }
     }
 
     public class DepartmentMaster
@@ -478,6 +502,18 @@ namespace DFAPI.Entities
         public string? GSTNo { get; set; }
         public string? PANNo { get; set; }
         public bool? Display { get; set; }
+        public long? RegionalOfficeID { get; set; }
+        public int? BranchAdminID { get; set; }
+        public string? ContactPersonNo { get; set; }
+        public int? StateID { get; set; }
+        public int? CityID { get; set; }
+        public int? Pincode { get; set; }
+        public string? AccountNo { get; set; }
+        public string? BankName { get; set; }
+        public string? BankBranchName { get; set; }
+        public string? IFSCCode { get; set; }
+
+
     }
 
     public class Companies
@@ -490,7 +526,7 @@ namespace DFAPI.Entities
         public string? EmpoyeeCodePrefix { get; set; }
         public string? QuotationNumberPrefix { get; set; }
         public string? CompanyLogo { get; set; }
-        public string? IsActive { get; set; }
+        public bool? IsActive { get; set; }
         public string? ContactPersonName { get; set; }
         public string? ContactPersonNumber { get; set; }
     }
@@ -688,5 +724,60 @@ namespace DFAPI.Entities
         public long? ID { get; set; }
         public string? LocationName { get; set; }
         
+    }
+
+    public class ClientList
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? CompanyName { get; set; }
+        public string? ContactMobileNumber { get; set; }
+        public string? ContactPerson { get; set; }
+
+    }
+
+    public class ContractorRateCardProductRequest
+    {
+        [Key]
+        public long? ActivityID { get; set; }
+        public long? ServiceID { get; set; }
+        public long? CategoryID { get; set; }
+        public long? ContractorID { get; set; }
+        public bool? InclusiveMaterial { get; set; }
+    }
+
+
+    public class ContractorRateCardMapping
+    {
+        [Key]
+        public long ID { get; set; }
+        public long? ClientID { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public long? UnitOfSalesID { get; set; }
+        public bool? InclusiveMaterials { get; set; }
+        public bool? SendStatus { get; set; }
+        public bool? IsActive { get; set; }
+        public long? AddedByUserID { get; set; }
+        public DateTime? CreationTStamp { get; set; }
+    }
+
+    public class ContractorRateCardMappingItems
+    {
+        [Key]
+        public long ID { get; set; }
+        public long? RateCardMappingID { get; set; }
+        public long? ProductID { get; set; }
+        public long? ServiceID { get; set; }
+        public long? CategoryID { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public long? UnitOfSalesID { get; set; }
+        public decimal? Rate { get; set; }
+        public DateTime? CreationTStamp { get; set; }
+    }
+
+    public class ContractorRateCardMappingRequest
+    {
+        public List<ContractorRateCardMapping>? contractorRateCardMapping { get; set; }
+        public List<ContractorRateCardMappingItems>? contractorRateCardMappingItems { get; set; }
     }
 }

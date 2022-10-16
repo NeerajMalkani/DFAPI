@@ -656,6 +656,31 @@ namespace DFAPI.Controllers
             return response;
         }
 
+
+        [HttpGet]
+        [Route("getcontractorratecardproductsbycategoryid")]
+        public Response GetProductsByCategoryID([FromQuery] ContractorRateCardProductRequest contractorRateCardProductRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<RateCardProductsByCategory> rateCardProductsByCategory = new MasterRepository().GetContractorRateCardProductsByCategoryID(_db, contractorRateCardProductRequest);
+                if (rateCardProductsByCategory.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, rateCardProductsByCategory);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, rateCardProductsByCategory);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpGet]
         [Route("getdesigntypeimage")]
         public Response GetDesignTypeImage([FromQuery] DesignTypeMaster designTypeMaster)
@@ -2348,6 +2373,58 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, contractorRateCards);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        #endregion
+
+        #region Rate Card
+
+        [HttpGet]
+        [Route("getcontractorclientlist")]
+        public Response GetContractorClientList([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ClientList> clientLists = new MasterRepository().GetContractorClientList(_db, empoyeeMappingRequest);
+                if (clientLists.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, clientLists);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertupdatesendratecard")]
+        public Response ManageRateCard(ContractorRateCardMappingRequest contractorRateCardMappingRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().ManageRateCard(_db, contractorRateCardMappingRequest);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
                 }
             }
             catch (Exception ex)

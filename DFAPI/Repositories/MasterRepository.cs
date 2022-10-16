@@ -492,6 +492,28 @@ namespace DFAPI.Repositories
             return productByCategoryID;
         }
 
+        public List<RateCardProductsByCategory> GetContractorRateCardProductsByCategoryID(DataContext context, ContractorRateCardProductRequest contractorRateCardProductRequest)
+        {
+            List<RateCardProductsByCategory> rateCardProductsByCategory = new List<RateCardProductsByCategory>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ActivityID", Value = contractorRateCardProductRequest.ActivityID },
+                new SqlParameter { ParameterName = "@ServiceID", Value = contractorRateCardProductRequest.ServiceID },
+                new SqlParameter { ParameterName = "@CategoryID", Value = contractorRateCardProductRequest.CategoryID },
+                new SqlParameter { ParameterName = "@ContractorID", Value = contractorRateCardProductRequest.ContractorID },
+                new SqlParameter { ParameterName = "@InclusiveMaterial", Value = contractorRateCardProductRequest.InclusiveMaterial }
+                };
+                rateCardProductsByCategory = context.RateCardProductsByCategory.FromSqlRaw("exec df_Get_ContractorRateCardProductsByCategoryID @ActivityID, @ServiceID, @CategoryID, @ContractorID, @InclusiveMaterial", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rateCardProductsByCategory;
+        }
+
         public List<ProductsByCategory> GetProductsByCategoryIDForBrands(DataContext context, Products products)
         {
             List<ProductsByCategory> productByCategoryID = new List<ProductsByCategory>();
@@ -1853,6 +1875,7 @@ namespace DFAPI.Repositories
             List<BranchCompanyDetails> branchCompanyDetails = new List<BranchCompanyDetails>();
             List<Companies> companies = new List<Companies>();
             List<Users> users = new List<Users>();
+
             try
             {
                 companies = context.Companies
@@ -1863,9 +1886,14 @@ namespace DFAPI.Repositories
 
                 if (companies.Any())
                 {
-                    branchCompanyDetails[0].CompanyID = companies[0].CompanyID;
-                    branchCompanyDetails[0].CompanyName = companies[0].CompanyName;
-                    branchCompanyDetails[0].PAN = users[0].PAN;
+
+                    branchCompanyDetails.Add(new BranchCompanyDetails
+                    {
+                        CompanyID = companies[0].CompanyID,
+                        CompanyName = companies[0].CompanyName,
+                        PAN = users[0].PAN
+                    });
+
                 }
             }
             catch (Exception)
@@ -1978,7 +2006,7 @@ namespace DFAPI.Repositories
 
                 if (!branchMasters_regional.Any() && !branchMasters_branch.Any())
                 {
-                    context.BranchMaster.Add(branchMaster);
+                    context.BranchMaster.Update(branchMaster);
                     context.SaveChanges();
                     rowsAffected = 1;
                 }
@@ -2110,6 +2138,100 @@ namespace DFAPI.Repositories
             }
             return contractorRateCards;
         }
+        #endregion
+
+        #region Rate Card
+        public List<ClientList> GetContractorClientList(DataContext context, EmpoyeeMappingRequest empoyeeMappingRequest)
+        {
+            List<ClientList> clientLists = new List<ClientList>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = empoyeeMappingRequest.AddedByUserID },
+                };
+                clientLists = context.ClientList.FromSqlRaw("exec df_Get_Clients_ForRateCard @AddedByUserID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return clientLists;
+        }
+
+        public long ManageRateCard(DataContext context, ContractorRateCardMappingRequest contractorRateCardMappingRequest)
+        {
+            List<ContractorRateCardMapping> contractorRateCardMappings = new List<ContractorRateCardMapping>();
+            List<ContractorRateCardMappingItems> contractorRateCardMappingItems = new List<ContractorRateCardMappingItems>();
+            long rowsAffected = 0;
+            long newID = 0;
+            try
+            {
+                if (contractorRateCardMappingRequest.contractorRateCardMapping[0].ID == 0)
+                {
+                    if (contractorRateCardMappingRequest.contractorRateCardMapping[0].ClientID != 0)
+                    {
+                        context.ContractorRateCardMapping.Add(contractorRateCardMappingRequest.contractorRateCardMapping[0]);
+                        context.SaveChanges();
+                        newID = contractorRateCardMappingRequest.contractorRateCardMapping[0].ID;
+                        rowsAffected = 1;
+
+                        if (contractorRateCardMappingRequest.contractorRateCardMappingItems[0].ProductID > 0)
+                        {
+                            foreach (ContractorRateCardMappingItems contractorRateCardMappingItem in contractorRateCardMappingRequest.contractorRateCardMappingItems)
+                            {
+                                contractorRateCardMappingItem.RateCardMappingID = newID;
+                                if (contractorRateCardMappingItem.ProductID > 0 && contractorRateCardMappingItem.Rate > 0)
+                                {
+                                    context.ContractorRateCardMappingItems.Add(contractorRateCardMappingItem);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
+                }
+                else
+                {
+                    if (contractorRateCardMappingRequest.contractorRateCardMapping[0].ClientID != 0)
+                    {
+
+                        context.ContractorRateCardMapping.Update(contractorRateCardMappingRequest.contractorRateCardMapping[0]);
+                        context.SaveChanges();
+                        rowsAffected = 1;
+
+                        if (contractorRateCardMappingRequest.contractorRateCardMappingItems[0].ProductID > 0)
+                        {
+                            contractorRateCardMappingItems.RemoveAll(x => x.RateCardMappingID == contractorRateCardMappingRequest.contractorRateCardMapping[0].ID);
+
+                            foreach (ContractorRateCardMappingItems contractorRateCardMappingItem in contractorRateCardMappingRequest.contractorRateCardMappingItems)
+                            {
+                                if (contractorRateCardMappingItem.ProductID > 0 && contractorRateCardMappingItem.Rate > 0)
+                                {
+                                    context.ContractorRateCardMappingItems.Add(contractorRateCardMappingItem);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
+                }
+
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
         #endregion
     }
 }

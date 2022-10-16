@@ -32,6 +32,7 @@ namespace DFAPI.Helpers
 
         public DbSet<ProductResponse> ProductResponse => Set<ProductResponse>();
         public DbSet<ProductsByCategory> ProductsByCategory => Set<ProductsByCategory>();
+        public DbSet<RateCardProductsByCategory> RateCardProductsByCategory => Set<RateCardProductsByCategory>();
         public DbSet<DepartmentMaster> DepartmentMaster => Set<DepartmentMaster>();
         public DbSet<LocationTypeMaster> LocationTypeMaster => Set<LocationTypeMaster>();
         public DbSet<LocationTypeMasterMapped> LocationTypeMasterMapped => Set<LocationTypeMasterMapped>();
@@ -119,14 +120,13 @@ namespace DFAPI.Helpers
 
         public DbSet<EmployeeReportingAuthority> EmployeeReportingAuthority => Set<EmployeeReportingAuthority>();
         public DbSet<BankDetails> BankDetails => Set<BankDetails>();
-
         public DbSet<ContractorRateCardList> ContractorRateCardList => Set<ContractorRateCardList>();
-
         public DbSet<ContractorRateCard> ContractorRateCard => Set<ContractorRateCard>();
-
         public DbSet<BranchCompanyDetails> BranchCompanyDetails => Set<BranchCompanyDetails>();
-
         public DbSet<BranchTypes> BranchTypes => Set<BranchTypes>();
         public DbSet<BranchRegionalOfficeList> BranchRegionalOfficeList => Set<BranchRegionalOfficeList>();
+        public DbSet<ClientList> ClientList => Set<ClientList>();
+        public DbSet<ContractorRateCardMapping> ContractorRateCardMapping => Set<ContractorRateCardMapping>();
+        public DbSet<ContractorRateCardMappingItems> ContractorRateCardMappingItems => Set<ContractorRateCardMappingItems>();
     }
 }
