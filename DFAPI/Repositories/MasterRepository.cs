@@ -2159,10 +2159,27 @@ namespace DFAPI.Repositories
             return clientLists;
         }
 
+        public List<QuotationWiseEstimation> GetQuotationWiseEstimationStatus(DataContext context, SentQuotationStatusRequest sentQuotationStatusRequest)
+        {
+
+            List<QuotationWiseEstimation> quotationWiseEstimations = new List<QuotationWiseEstimation>();
+            try
+            {
+                quotationWiseEstimations = context.QuotationWiseEstimation.Where(b => b.AddedByUserID == sentQuotationStatusRequest.AddedByUserID && 
+                b.Status == sentQuotationStatusRequest.Status).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return quotationWiseEstimations;
+        }
+
         public long ManageRateCard(DataContext context, ContractorRateCardMappingRequest contractorRateCardMappingRequest)
         {
             List<ContractorRateCardMapping> contractorRateCardMappings = new List<ContractorRateCardMapping>();
             List<ContractorRateCardMappingItems> contractorRateCardMappingItems = new List<ContractorRateCardMappingItems>();
+            List<ContractorRateCardMappingItems> contractorRateCardMappingItems_Remove = new List<ContractorRateCardMappingItems>();
             long rowsAffected = 0;
             long newID = 0;
             try
@@ -2205,7 +2222,16 @@ namespace DFAPI.Repositories
 
                         if (contractorRateCardMappingRequest.contractorRateCardMappingItems[0].ProductID > 0)
                         {
-                            contractorRateCardMappingItems.RemoveAll(x => x.RateCardMappingID == contractorRateCardMappingRequest.contractorRateCardMapping[0].ID);
+
+                            contractorRateCardMappingItems_Remove = context.ContractorRateCardMappingItems.Where(b => b.RateCardMappingID == contractorRateCardMappingRequest.contractorRateCardMapping[0].ID).ToList();
+                            if (contractorRateCardMappingItems_Remove.Any())
+                            {
+                                foreach (ContractorRateCardMappingItems contractorRateCardMappingItem in contractorRateCardMappingItems_Remove)
+                                {
+                                    context.ContractorRateCardMappingItems.Remove(contractorRateCardMappingItem);
+                                    context.SaveChanges();
+                                }
+                            }
 
                             foreach (ContractorRateCardMappingItems contractorRateCardMappingItem in contractorRateCardMappingRequest.contractorRateCardMappingItems)
                             {
@@ -2223,7 +2249,94 @@ namespace DFAPI.Repositories
                     }
                 }
 
-                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
+        }
+
+        public long ManageQuotationWiseEstimation(DataContext context, QuotationWiseEstimationRequest quotationWiseEstimationRequest)
+        {
+            List<QuotationWiseEstimation> quotationWiseEstimations = new List<QuotationWiseEstimation>();
+            List<QuotationWiseEstimationItems> quotationWiseEstimationItems = new List<QuotationWiseEstimationItems>();
+            List<QuotationWiseEstimationItems> quotationWiseEstimationItems_Remove = new List<QuotationWiseEstimationItems>();
+            long rowsAffected = 0, newID = 0;
+            try
+            {
+                if (quotationWiseEstimationRequest.quotationWiseEstimations[0].ID == 0)
+                {
+                    if (quotationWiseEstimationRequest.quotationWiseEstimations[0].ClientID != 0)
+                    {
+                        context.QuotationWiseEstimation.Add(quotationWiseEstimationRequest.quotationWiseEstimations[0]);
+                        context.SaveChanges();
+
+                        newID = quotationWiseEstimationRequest.quotationWiseEstimations[0].ID;
+
+                        List<SqlParameter> parms = new List<SqlParameter>
+                        {
+                            new SqlParameter { ParameterName = "@ID", Value = newID }
+                        };
+                        context.Database.ExecuteSqlRaw("exec df_Update_QuotationWiseEstimation_QuotationNo @ID", parms.ToArray());
+
+                        rowsAffected = 1;
+
+                        if (quotationWiseEstimationRequest.quotationWiseEstimationItems[0].ProductID > 0)
+                        {
+                            foreach (QuotationWiseEstimationItems quotationWiseEstimationItem in quotationWiseEstimationRequest.quotationWiseEstimationItems)
+                            {
+                                quotationWiseEstimationItem.QuotationID = newID;
+                                if (quotationWiseEstimationItem.ProductID > 0 && quotationWiseEstimationItem.Rate > 0)
+                                {
+                                    context.QuotationWiseEstimationItems.Add(quotationWiseEstimationItem);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
+                }
+                else
+                {
+                    if (quotationWiseEstimationRequest.quotationWiseEstimations[0].ClientID != 0)
+                    {
+                        context.QuotationWiseEstimation.Update(quotationWiseEstimationRequest.quotationWiseEstimations[0]);
+                        context.SaveChanges();
+                        rowsAffected = 1;
+
+                        if (quotationWiseEstimationRequest.quotationWiseEstimationItems[0].ProductID > 0)
+                        {
+
+                            quotationWiseEstimationItems_Remove = context.QuotationWiseEstimationItems.Where(b => b.QuotationID == quotationWiseEstimationRequest.quotationWiseEstimations[0].ID).ToList();
+                            if (quotationWiseEstimationItems_Remove.Any())
+                            {
+                                foreach (QuotationWiseEstimationItems contractorRateCardMappingItem in quotationWiseEstimationItems_Remove)
+                                {
+                                    context.QuotationWiseEstimationItems.Remove(contractorRateCardMappingItem);
+                                    context.SaveChanges();
+                                }
+                            }
+
+                            foreach (QuotationWiseEstimationItems contractorRateCardMappingItem in quotationWiseEstimationRequest.quotationWiseEstimationItems)
+                            {
+                                if (contractorRateCardMappingItem.ProductID > 0 && contractorRateCardMappingItem.Rate > 0)
+                                {
+                                    context.QuotationWiseEstimationItems.Add(contractorRateCardMappingItem);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        rowsAffected = -2;
+                    }
+                }
+
             }
             catch (Exception)
             {
@@ -2248,6 +2361,72 @@ namespace DFAPI.Repositories
                 throw;
             }
             return contractorRateCardSentLists;
+        }
+
+        public List<ContractorRateCardMapping> GetContractorSentRateCardByID(DataContext context, ContractorRateCardMapping contractorRateCardMapping)
+        {
+            List<ContractorRateCardMapping> contractorRateCardMappings = new List<ContractorRateCardMapping>();
+            try
+            {
+                contractorRateCardMappings = context.ContractorRateCardMapping.Where(b => b.ID == contractorRateCardMapping.ID && b.AddedByUserID == contractorRateCardMapping.AddedByUserID).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return contractorRateCardMappings;
+        }
+
+        public List<QuotationWiseEstimation> GetQuotationWiseEstimationByID(DataContext context, QuotationWiseEstimation quotationWiseEstimation)
+        {
+            List<QuotationWiseEstimation> quotationWiseEstimations = new List<QuotationWiseEstimation>();
+            try
+            {
+                quotationWiseEstimations = context.QuotationWiseEstimation.Where(b => b.ID == quotationWiseEstimation.ID && b.AddedByUserID == quotationWiseEstimation.AddedByUserID).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return quotationWiseEstimations;
+        }
+
+        public List<RateCardProductsByCategory> GetContractorRateCardProductsByID(DataContext context, ContractorRateCardProductByIDRequest contractorRateCardProductByIDRequest)
+        {
+            List<RateCardProductsByCategory> rateCardProductsByCategory = new List<RateCardProductsByCategory>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@ContractorID", Value = contractorRateCardProductByIDRequest.ContractorID },
+                new SqlParameter { ParameterName = "@RateCardMappingID", Value = contractorRateCardProductByIDRequest.RateCardMappingID }
+                };
+                rateCardProductsByCategory = context.RateCardProductsByCategory.FromSqlRaw("exec df_Get_ContractorRateCardProductsByID @ContractorID, @RateCardMappingID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rateCardProductsByCategory;
+        }
+
+        public List<QuotationEstimationProducts> GetQuotationWiseEstimationProductsByID(DataContext context, QuotationWiseEstimation quotationWiseEstimation)
+        {
+            List<QuotationEstimationProducts> quotationEstimationProducts = new List<QuotationEstimationProducts>();
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                new SqlParameter { ParameterName = "@AddedByUserID", Value = quotationWiseEstimation.AddedByUserID },
+                new SqlParameter { ParameterName = "@ID", Value = quotationWiseEstimation.ID }
+                };
+                quotationEstimationProducts = context.QuotationEstimationProducts.FromSqlRaw("exec df_Get_QuotationWiseEstimationProductsByID @AddedByUserID, @ID", parms.ToArray()).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return quotationEstimationProducts;
         }
 
         #endregion

@@ -2434,6 +2434,30 @@ namespace DFAPI.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("insertupdatequotationwiseestimation")]
+        public Response ManageQuotationWiseEstimation(QuotationWiseEstimationRequest quotationWiseEstimationRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().ManageQuotationWiseEstimation(_db, quotationWiseEstimationRequest);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
         [HttpGet]
         [Route("getcontractorratecardsentlist")]
         public Response GetContractorRateCardSentList([FromQuery] EmpoyeeMappingRequest empoyeeMappingRequest)
@@ -2449,6 +2473,128 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getcontractorsentratecardbyid")]
+        public Response GetContractorSentRateCardByID([FromQuery] ContractorRateCardMapping contractorRateCardMapping)
+        {
+            Response response = new Response();
+            try
+            {
+                List<ContractorRateCardMapping> contractorRateCardMappings = new MasterRepository().GetContractorSentRateCardByID(_db, contractorRateCardMapping);
+                if (contractorRateCardMappings.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, contractorRateCardMappings);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        
+
+        [HttpGet]
+        [Route("getcontractorratecardproductsbyid")]
+        public Response GetContractorRateCardProductsByID([FromQuery] ContractorRateCardProductByIDRequest contractorRateCardProductByIDRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<RateCardProductsByCategory> rateCardProductsByCategory = new MasterRepository().GetContractorRateCardProductsByID(_db, contractorRateCardProductByIDRequest);
+                if (rateCardProductsByCategory.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, rateCardProductsByCategory);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, rateCardProductsByCategory);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getquotationwiseestimationstatus")]
+        public Response GetQuotationWiseEstimationStatus([FromQuery] SentQuotationStatusRequest sentQuotationStatusRequest)
+        {
+            Response response = new Response();
+            try
+            {
+                List<QuotationWiseEstimation> quotationWiseEstimations = new MasterRepository().GetQuotationWiseEstimationStatus(_db, sentQuotationStatusRequest);
+                if (quotationWiseEstimations.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, quotationWiseEstimations);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, quotationWiseEstimations);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getquotationwiseestimationbyid")]
+        public Response GetQuotationWiseEstimationByID([FromQuery] QuotationWiseEstimation quotationWiseEstimation)
+        {
+            Response response = new Response();
+            try
+            {
+                List<QuotationWiseEstimation> quotationWiseEstimations = new MasterRepository().GetQuotationWiseEstimationByID(_db, quotationWiseEstimation);
+                if (quotationWiseEstimations.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, quotationWiseEstimations);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getquotationwiseestimationproductsbyid")]
+        public Response GetQuotationWiseEstimationProductsByID([FromQuery] QuotationWiseEstimation quotationWiseEstimation)
+        {
+            Response response = new Response();
+            try
+            {
+                List<QuotationEstimationProducts> quotationEstimationProducts = new MasterRepository().GetQuotationWiseEstimationProductsByID(_db, quotationWiseEstimation);
+                if (quotationEstimationProducts.Any())
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, quotationEstimationProducts);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, quotationEstimationProducts);
                 }
             }
             catch (Exception ex)

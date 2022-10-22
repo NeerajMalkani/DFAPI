@@ -179,6 +179,8 @@ namespace DFAPI.Entities
         public string? CategoryName { get; set; }
         public decimal? FootRate { get; set; }
         public decimal? MeterRate { get; set; }
+        public decimal? FootConversion { get; set; }
+        public decimal? MeterConversion { get; set; }
         public long? SelectedUnitID { get; set; }
         public long? UnitOfSalesID { get; set; }
         public bool? Display { get; set; }
@@ -746,6 +748,13 @@ namespace DFAPI.Entities
         public bool? InclusiveMaterial { get; set; }
     }
 
+    public class ContractorRateCardProductByIDRequest
+    {
+        [Key]
+        public long? RateCardMappingID { get; set; }
+        public long? ContractorID { get; set; }
+    }
+
 
     public class ContractorRateCardMapping
     {
@@ -791,5 +800,96 @@ namespace DFAPI.Entities
         public bool? InclusiveMaterials { get; set; }
         public bool? SendStatus { get; set; }
 
+    }
+
+
+    public class QuotationWiseEstimation
+    {
+        [Key]
+        public long ID { get; set; }
+        public long? ClientID { get; set; }
+        public string? ProjectName { get; set; }
+        public string? QuotationNo { get; set; }
+        public string? ContactPerson { get; set; }
+        public string? ContactNumber { get; set; }
+        public string? ProjectDescription { get; set; }
+        public string? ProjectSiteAddress { get; set; }
+        public int? StateID { get; set; }
+        public int? CityID { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public bool? InclusiveMaterials { get; set; }
+        public string? TermsNCondition { get; set; }
+        public int? Status { get; set; }
+        public DateTime? CreationTStamp { get; set; }
+        public long? AddedByUserID { get; set; }
+    }
+
+    public class QuotationWiseEstimationItems
+    {
+        [Key]
+        public long ID { get; set; }
+        public long? QuotationID { get; set; }
+        public long? ProductID { get; set; }
+        public long? ServiceID { get; set; }
+        public long? CategoryID { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public long? UnitOfSalesID { get; set; }
+        public decimal? Rate { get; set; }
+        public decimal? Quantity { get; set; }
+        public string? Remarks { get; set; }
+        public DateTime? CreationTStamp { get; set; }
+    }
+
+    public class QuotationWiseEstimationRequest
+    {
+        public List<QuotationWiseEstimation>? quotationWiseEstimations { get; set; }
+        public List<QuotationWiseEstimationItems>? quotationWiseEstimationItems { get; set; }
+    }
+
+    public class SentQuotationStatusList
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? QuotationNo { get; set; }
+        public string? ProjectName { get; set; }
+        public string? ContactPerson { get; set; }
+        public string? ContactNumber { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public bool? InclusiveMaterials { get; set; }
+        public int? Status { get; set; }
+
+    }
+
+    public class SentQuotationStatusRequest
+    {
+        public long? AddedByUserID { get; set; }
+        public int? Status { get; set; }
+
+    }
+
+    public class QuotationEstimationProducts
+    {
+        [Key]
+        public long ProductID { get; set; }
+        public long ServiceID { get; set; }
+        public long CategoryID { get; set; }
+        public string? ProductName { get; set; }
+        public string? ServiceName { get; set; }
+        public string? CategoryName { get; set; }
+        public decimal? FootRate { get; set; }
+        public decimal? MeterRate { get; set; }
+        public decimal? FootConversion { get; set; }
+        public decimal? MeterConversion { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public long? UnitOfSalesID { get; set; }
+        public bool? Display { get; set; }
+        public string? ShortSpecification { get; set; }
+        public string? Specification { get; set; }
+        public Int32 Unit1ID { get; set; }
+        public string? Unit1Name { get; set; }
+        public Int32 Unit2ID { get; set; }
+        public string? Unit2Name { get; set; }
+        public decimal? Quantity { get; set; }
+        public string? Remarks { get; set; }
     }
 }

@@ -129,5 +129,11 @@ namespace DFAPI.Helpers
         public DbSet<ContractorRateCardMapping> ContractorRateCardMapping => Set<ContractorRateCardMapping>();
         public DbSet<ContractorRateCardMappingItems> ContractorRateCardMappingItems => Set<ContractorRateCardMappingItems>();
         public DbSet<ContractorRateCardSentList> ContractorRateCardSentList => Set<ContractorRateCardSentList>();
+        public DbSet<SentQuotationStatusList> SentQuotationStatusList => Set<SentQuotationStatusList>();
+        public DbSet<QuotationWiseEstimation> QuotationWiseEstimation => Set<QuotationWiseEstimation>();
+        public DbSet<QuotationWiseEstimationItems> QuotationWiseEstimationItems => Set<QuotationWiseEstimationItems>();
+
+        public DbSet<QuotationEstimationProducts> QuotationEstimationProducts => Set<QuotationEstimationProducts>();
+
     }
 }
