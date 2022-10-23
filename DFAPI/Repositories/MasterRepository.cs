@@ -2159,20 +2159,24 @@ namespace DFAPI.Repositories
             return clientLists;
         }
 
-        public List<QuotationWiseEstimation> GetQuotationWiseEstimationStatus(DataContext context, SentQuotationStatusRequest sentQuotationStatusRequest)
+        public List<QuotationWiseEstimationList> GetQuotationWiseEstimationStatus(DataContext context, SentQuotationStatusRequest sentQuotationStatusRequest)
         {
 
-            List<QuotationWiseEstimation> quotationWiseEstimations = new List<QuotationWiseEstimation>();
+            List<QuotationWiseEstimationList> quotationWiseEstimationLists = new List<QuotationWiseEstimationList>();
             try
             {
-                quotationWiseEstimations = context.QuotationWiseEstimation.Where(b => b.AddedByUserID == sentQuotationStatusRequest.AddedByUserID && 
-                b.Status == sentQuotationStatusRequest.Status).ToList();
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@AddedByUserID", Value = sentQuotationStatusRequest.AddedByUserID },
+                    new SqlParameter { ParameterName = "@Status", Value = sentQuotationStatusRequest.Status },
+                };
+                quotationWiseEstimationLists = context.QuotationWiseEstimationList.FromSqlRaw("exec df_Get_QuotationWiseEstimationByStatus @AddedByUserID, @Status", parms.ToArray()).ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return quotationWiseEstimations;
+            return quotationWiseEstimationLists;
         }
 
         public long ManageRateCard(DataContext context, ContractorRateCardMappingRequest contractorRateCardMappingRequest)
@@ -2427,6 +2431,35 @@ namespace DFAPI.Repositories
                 throw;
             }
             return quotationEstimationProducts;
+        }
+
+        public long UpdateQuotationEstimationStatus(DataContext context, QuotationWiseEstimation quotationWiseEstimation)
+        {
+            List<QuotationWiseEstimation> quotationWiseEstimations = new List<QuotationWiseEstimation>();
+            long rowsAffected = 0;
+            try
+            {
+                quotationWiseEstimations = context.QuotationWiseEstimation.Where(q => (q.ID == quotationWiseEstimation.ID)).ToList();
+                if (quotationWiseEstimations.Any())
+                {
+                    List<SqlParameter> parms = new List<SqlParameter>
+                    {
+                        new SqlParameter { ParameterName = "@ID", Value = quotationWiseEstimation.ID },
+                        new SqlParameter { ParameterName = "@Status", Value = quotationWiseEstimation.Status }
+                    };
+                    context.Database.ExecuteSqlRaw("exec df_Update_QuotationWiseEstimation_Status @ID, @Status", parms.ToArray());
+                    rowsAffected = 1;
+                }
+                else
+                {
+                    rowsAffected = -2;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return rowsAffected;
         }
 
         #endregion

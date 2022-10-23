@@ -2539,7 +2539,7 @@ namespace DFAPI.Controllers
             Response response = new Response();
             try
             {
-                List<QuotationWiseEstimation> quotationWiseEstimations = new MasterRepository().GetQuotationWiseEstimationStatus(_db, sentQuotationStatusRequest);
+                List<QuotationWiseEstimationList> quotationWiseEstimations = new MasterRepository().GetQuotationWiseEstimationStatus(_db, sentQuotationStatusRequest);
                 if (quotationWiseEstimations.Any())
                 {
                     Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response, quotationWiseEstimations);
@@ -2595,6 +2595,34 @@ namespace DFAPI.Controllers
                 else
                 {
                     Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response, quotationEstimationProducts);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.CreateErrorResponse(HttpStatusCode.BadRequest, out response, ex);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("updatequotationestimationstatus")]
+        public Response UpdateQuotationEstimationStatus(QuotationWiseEstimation quotationWiseEstimation)
+        {
+            Response response = new Response();
+            try
+            {
+                long rowsAffected = new MasterRepository().UpdateQuotationEstimationStatus(_db, quotationWiseEstimation);
+                if (rowsAffected > 0)
+                {
+                    Common.CreateResponse(HttpStatusCode.OK, "Success", "Success", out response);
+                }
+                else if (rowsAffected == -2)
+                {
+                    Common.CreateResponse(HttpStatusCode.NotModified, "Error", "Name already exists", out response);
+                }
+                else
+                {
+                    Common.CreateResponse(HttpStatusCode.NoContent, "Success", "No data", out response);
                 }
             }
             catch (Exception ex)

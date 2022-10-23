@@ -892,4 +892,27 @@ namespace DFAPI.Entities
         public decimal? Quantity { get; set; }
         public string? Remarks { get; set; }
     }
+
+    public class QuotationWiseEstimationList
+    {
+        [Key]
+        public long ID { get; set; }
+        public long? ClientID { get; set; }
+        public string? ClientName { get; set; }
+        public string? ClientContactNo { get; set; }
+        public string? ProjectName { get; set; }
+        public string? QuotationNo { get; set; }
+        public string? ContactPerson { get; set; }
+        public string? ContactNumber { get; set; }
+        public string? ProjectDescription { get; set; }
+        public string? ProjectSiteAddress { get; set; }
+        public int? StateID { get; set; }
+        public int? CityID { get; set; }
+        public long? SelectedUnitID { get; set; }
+        public bool? InclusiveMaterials { get; set; }
+        public string? TermsNCondition { get; set; }
+        public int? Status { get; set; }
+        public DateTime? CreationTStamp { get; set; }
+        public long? AddedByUserID { get; set; }
+    }
 }
